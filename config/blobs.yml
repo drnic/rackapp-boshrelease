@@ -91,3 +91,7 @@ postgres/postgresql-9.0.3.tar.gz:
   object_id: f42fdbc6-47e5-4e15-8729-a12a6d98c39f
   sha: c8fb5d1d7930e78211e554bb5751183a8148d0ee
   size: 18335858
+mysql/client-5.1.62-rel13.3-435-Linux-x86_64.tar.gz:
+  object_id: 550498bd-044e-452f-8b2f-875d64116ea9
+  sha: 6e5a17195831688a5f14f20aa5d9cd5d5f4164db
+  size: 4105211
