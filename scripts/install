@@ -31,7 +31,6 @@ for package in $(${scripts}/packages_to_install)
 do
   package_path=${release_path}/packages/${package}
   package_version=$(${scripts}/dev_package_version ${package})
-  echo Compiling ${package} ${package_version}
   
   # Unpack latest .dev_builds/packages/${package}/${package_version}-dev.tgz & compile
   unset GEM_HOME; unset BUNDLE_GEMFILE; unset RUBYOPT
@@ -43,6 +42,8 @@ do
   then
     echo Skipping ${package} ${package_version}, already compiled.
   else
+    echo Compiling ${package} ${package_version}...
+
     mkdir -p ${BOSH_COMPILE_TARGET}
     mkdir -p ${BOSH_INSTALL_TARGET}
 
