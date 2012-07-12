@@ -87,3 +87,7 @@ sqlite/sqlite-autoconf-3070500.tar.gz:
   object_id: f6e53070-2334-4276-a321-ad5c36e3be1a
   sha: 4e1338497b8da50b84307191bb3418e9ec5715d7
   size: 1551070
+postgres/postgresql-9.0.3.tar.gz:
+  object_id: f42fdbc6-47e5-4e15-8729-a12a6d98c39f
+  sha: c8fb5d1d7930e78211e554bb5751183a8148d0ee
+  size: 18335858
