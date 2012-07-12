@@ -4,7 +4,10 @@
 
 require "yaml"
 
-latest_dev_release = `ls -ct dev_releases/*-dev.yml`.lines.first.strip
-latest_dev_release_yaml = YAML.load_file(latest_dev_release)
-packages = latest_dev_release_yaml["packages"]
-packages.map {|p| puts p["name"]}
+# FIXME - this list below isn't ordered; needs ordering
+# latest_dev_release = `ls -ct dev_releases/*-dev.yml`.lines.first.strip
+# latest_dev_release_yaml = YAML.load_file(latest_dev_release)
+# packages = latest_dev_release_yaml["packages"]
+# packages.map {|p| puts p["name"]}
+
+%w[common libpq mysqlclient nginx sqlite ruby rackapp].each {|p| puts p}
