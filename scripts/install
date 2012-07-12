@@ -53,6 +53,11 @@ do
 
   bash -x ${package_path}/packaging 2>&1 || exit 1
 
+  # setup versionless symlinks
+  #   /var/vcap/data/packages/ruby/0.X-dev -> /var/vcap/packages/ruby
+  mkdir -p ${base_dir}/packages 
+  ln -s ${BOSH_INSTALL_TARGET} ${base_dir}/packages/${package}
+  
   cd ${release_path}
 done
 
