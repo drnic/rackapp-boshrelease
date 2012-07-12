@@ -47,7 +47,7 @@ bosh create release --force
 
 [inside vagrant]
 cd /vagrant
-./script/install
-./script/configure
-./script/start
+./scripts/install
+./scripts/configure
+./scripts/start
 ```
