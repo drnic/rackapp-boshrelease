@@ -8,7 +8,6 @@ templates:
   rackapp_ctl.erb:   bin/rackapp_ctl
   sudoers:           config/sudoers
   blacklist.txt:     config/blacklist.txt
-  iptables.conf.erb: config/iptables.conf
 packages:
   - common
   - rackapp
@@ -16,5 +15,4 @@ packages:
   - sqlite
   - mysqlclient
   - ruby
-  - syslog_aggregator
   - nginx

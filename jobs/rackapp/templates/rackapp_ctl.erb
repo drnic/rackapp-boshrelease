@@ -85,10 +85,6 @@ case $1 in
 
     ulimit -c unlimited
 
-    <% if properties.syslog_aggregator %>
-    /var/vcap/packages/syslog_aggregator/setup_syslog_forwarder.sh $CONFIG_DIR
-    <% end %>
-
     # TODO how to run the rackapp? webrick? puma? foreman?
     exec chpst -u vcap:vcap $RACKAPP_PACKAGE_DIR/rackapp/bin/rackapp \
          >>$LOG_DIR/rackapp.stdout.log \

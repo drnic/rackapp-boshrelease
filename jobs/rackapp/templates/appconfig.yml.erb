@@ -49,9 +49,6 @@ directories:
 
 logging:
   file: /var/vcap/sys/log/rackapp/rackapp.log
-  <% if properties.syslog_aggregator %>
-  syslog: vcap.rackapp
-  <% end %>
   level: debug
 
 rails_logging:
