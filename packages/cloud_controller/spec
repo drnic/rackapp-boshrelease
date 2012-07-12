@@ -1,0 +1,12 @@
+---
+name: rackapp
+dependencies:
+- libpq
+- mysqlclient
+- sqlite
+- ruby
+- insight_agent
+files:
+- rackapp/rackapp/**/*
+- rackapp/health_manager/**/*
+- pkg_utils/*

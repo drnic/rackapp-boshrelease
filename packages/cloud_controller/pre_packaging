@@ -1,0 +1,15 @@
+# abort script on any command that exit with a non zero value
+set -e
+
+cd ${BUILD_DIR}
+
+mv rackapp cchm_meta
+mv cchm_meta/rackapp .
+mv cchm_meta/health_manager .
+
+pkg_utils/vendor.sh rackapp
+pkg_utils/vendor.sh health_manager
+
+rm -rf cchm_meta
+rm -rf rackapp/spec
+rm -rf pkg_utils
