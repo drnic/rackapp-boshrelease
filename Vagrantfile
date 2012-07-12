@@ -1,6 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+nfs = false
 Vagrant::Config.run do |config|
   config.vm.box = "lucid64"
   config.vm.box_url = "http://files.vagrantup.com/lucid64.box"
@@ -13,6 +14,7 @@ Vagrant::Config.run do |config|
   # any other machines on the same network, but cannot be accessed (through this
   # network interface) by any external networks.
   # config.vm.network :hostonly, "192.168.33.10"
+  config.vm.network(:hostonly, "33.33.33.10") if nfs
 
   # Assign this VM to a bridged network, allowing you to connect directly to a
   # network using the host's network device. This makes the VM appear as another
@@ -32,7 +34,8 @@ Vagrant::Config.run do |config|
     `mkdir -p vendor`
     `git clone git://github.com/cloudfoundry/bosh.git #{local_bosh_src}`
   end
-  config.vm.share_folder "bosh-src", "/bosh", local_bosh_src
+  options = {:nfs => nfs}
+  config.vm.share_folder "bosh-src", "/bosh", local_bosh_src, options
 
   # Enable provisioning with Puppet stand alone.  Puppet manifests
   # are contained in a directory path relative to this Vagrantfile.
