@@ -36,27 +36,29 @@ do
   # Unpack latest .dev_builds/packages/${package}/${package_version}-dev.tgz & compile
   unset GEM_HOME; unset BUNDLE_GEMFILE; unset RUBYOPT
 
-  # @compile_dir ||= File.join(@compile_base, @package_name)
-  # @install_dir ||= File.join(@install_base, @package_name, @package_version.to_s)
   export BOSH_COMPILE_TARGET=${compile_base}/${package}
-  rm -rf ${BOSH_COMPILE_TARGET}
-  mkdir -p ${BOSH_COMPILE_TARGET}
-  
   export BOSH_INSTALL_TARGET=${install_base}/${package}/${package_version}
-  rm -rf ${BOSH_INSTALL_TARGET}
-  mkdir -p ${BOSH_INSTALL_TARGET}
   
-  
-  cd ${BOSH_COMPILE_TARGET}
-  cp ${release_path}/.dev_builds/packages/${package}/${package_version}.tgz .
-  tar -zxf ${package_version}.tgz 2>&1
+  if [[ -e ${BOSH_INSTALL_TARGET}/completed ]]
+  then
+    echo Skipping ${package} ${package_version}, already compiled.
+  else
+    mkdir -p ${BOSH_COMPILE_TARGET}
+    mkdir -p ${BOSH_INSTALL_TARGET}
 
-  bash -x ${package_path}/packaging 2>&1 || exit 1
+    cd ${BOSH_COMPILE_TARGET}
+    cp ${release_path}/.dev_builds/packages/${package}/${package_version}.tgz .
+    tar -zxf ${package_version}.tgz 2>&1
 
-  # setup versionless symlinks
-  #   /var/vcap/data/packages/ruby/0.X-dev -> /var/vcap/packages/ruby
-  mkdir -p ${base_dir}/packages 
-  ln -s ${BOSH_INSTALL_TARGET} ${base_dir}/packages/${package}
+    bash -x ${package_path}/packaging 2>&1 || exit 1
+
+    # setup versionless symlinks
+    #   /var/vcap/data/packages/ruby/0.X-dev -> /var/vcap/packages/ruby
+    mkdir -p ${base_dir}/packages 
+    ln -s ${BOSH_INSTALL_TARGET} ${base_dir}/packages/${package}
+
+    touch ${BOSH_INSTALL_TARGET}/completed
+  fi
   
   cd ${release_path}
 done
