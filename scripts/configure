@@ -24,7 +24,7 @@ do
   job_path=${release_path}/jobs/${job}
   job_version=$(${scripts}/helpers/dev_job_version ${job})
   
-  echo Configuring ${job} ${job_version}...
+  echo Configuring job ${job} ${job_version}...
   
   job_install_path=${jobs_dir}/${job}/${job_version}
   rm -rf ${job_install_path}
@@ -32,13 +32,13 @@ do
   
   release_tgz=$(${scripts}/helpers/create_release_tgz ${release_path} ${release_tgz} || exit 1)
   
-  echo Using release ${release_tgz}
+  echo Applying job ${job} using release ${release_tgz}...
 
-  ${scripts}/helpers/job_install ${release_tgz} ${job_path} ${job_install_path} || exit 1
+  ${scripts}/helpers/apply_jobs ${release_tgz} ${job_path} ${job_install_path} || exit 1
   
   # setup versionless symlinks
   #   /var/vcap/data/jobs/rackapp/0.X-dev -> /var/vcap/jobs/rackapp
-  mkdir -p ${base_dir}/jobs
-  rm -rf ${base_dir}/jobs/${job}
-  ln -s ${job_install_path} ${base_dir}/jobs/${job}
+  # mkdir -p ${base_dir}/jobs
+  # rm -rf ${base_dir}/jobs/${job}
+  # ln -s ${job_install_path} ${base_dir}/jobs/${job}
 done
