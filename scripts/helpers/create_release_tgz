@@ -1,10 +1,11 @@
 #!/usr/bin/env ruby
 
 # Runs internal bosh CLI code to generate the release.tgz without uploading it
+# prints path to the latest release tgz
 
 # TODO use webmock to stub the upload
 
-work_dir = ARGV.shift || "/vagrant"
+work_dir         = ARGV.shift || "/vagrant"
 
 require "yaml"
 require "rubygems"
@@ -33,18 +34,25 @@ Bosh::Cli::Config.output = STDOUT
 
 # assumes that latest release is a manifest yaml file
 # e.g. dev_releases/rackapp-boshrelease-0.6-dev.yml
-release = Bosh::Cli::Release.new(work_dir)
-hostmachine_manifest_path = release.latest_release_filename
-manifest_path = local_manifest_path(hostmachine_manifest_path, work_dir)
-manifest = YAML.load_file(manifest_path)
-remote_release = nil
-package_matches = []
-blobstore = release.blobstore
+release            = Bosh::Cli::Release.new(work_dir)
+host_manifest_path = release.latest_release_filename
+manifest_path      = local_manifest_path(host_manifest_path, work_dir)
 
-compiler =
-  Bosh::Cli::ReleaseCompiler.new(manifest_path, blobstore,
-                                 remote_release, package_matches)
-unless compiler.exists?
-  compiler.tarball_path = File.join("/tmp", "release.tgz")
-  compiler.compile
+release_tgz_path = manifest_path.gsub(/yml$/, 'tgz')
+
+unless File.exists?(release_tgz_path)
+  manifest           = YAML.load_file(manifest_path)
+  remote_release     = nil
+  package_matches    = []
+  blobstore          = release.blobstore
+
+  compiler =
+    Bosh::Cli::ReleaseCompiler.new(manifest_path, blobstore,
+                                   remote_release, package_matches)
+  unless compiler.exists?
+    compiler.tarball_path = release_tgz_path
+    compiler.compile
+  end
 end
+
+puts release_tgz_path
