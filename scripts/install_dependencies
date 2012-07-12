@@ -11,7 +11,7 @@ release_path=$(pwd)
 # apt-get update
 apt-get install -y --force-yes patch g++ libxml2-dev libxslt-dev libpq-dev git-core
 
-gem install bundler rake --no-ri --no-rdoc
+gem install bundler webmock rake --no-ri --no-rdoc
 cd /bosh
 rake bundle_install
 rake build
