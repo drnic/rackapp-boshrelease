@@ -26,7 +26,13 @@ Vagrant::Config.run do |config|
   # Share an additional folder to the guest VM. The first argument is
   # an identifier, the second is the path on the guest to mount the
   # folder, and the third is the path on the host to the actual folder.
-  # config.vm.share_folder "v-data", "/vagrant_data", "../data"
+  local_bosh_src = ENV['BOSH_SRC'] || File.expand_path("../vendor/bosh", __FILE__)
+  unless File.exist?(local_bosh_src)
+    puts "Vendoring bosh source at #{local_bosh_src} (alternately use $BOSH_SRC for other local location)..."
+    `mkdir -p vendor`
+    `git clone git://github.com/cloudfoundry/bosh.git #{local_bosh_src}`
+  end
+  config.vm.share_folder "bosh-src", "/bosh", local_bosh_src
 
   # Enable provisioning with Puppet stand alone.  Puppet manifests
   # are contained in a directory path relative to this Vagrantfile.
