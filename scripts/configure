@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Pass rebuild=1 to force /tmp/release.tgz to be rebuilt
+
 base_dir=/var/vcap
 jobs_dir=${base_dir}/data/jobs
 
@@ -28,7 +30,11 @@ do
   rm -rf ${job_install_path}
   mkdir -p ${job_install_path}
   
-  ${scripts}/helpers/render_job_templates ${job_path} ${job_install_path}
+  release_tgz=$(${scripts}/helpers/create_release_tgz ${release_path} ${release_tgz} || exit 1)
+  
+  echo Using release ${release_tgz}
+
+  ${scripts}/helpers/job_install ${release_tgz} ${job_path} ${job_install_path} || exit 1
   
   # setup versionless symlinks
   #   /var/vcap/data/jobs/rackapp/0.X-dev -> /var/vcap/jobs/rackapp
