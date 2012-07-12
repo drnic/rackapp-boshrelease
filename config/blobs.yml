@@ -1,1 +1,89 @@
---- {}
+---
+nginx/devel-kit-v0.2.17rc2.tar.gz:
+  object_id: ed4a5bde-1f99-4bef-b1b9-787b8f20d04b
+  sha: 7eadfe53d674972c0f7f27d7b26eff95829bc0b2
+  size: 64964
+nginx/headers-more-v0.15rc1.tgz:
+  object_id: f10a5296-e5b3-4ff9-b9fb-8c252bb17aa4
+  sha: ba7bf757be8004d9dbffbe583396620cfcbed788
+  size: 25490
+nginx/lbase64.tar.gz:
+  object_id: c75d98bd-f231-4e92-bdd0-50dfd3cd7b0a
+  sha: 5692619dae780dbdf9edc994f9dcd7dce7b24646
+  size: 2503
+nginx/lua-5.1.4.tar.gz:
+  object_id: 33e7d489-5e2f-4430-b6b7-0dc47bf1dba9
+  sha: 2b11c8e60306efb7f0734b747588f57995493db7
+  size: 216679
+nginx/lua-cjson-1.0.3.tar.gz:
+  object_id: 765902c4-d418-45d1-b0b2-4aee954fe8f7
+  sha: 7335961ff6619a7eae824e8cf9432100ca377476
+  size: 31780
+nginx/lua-openssl-0.1.1.tar.gz:
+  object_id: 1c76be60-ca84-48fa-abba-896d67dea22b
+  sha: 27f38b3f7d44f59690ed081f892891a35a5ebfaa
+  size: 69253
+nginx/nginx-0.8.54.tar.gz:
+  object_id: a9bba4e0-85ee-4418-a112-58fd02ea1e9c
+  sha: 4d63c35b8974dba42cc62dd5046ae89df3528e34
+  size: 650001
+nginx/nginx-1.1.17.tar.gz:
+  object_id: ca2a730b-d29e-4b97-bd15-a79bb6072fb7
+  sha: 60c02ddc7e742d8aa959531f5a63684380e798e8
+  size: 712619
+nginx/nginx-1.2.0.tar.gz:
+  object_id: 80c9f926-a11e-47a1-8138-8a7331487ead
+  sha: 15cec8d1b8dbf2007f9f99594a08a2f45814034e
+  size: 716067
+nginx/nginx-lua.v0.3.1rc24.tar.gz:
+  object_id: a790862b-d41a-411b-8e14-f555da3ff571
+  sha: f06e390cc81f82b05a06451bf7b287b7d4fb1640
+  size: 207185
+nginx/nginx-lua.v0.4.1.tar.gz:
+  object_id: 5f2e9c1d-ac42-476b-8431-685aeae8e592
+  sha: fd37ffa48a618b2e521ea9797d13f523640fad4f
+  size: 240823
+nginx/nginx_upload_module-2.2.0.tar.gz:
+  object_id: 4838a22b-0241-4944-925a-73ea12d4dbcb
+  sha: 93d6e83e613a0ce2ed057a434b344fa1b6609b47
+  size: 25796
+nginx/pcre-8.12.tar.gz:
+  object_id: 6fd18293-04de-424a-bf99-81b478f01257
+  sha: b3ab606864606c9f980045653554bf4a12cadde2
+  size: 1316863
+nginx/pcre-8.21.tar.gz:
+  object_id: 5f5e51d0-ffa5-4284-b228-d12ddb24dbdc
+  sha: dffb43eff9729c0999843a86ef97961b8c4f6ac8
+  size: 1556329
+ruby/bundler-1.0.12.gem:
+  object_id: a3f89dca-71dc-4e00-8cde-105687ccfd75
+  sha: 4acd470b77d0d8f66440f137c918464b3e967a42
+  size: 160768
+ruby/bundler-1.1.3.gem:
+  object_id: 5a9e9c90-8a3a-42d6-9652-31e427135846
+  sha: 64e3aa4457e3d921d766e88b65265ff8b941b306
+  size: 204288
+ruby/rake-0.8.7.gem:
+  object_id: 4ef240fd-658a-4701-85a3-3b57cc87c95c
+  sha: 91daad079d404b68a7dd179716b9fdd0c195144c
+  size: 104960
+ruby/ruby-1.8.7-p357.tar.bz2:
+  object_id: 9c61e8da-95aa-4f4a-875a-69d5c718a681
+  sha: ba5ec0ab663976f00fb405be6cfef546bcf0e4e9
+  size: 4208157
+ruby/ruby-1.9.2-p180.tar.gz:
+  object_id: 987df52e-495f-40e2-829e-e232277e4b8f
+  sha: 6a482bc07239b37bcadf68dda63c65d20dc19ebe
+  size: 11158935
+ruby/rubygems-1.7.2.tgz:
+  object_id: 6a66f538-e8ce-4591-97df-c60bfef7cb44
+  sha: d878ae52f40eb71e59708afc57303172f0327fad
+  size: 245606
+ruby/rubygems-1.8.24.tgz:
+  object_id: fbaee960-4429-455b-99e2-ba8f730539e5
+  sha: 30f27047e74f7943117736a0d3e224994fee0905
+  size: 380101
+sqlite/sqlite-autoconf-3070500.tar.gz:
+  object_id: f6e53070-2334-4276-a321-ad5c36e3be1a
+  sha: 4e1338497b8da50b84307191bb3418e9ec5715d7
+  size: 1551070
