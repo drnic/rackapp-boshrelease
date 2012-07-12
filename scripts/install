@@ -44,6 +44,7 @@ do
   else
     echo Compiling ${package} ${package_version}...
 
+    rm -rf ${BOSH_COMPILE_TARGET}
     mkdir -p ${BOSH_COMPILE_TARGET}
     mkdir -p ${BOSH_INSTALL_TARGET}
 
