@@ -1,14 +1,23 @@
 #!/usr/bin/env bash
 
-if [[ $EUID -ne 0 ]]; then
-  echo "ERROR: This script must be run as root" 1>&2
-  exit 1
-fi
+# if [[ $EUID -ne 0 ]]; then
+#   echo "ERROR: This script must be run as root" 1>&2
+#   exit 1
+# fi
 
 base_dir=/var/vcap
 compile_base=${base_dir}/data/compile
 install_base=${base_dir}/data/packages
-mkdir -p ${base_dir}
+
+if [[ $EUID -eq 0 ]]
+then
+  mkdir -p ${base_dir}
+  chmod 777 ${base_dir}
+  exit 1
+else
+  sudo mkdir -p ${base_dir}
+  sudo chmod 777 ${base_dir}
+fi
 
 cd $(dirname $0)/..
 release_path=$(pwd)
