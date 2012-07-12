@@ -5,5 +5,14 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
-apt-get update
-apt-get install patch
+cd $(dirname $0)/..
+release_path=$(pwd)
+
+# apt-get update
+apt-get install -y --force-yes patch g++ libxml2-dev libxslt-dev libpq-dev git-core
+
+gem install bundler rake --no-ri --no-rdoc
+cd /bosh
+rake bundle_install
+
+cd ${release_path}
