@@ -38,3 +38,16 @@ sudo ./scripts/install_dependencies
 ./scripts/configure
 ./scripts/start
 ```
+
+Whenever you make changes to your release, you run the following commands in your host machine/laptop and guest VM/vagrant respectively:
+
+```
+[inside host]
+$ bosh create release --force
+
+[inside vagrant]
+$ cd /vagrant
+$ ./script/install
+$ ./script/configure
+$ ./script/start
+```
