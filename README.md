@@ -43,11 +43,11 @@ Whenever you make changes to your release, you run the following commands in you
 
 ```
 [inside host]
-$ bosh create release --force
+bosh create release --force
 
 [inside vagrant]
-$ cd /vagrant
-$ ./script/install
-$ ./script/configure
-$ ./script/start
+cd /vagrant
+./script/install
+./script/configure
+./script/start
 ```
