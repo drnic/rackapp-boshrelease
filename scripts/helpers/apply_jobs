@@ -31,11 +31,15 @@ require "bundler/setup"
 $:.unshift("/bosh/agent/lib")
 require "agent"
 
-# if manifest_path
-#   error_path_invalid('MANIFEST_PATH') unless File.exist?(manifest_path)
-#   job_manifest = YAML.load_file(manifest_path)
-# end
-# job_manifest ||= {"properties" => {}}
+if manifest_path
+  error_path_invalid('MANIFEST_PATH') unless File.exist?(manifest_path)
+  job_manifest = YAML.load_file(manifest_path)
+end
+job_manifest ||= {
+  "properties" => {
+    "description" => "Custom Description for app"
+  }
+}
 # job_MF = YAML.dump(job_manifest)
 
 release_name = "rackapp"
@@ -65,11 +69,8 @@ jobs.each do |job|
     "release" => { "version" => release_version },
     "job" => apply_job_spec,
     # "packages" => {}, # package_specs ?
-    "configuration_hash" => "deadbeef",
-    "properties" => {
-      "description" => "Custom Description for app"
-    }
-  }
+    "configuration_hash" => "deadbeef"
+  }.merge(job_manifest)
 
   Bosh::Agent::Config.base_dir = base_dir
   # config_binding = Bosh::Agent::Util.config_binding(deployment_manifest)
