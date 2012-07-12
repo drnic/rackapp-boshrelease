@@ -27,10 +27,10 @@ scripts=${release_path}/scripts
 gem_home=$GEM_HOME; bundle_gemfile=$BUNDLE_GEMFILE; rubyopt=$RUBYOPT
 
 # iterate over sorted list of packages to install from `packages_to_install` script
-for package in $(${scripts}/packages_to_install)
+for package in $(${scripts}/helpers/packages_to_install)
 do
   package_path=${release_path}/packages/${package}
-  package_version=$(${scripts}/dev_package_version ${package})
+  package_version=$(${scripts}/helpers/dev_package_version ${package})
   
   # Unpack latest .dev_builds/packages/${package}/${package_version}-dev.tgz & compile
   unset GEM_HOME; unset BUNDLE_GEMFILE; unset RUBYOPT
@@ -55,7 +55,8 @@ do
 
     # setup versionless symlinks
     #   /var/vcap/data/packages/ruby/0.X-dev -> /var/vcap/packages/ruby
-    mkdir -p ${base_dir}/packages 
+    mkdir -p ${base_dir}/packages
+    rm ${base_dir}/packages/${package}
     ln -s ${BOSH_INSTALL_TARGET} ${base_dir}/packages/${package}
 
     touch ${BOSH_INSTALL_TARGET}/completed
