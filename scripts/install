@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+if [[ $EUID -ne 0 ]]; then
+  echo "ERROR: This script must be run as root" 1>&2
+  exit 1
+fi
+
+base_dir=/var/vcap
+compile_base=${base_dir}/data/compile
+install_base=${base_dir}/data/packages
+mkdir -p ${base_dir}
+
+cd $(dirname $0)/..
+release_path=$(pwd)
+scripts=${release_path}/scripts
+
+# preserve env variables
+gem_home=$GEM_HOME; bundle_gemfile=$BUNDLE_GEMFILE; rubyopt=$RUBYOPT
+
+# iterate over sorted list of packages to install from `packages_to_install` script
+for package in $(${scripts}/packages_to_install)
+do
+  package_path=${release_path}/packages/${package}
+  package_version=$(${scripts}/dev_package_version ${package})
+  echo Compiling ${package} ${package_version}
+  
+  # Unpack latest .dev_builds/packages/${package}/${package_version}-dev.tgz & compile
+  unset GEM_HOME; unset BUNDLE_GEMFILE; unset RUBYOPT
+
+  # @compile_dir ||= File.join(@compile_base, @package_name)
+  # @install_dir ||= File.join(@install_base, @package_name, @package_version.to_s)
+  export BOSH_COMPILE_TARGET=${compile_base}/${package}
+  rm -rf ${BOSH_COMPILE_TARGET}
+  mkdir -p ${BOSH_COMPILE_TARGET}
+  
+  export BOSH_INSTALL_TARGET=${install_base}/${package}/${package_version}
+  rm -rf ${BOSH_INSTALL_TARGET}
+  mkdir -p ${BOSH_INSTALL_TARGET}
+  
+  
+  cd ${BOSH_COMPILE_TARGET}
+  cp ${release_path}/.dev_builds/packages/${package}/${package_version}.tgz .
+  tar -zxf ${package_version}.tgz 2>&1
+
+  bash -x ${package_path}/packaging 2>&1 || exit 1
+
+  cd ${release_path}
+done
+
+# restore env variables
+GEM_HOME=$gem_home; BUNDLE_GEMFILE=$bundle_gemfile; RUBYOPT=$rubyopt
