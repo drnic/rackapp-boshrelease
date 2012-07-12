@@ -1,0 +1,9 @@
+---
+name: rackapp
+dependencies:
+- libpq
+- mysqlclient
+- sqlite
+- ruby
+files:
+- rackapp/**/*
