@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+base_dir=/var/vcap
+jobs_dir=${base_dir}/data/jobs
+
+cd $(dirname $0)/..
+release_path=$(pwd)
+scripts=${release_path}/scripts
+
+if [[ -d ${base_dir} ]]
+then
+  echo Configuring jobs...
+else
+  echo Run "${scripts}/install" first!
+  exit 1
+fi
+
+mkdir -p ${jobs_dir}
+
+for job in $(${scripts}/helpers/jobs_to_configure)
+do
+  job_path=${release_path}/jobs/${job}
+  job_version=$(${scripts}/helpers/dev_job_version ${job})
+  
+  echo Configuring ${job} ${job_version}...
+  
+  job_install_path=${jobs_dir}/${job}/${job_version}
+  rm -rf ${job_install_path}
+  mkdir -p ${job_install_path}
+  
+  ${scripts}/helpers/render_job_templates ${job_path} ${job_install_path}
+  
+  # setup versionless symlinks
+  #   /var/vcap/data/jobs/rackapp/0.X-dev -> /var/vcap/jobs/rackapp
+  mkdir -p ${base_dir}/jobs
+  rm -rf ${base_dir}/jobs/${job}
+  ln -s ${job_install_path} ${base_dir}/jobs/${job}
+done
