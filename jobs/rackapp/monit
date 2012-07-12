@@ -4,7 +4,7 @@ check process rackapp
   stop program "/var/vcap/jobs/rackapp/bin/rackapp_ctl stop"
   group vcap
 
-<% if properties.cc.use_nginx %>
+<% if properties.use_nginx %>
 check process nginx
   with pidfile /var/vcap/sys/run/nginx/nginx.pid
   start program "/var/vcap/jobs/rackapp/bin/nginx_ctl start"
