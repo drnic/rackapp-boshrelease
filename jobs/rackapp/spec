@@ -4,7 +4,7 @@ templates:
   nginx_ctl:         bin/nginx_ctl
   nginx.conf.erb:    config/nginx.conf
   mime.types:        config/mime.types
-  rackapp.yml.erb:   config/rackapp.yml
+  appconfig.yml.erb: config/appconfig.yml
   rackapp_ctl.erb:   bin/rackapp_ctl
   sudoers:           config/sudoers
   blacklist.txt:     config/blacklist.txt
