@@ -14,5 +14,6 @@ apt-get install -y --force-yes patch g++ libxml2-dev libxslt-dev libpq-dev git-c
 gem install bundler rake --no-ri --no-rdoc
 cd /bosh
 rake bundle_install
+rake build
 
 cd ${release_path}
