@@ -2,6 +2,28 @@
 
 This project is a BOSH release for `rackapp-boshrelease`.
 
+## Properties
+
+To run migrations
+
+``` yaml
+properties:
+  webapp:
+    run_migrations: 1
+```
+
+To run nginx in front of the webapp, and pick one of `http_proxy`, `https_proxy` or `no_proxy` lines.
+
+``` yaml
+properties:
+  use_nginx: 1
+  env:
+    # http_proxy: 1
+    https_proxy: 1
+    # no_proxy: 1
+```
+
+
 ## Dependencies
 
 The bosh installation needs the following patches:
@@ -66,4 +88,14 @@ cd /vagrant
 ./scripts/install
 ./scripts/configure
 ./scripts/start
+```
+
+
+## Run job manually
+
+Job failing to start and you don't know why?
+
+```
+[inside vagrant as vcap]
+/var/vcap/jobs/webapp/bin/webapp_ctl start || tail /var/vcap/sys/log/monit/*
 ```
