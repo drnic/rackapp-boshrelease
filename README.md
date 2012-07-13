@@ -32,6 +32,7 @@ $ vagrant ssh
 Inside the VM:
 
 ```
+sudo su - vcap
 cd /vagrant
 sudo ./scripts/install_dependencies
 ./scripts/install
