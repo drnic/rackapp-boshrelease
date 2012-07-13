@@ -39,7 +39,7 @@ rake bundle_install
 rake build
 gem install webmock --no-ri --no-rdoc
 
-chmod 775 /var/vcap
+mkdir -p /var/vcap/bosh
 chmod 775 /var/vcap/bosh
 chown -R vcap:vcap /var/vcap
 
