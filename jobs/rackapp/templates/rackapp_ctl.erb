@@ -5,7 +5,7 @@ export RAILS_ENV=production
 export PATH=/var/vcap/packages/ruby/bin:$PATH
 
 RACKAPP_PACKAGE_DIR=/var/vcap/packages/rackapp
-NFS_SHARE=/var/vcap/shared
+RACKAPP_PATH=$RACKAPP_PACKAGE_DIR/rackapp
 
 RUN_DIR=/var/vcap/sys/run/rackapp
 LOG_DIR=/var/vcap/sys/log/rackapp
@@ -56,26 +56,15 @@ case $1 in
     echo $$ > $PIDFILE
     chown vcap:vcap $PIDFILE
 
-    # Create the secure users and setup sudo privs for vcap
-    # NB: This needs to happen _before_ executing `rake db:migrate' as that requires
-    #     the existence of secure users (staging initializer).
-    chown root:root $RACKAPP_JOB_DIR/config/sudoers
-    chmod 440 $RACKAPP_JOB_DIR/config/sudoers
-    cp $RACKAPP_JOB_DIR/config/sudoers /etc/sudoers
-
-    # Only done on the first RACKAPP launch
-    <% if spec.index.to_i == 0 %>
-      cd $RACKAPP_PACKAGE_DIR/rackapp
-      export RACKAPP_NOSTART=1
-      chpst -u vcap:vcap bundle exec rake db:migrate >>$LOG_DIR/db_migrate.stdout.log 2>>$LOG_DIR/db_migrate.stderr.log
-      if [ $? != 0 ]; then
-        echo "Migrations failed"
-        # TODO: what to do with other CCs if this failed?
-        exit 1
-      fi
-      unset RACKAPP_NOSTART
-
-    <% end %>
+    cd $RACKAPP_PATH
+    export RACKAPP_NOSTART=1
+    chpst -u vcap:vcap bundle exec rake db:migrate >>$LOG_DIR/db_migrate.stdout.log 2>>$LOG_DIR/db_migrate.stderr.log
+    if [ $? != 0 ]; then
+      echo "Migrations failed"
+      # TODO: what to do with other CCs if this failed?
+      exit 1
+    fi
+    unset RACKAPP_NOSTART
 
     # Configure the core file location
     mkdir -p /var/vcap/sys/cores

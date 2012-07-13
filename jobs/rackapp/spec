@@ -6,7 +6,6 @@ templates:
   mime.types:        config/mime.types
   appconfig.yml.erb: config/appconfig.yml
   rackapp_ctl.erb:   bin/rackapp_ctl
-  sudoers:           config/sudoers
   blacklist.txt:     config/blacklist.txt
 packages:
   - common
