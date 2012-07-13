@@ -16,8 +16,6 @@ cd $(dirname $0)/..
 release_path=$(pwd)
 scripts=${release_path}/scripts
 
-bundle --local
-
 # preserve env variables
 gem_home=$GEM_HOME; bundle_gemfile=$BUNDLE_GEMFILE; rubyopt=$RUBYOPT
 
