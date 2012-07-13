@@ -5,7 +5,7 @@
 #
 # Uses internal bosh CLI code
 
-work_dir         = ARGV.shift || "/vagrant"
+work_dir = ARGV.shift || "/vagrant"
 
 require "yaml"
 require "rubygems"
