@@ -61,7 +61,7 @@ case $1 in
     chown vcap:vcap $PIDFILE
 
     cd $RACKAPP_PATH
-    <% properties.webapp && properties.webapp.run_migrations -%>
+    <% if properties.webapp && properties.webapp.run_migrations %>
     export RACKAPP_NOSTART=1
     chpst -u vcap:vcap bundle exec rake db:migrate >>$LOG_DIR/db_migrate.stdout.log 2>>$LOG_DIR/db_migrate.stderr.log
     if [ $? != 0 ]; then
@@ -70,7 +70,7 @@ case $1 in
       exit 1
     fi
     unset RACKAPP_NOSTART
-    <% end -%>
+    <% end %>
 
     # Configure the core file location
     mkdir -p /var/vcap/sys/cores
