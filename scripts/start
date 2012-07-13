@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -x
+
 base_dir=/var/vcap
 jobs_dir=${base_dir}/data/jobs
 

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -x
+
 # Pass rebuild=1 to force /tmp/release.tgz to be rebuilt
 
 base_dir=/var/vcap

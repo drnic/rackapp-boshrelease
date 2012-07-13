@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -x
+
 base_dir=/var/vcap
 
 if [[ $EUID -eq 0 ]]
