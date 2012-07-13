@@ -51,36 +51,35 @@ release_version = latest_dev_release["version"]
 
 jobs.each do |job|
   job_tgz = ".dev_builds/jobs/#{job['name']}/#{job['version']}.tgz"
+  package_common_tgz = ".dev_builds/packages/common/0.2-dev.tgz"
   job_sha1 = Digest::SHA1.file(job_tgz).hexdigest
   
   # +job+ contains:
-  # - name: rackapp
-  #  version: 0.2-dev
-  #  sha1: b53fb0cb1bea8a13e4a51b273c17371a16d3918d
+  # - name: app
+  #   version: 0.2-dev
+  #   sha1: b53fb0cb1bea8a13e4a51b273c17371a16d3918d
   
   # required for spec: name template version sha1 blobstore_id
   apply_job_spec = job.merge({
     "template" => job["name"],
-    "blobstore_id" => "job_blobstore_id"
+    "blobstore_id" => "job_app_blobstore"
   })
+  
+  # NOTE: the package blobs are assumed to be pre-compiled
+  # FIXME: package_common_tgz IS NOT the .dev_builds tgz; rather the post-compiled tgz blob
+  # IDEA: tarball up the outputs of scripts/install into tarballs
   
   apply_spec = {
     "deployment" => "rackapp",
     "release" => { "version" => release_version },
     "job" => apply_job_spec,
-    # "packages" => {}, # package_specs ?
+    "packages" => {
+      "common" => { "name" => "common", "version" => "0.2-dev", "sha1" => Digest::SHA1.file(package_common_tgz).hexdigest, "blobstore_id" => "package_common_blobstore" }
+    },
     "configuration_hash" => "deadbeef"
   }.merge(job_manifest)
 
   Bosh::Agent::Config.base_dir = base_dir
-  # config_binding = Bosh::Agent::Util.config_binding(deployment_manifest)
-  # job = Bosh::Agent::ApplyPlan::Job.new(valid_spec, config_binding)
-  # job.install
-
-  # plan = Bosh::Agent::ApplyPlan::Plan.new(spec)
-  # plan.install_job
-  # plan.configure_job
-  # plan.install_packages ??
 
   # setup taken from apply_spec.rb in bosh/agent
   Bosh::Agent::Config.setup({"logging" => { "file" => STDOUT, "level" => "DEBUG" }, "mbus" => nil, "blobstore_options" => {}})
@@ -90,10 +89,8 @@ jobs.each do |job|
   FileUtils.mkdir_p(File.join(base_dir, 'monit'))
   Bosh::Agent::Monit.setup_monit_user
 
-  # system_root = Bosh::Agent::Config.system_root
-  # FileUtils.mkdir_p(File.join(system_root, 'etc', 'logrotate.d'))
-
-  stub_request(:get, "http://resources/job_blobstore_id?").to_return(:body => File.read(job_tgz))
+  stub_request(:get, "http://resources/job_app_blobstore?").to_return(:body => File.read(job_tgz))
+  stub_request(:get, "http://resources/package_common_blobstore?").to_return(:body => File.read(package_common_tgz))
 
 
   Bosh::Agent::Message::Apply.process([apply_spec])
