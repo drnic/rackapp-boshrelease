@@ -10,7 +10,7 @@ release_path=$(pwd)
 
 apt-get update
 apt-get install -y --force-yes build-essential flex bison upstart runit patch g++ libxml2-dev \
-  libxslt-dev libpq-dev git-core libsqlite3-dev || exit 1
+  libxslt-dev libpq-dev git-core libsqlite3-dev vim || exit 1
 
 bosh_users_password=vcap
 addgroup --system admin
