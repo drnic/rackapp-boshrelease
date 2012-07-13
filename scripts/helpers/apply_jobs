@@ -22,11 +22,11 @@ error_path_invalid('JOB_INSTALL_PATH') unless File.exist?(job_install_path)
 require "yaml"
 require "erb"
 
+ENV["BUNDLE_GEMFILE"] = "/bosh/agent/Gemfile"
 require "rubygems"
 require "webmock"
 include WebMock::API
 
-ENV["BUNDLE_GEMFILE"] = "/bosh/agent/Gemfile"
 require "bundler/setup"
 $:.unshift("/bosh/agent/lib")
 require "agent"

@@ -33,10 +33,11 @@ else
   ${build_dir}/stages/bosh_monit/apply.sh ${work_path}
 fi
 
-gem install bundler webmock rake --no-ri --no-rdoc
+gem install bundler rake --no-ri --no-rdoc
 cd /bosh
 rake bundle_install
 rake build
+gem install webmock --no-ri --no-rdoc
 
 chmod 775 /var/vcap
 chmod 775 /var/vcap/bosh
