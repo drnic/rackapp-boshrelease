@@ -124,4 +124,7 @@ jobs.each do |job|
 
 
   Bosh::Agent::Message::Apply.process([apply_spec])
+  
+  # FIXME why going into /var/vcap/data/packages/ruby/data/ instead of /var/vcap/data/packages/ruby/0.1-dev/
+  # .../data/ -> .../0-1.dev/
 end
