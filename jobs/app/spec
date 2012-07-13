@@ -1,5 +1,5 @@
 ---
-name: rackapp
+name: app
 templates:
   nginx_ctl:         bin/nginx_ctl
   nginx.conf.erb:    config/nginx.conf
