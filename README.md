@@ -86,7 +86,7 @@ bosh create release --force
 cd /vagrant
 ./scripts/install
 ./scripts/configure
-sudo ./scripts/start
+./scripts/start
 ```
 
 If you change a **job**, then run the following commands in your host machine/laptop and guest VM/vagrant respectively:
@@ -98,7 +98,7 @@ bosh create release --force
 [inside vagrant as vcap user]
 cd /vagrant
 ./scripts/configure
-sudo ./scripts/start
+./scripts/start
 ```
 
 
@@ -108,8 +108,8 @@ Job failing to start and you don't know why?
 
 ```
 [inside vagrant as vcap]
-sudo rm /var/vcap/sys/log/monit/*
-sudo rm /var/vcap/sys/log/app/*
+./scripts/configure
+sudo rm /var/vcap/sys/log/monit/* /var/vcap/sys/log/app/*
 sudo /var/vcap/jobs/webapp/bin/webapp_ctl start || tail /var/vcap/sys/log/monit/* /var/vcap/sys/log/app/*
 ```
 
