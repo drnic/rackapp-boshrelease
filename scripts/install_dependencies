@@ -8,7 +8,7 @@ fi
 cd $(dirname $0)/..
 release_path=$(pwd)
 
-# apt-get update
+apt-get update
 apt-get install -y --force-yes flex bison upstart runit patch g++ libxml2-dev libxslt-dev libpq-dev git-core || exit 1
 
 build_dir=/bosh/agent/misc/stemcell/build2/
