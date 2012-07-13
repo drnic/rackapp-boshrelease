@@ -32,7 +32,7 @@ The bosh installation needs the following patches:
 
 ```
 cd $BOSH_SRC
-git pull ssh://drnic@reviews.cloudfoundry.org:29418/bosh refs/changes/26/7126/1
+git pull ssh://$(whoami)@reviews.cloudfoundry.org:29418/bosh refs/changes/26/7126/1
 ```
 
 Desirable patches
@@ -41,7 +41,7 @@ Desirable patches
 
 ```
 cd $BOSH_SRC
-git pull ssh://drnic@reviews.cloudfoundry.org:29418/bosh refs/changes/19/7119/1
+git pull ssh://$(whoami)@reviews.cloudfoundry.org:29418/bosh refs/changes/19/7119/1
 ```
 
 
