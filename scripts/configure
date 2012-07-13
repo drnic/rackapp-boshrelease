@@ -17,6 +17,12 @@ else
   exit 1
 fi
 
+# ensure state.yml accessible
+if [[ -f /var/vcap/bosh/state.yml ]]; then
+  sudo chmod vcap:vcap /var/vcap/bosh
+  sudo chmod vcap:vcap /var/vcap/bosh/state.yml
+fi
+
 mkdir -p ${jobs_dir}
 
 for job in $(${scripts}/helpers/jobs_to_configure)

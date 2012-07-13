@@ -1,2 +1,10 @@
 #!/usr/bin/env bash
 
+base_dir=/var/vcap
+jobs_dir=${base_dir}/data/jobs
+
+cd $(dirname $0)/..
+release_path=$(pwd)
+scripts=${release_path}/scripts
+
+sudo chpst -u vcap:vcap ${scripts}/helpers/start_monit
