@@ -69,8 +69,9 @@ Inside the VM:
 
 ```
 sudo su - vcap
+sudo /vagrant/scripts/install_dependencies
+sudo su - vcap
 cd /vagrant
-sudo ./scripts/install_dependencies
 ./scripts/install
 ./scripts/configure
 ./scripts/start
