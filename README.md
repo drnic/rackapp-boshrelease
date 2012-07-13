@@ -2,6 +2,27 @@
 
 This project is a BOSH release for `rackapp-boshrelease`.
 
+## Dependencies
+
+The bosh installation needs the following patches:
+
+* Only set $chroot if not already set - http://reviews.cloudfoundry.org/#/c/7126/
+
+```
+cd $BOSH_SRC
+git pull ssh://drnic@reviews.cloudfoundry.org:29418/bosh refs/changes/26/7126/1
+```
+
+Desirable patches
+
+* Do not fail if the target file of a symlink isn't there - http://reviews.cloudfoundry.org/#/c/7119/
+
+```
+cd $BOSH_SRC
+git pull ssh://drnic@reviews.cloudfoundry.org:29418/bosh refs/changes/19/7119/1
+```
+
+
 ## Development with Vagrant
 
 This project includes development support within Vagrant
