@@ -69,7 +69,7 @@ do
   
   # compiled_packages will go into:
   #   /var/vcap/data/packages/compiled/$package/$package_version.compiled
-  compiled_package_path=/var/vcap/data/packages/compiled/${package}
+  compiled_package_path=/var/vcap/data/compiled_packages/${package}
   mkdir -p ${compiled_package_path}
   compiled_package="${compiled_package_path}/${package_version}.compiled"
   

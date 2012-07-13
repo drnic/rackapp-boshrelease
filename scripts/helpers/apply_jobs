@@ -65,7 +65,7 @@ packages_spec = {}
 # {
 #   "common" => { "name" => "common", "version" => "0.2-dev", "sha1" => Digest::SHA1.file(package_common_tgz).hexdigest, "blobstore_id" => "package_common_blobstore" }
 # }
-compiled_packages_path="#{base_dir}/data/packages/compiled/"
+compiled_packages_path="#{base_dir}/data/compiled_packages/"
 Dir[compiled_packages_path + "*"].each do |compiled_package_path|
   p compiled_package_path
   latest_compiled_package = `ls -ct #{compiled_package_path}/*.compiled`.lines.first.strip
