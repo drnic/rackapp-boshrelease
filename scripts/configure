@@ -34,5 +34,7 @@ do
   
   echo Applying job ${job} using release ${release_tgz}...
 
-  ${scripts}/helpers/apply_jobs ${release_tgz} ${job_path} ${job_install_path} || exit 1
+  sudo ${scripts}/helpers/apply_jobs ${release_tgz} ${job_path} ${job_install_path} || exit 1
 done
+
+sudo chown vcap:vcap -r /var/vcap
