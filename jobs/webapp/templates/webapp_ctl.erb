@@ -39,12 +39,10 @@ export LANG=en_US.UTF-8
 
 source /var/vcap/packages/common/utils.sh
 
-echo "looking at args..."
-
 case $1 in
 
   start)
-    pid_guard $PIDFILE "Rackapp"
+    pid_guard $PIDFILE "webapp"
 
     mkdir -p $RUN_DIR
     mkdir -p $LOG_DIR
@@ -59,6 +57,7 @@ case $1 in
     chown vcap:vcap $PIDFILE
 
     cd $RACKAPP_PATH
+    <% properties.webapp && properties.webapp.run_migrations -%>
     export RACKAPP_NOSTART=1
     chpst -u vcap:vcap bundle exec rake db:migrate >>$LOG_DIR/db_migrate.stdout.log 2>>$LOG_DIR/db_migrate.stderr.log
     if [ $? != 0 ]; then
@@ -67,6 +66,7 @@ case $1 in
       exit 1
     fi
     unset RACKAPP_NOSTART
+    <% end -%>
 
     # Configure the core file location
     mkdir -p /var/vcap/sys/cores
