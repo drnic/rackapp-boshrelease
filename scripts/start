@@ -11,6 +11,6 @@ scripts=${release_path}/scripts
 
 sudo chpst -u vcap:vcap ${scripts}/helpers/start_monit
 
-sudo chown vcap:vcap -r /var/vcap
+sudo chown vcap:vcap -R /var/vcap
 
-echo "tail -f /var/vcap/monit/monit.log  # monit log"
+echo "tail -f /var/vcap/sys/log/monit/* /var/vcap/sys/log/app/* /var/vcap/monit/monit.log  # monit log"
