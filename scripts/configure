@@ -17,12 +17,6 @@ else
   exit 1
 fi
 
-# ensure state.yml accessible
-if [[ -f /var/vcap/bosh/state.yml ]]; then
-  sudo chmod vcap:vcap /var/vcap/bosh
-  sudo chmod vcap:vcap /var/vcap/bosh/state.yml
-fi
-
 mkdir -p ${jobs_dir}
 
 for job in $(${scripts}/helpers/jobs_to_configure)
@@ -41,10 +35,4 @@ do
   echo Applying job ${job} using release ${release_tgz}...
 
   ${scripts}/helpers/apply_jobs ${release_tgz} ${job_path} ${job_install_path} || exit 1
-  
-  # setup versionless symlinks
-  #   /var/vcap/data/jobs/rackapp/0.X-dev -> /var/vcap/jobs/rackapp
-  # mkdir -p ${base_dir}/jobs
-  # rm -rf ${base_dir}/jobs/${job}
-  # ln -s ${job_install_path} ${base_dir}/jobs/${job}
 done

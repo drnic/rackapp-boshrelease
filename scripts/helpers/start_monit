@@ -7,7 +7,6 @@ $:.unshift("/bosh/agent/lib")
 require "agent"
 
 Bosh::Agent::Config.setup({"logging" => { "file" => STDOUT, "level" => "DEBUG" }, "mbus" => nil, "blobstore_options" => {}})
-p Bosh::Agent::Monit.enable
-p Bosh::Agent::Monit.start
-p Bosh::Agent::Monit.start_services
-
+Bosh::Agent::Monit.enable
+Bosh::Agent::Monit.start
+Bosh::Agent::Monit.start_services

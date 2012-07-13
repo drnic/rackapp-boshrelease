@@ -46,6 +46,7 @@ Whenever you make changes to your release, you run the following commands in you
 bosh create release --force
 
 [inside vagrant]
+sudo su - vcap
 cd /vagrant
 ./scripts/install
 ./scripts/configure

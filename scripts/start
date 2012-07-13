@@ -8,3 +8,5 @@ release_path=$(pwd)
 scripts=${release_path}/scripts
 
 sudo chpst -u vcap:vcap ${scripts}/helpers/start_monit
+
+echo "tail -f /var/vcap/monit/monit.log  # monit log"
