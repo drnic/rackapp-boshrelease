@@ -59,7 +59,6 @@ case $1 in
     # Create the secure users and setup sudo privs for vcap
     # NB: This needs to happen _before_ executing `rake db:migrate' as that requires
     #     the existence of secure users (staging initializer).
-    $RACKAPP_PACKAGE_DIR/rackapp/script/create_secure_users.rb
     chown root:root $RACKAPP_JOB_DIR/config/sudoers
     chmod 440 $RACKAPP_JOB_DIR/config/sudoers
     cp $RACKAPP_JOB_DIR/config/sudoers /etc/sudoers
