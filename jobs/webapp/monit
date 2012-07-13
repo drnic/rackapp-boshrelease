@@ -1,0 +1,13 @@
+check process webapp
+  with pidfile /var/vcap/sys/run/webapp/webapp.pid
+  start program "/var/vcap/jobs/webapp/bin/webapp_ctl start"
+  stop program "/var/vcap/jobs/webapp/bin/webapp_ctl stop"
+  group vcap
+
+<% if properties.use_nginx %>
+check process nginx
+  with pidfile /var/vcap/sys/run/nginx/nginx.pid
+  start program "/var/vcap/jobs/webapp/bin/nginx_ctl start"
+  stop program "/var/vcap/jobs/webapp/bin/nginx_ctl stop"
+  group vcap
+<% end %>

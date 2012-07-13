@@ -1,20 +1,20 @@
 #!/bin/bash
 
-export RACKAPP_JOB_DIR=/var/vcap/jobs/rackapp
+export RACKAPP_JOB_DIR=/var/vcap/jobs/webapp
 export RAILS_ENV=production
 export PATH=/var/vcap/packages/ruby/bin:$PATH
 
 RACKAPP_PACKAGE_DIR=/var/vcap/packages/rackapp
-RACKAPP_PATH=$RACKAPP_PACKAGE_DIR/rackapp
+RACKAPP_DIR=$RACKAPP_PACKAGE_DIR/rackapp
 
-RUN_DIR=/var/vcap/sys/run/rackapp
-LOG_DIR=/var/vcap/sys/log/rackapp
-PIDFILE=$RUN_DIR/rackapp.pid
+RUN_DIR=/var/vcap/sys/run/app
+LOG_DIR=/var/vcap/sys/log/app
+PIDFILE=$RUN_DIR/app.pid
 
-export RACKAPP_CONFIG=$RACKAPP_JOB_DIR/config/rackapp.yml
-export BUNDLE_GEMFILE=$RACKAPP_PACKAGE_DIR/rackapp/Gemfile
+export RACKAPP_CONFIG=$RACKAPP_JOB_DIR/config/appconfig.yml
+export BUNDLE_GEMFILE=$RACKAPP_DIR/Gemfile
 export HOME=/home/vcap # rake needs it to be set to run tasks
-export TMPDIR=/var/vcap/data/rackapp/tmp
+export TMPDIR=/var/vcap/data/webapp/tmp
 
 <% if properties.env %>
 <% if properties.env.http_proxy %>
@@ -38,6 +38,8 @@ export LIBRARY_PATH=/var/vcap/packages/mysqlclient/lib/mysql:/var/vcap/packages/
 export LANG=en_US.UTF-8
 
 source /var/vcap/packages/common/utils.sh
+
+echo "looking at args..."
 
 case $1 in
 
@@ -73,10 +75,11 @@ case $1 in
 
     ulimit -c unlimited
 
-    # TODO how to run the rackapp? webrick? puma? foreman?
-    exec chpst -u vcap:vcap $RACKAPP_PACKAGE_DIR/rackapp/bin/rackapp \
-         >>$LOG_DIR/rackapp.stdout.log \
-         2>>$LOG_DIR/rackapp.stderr.log
+    echo "Launching webapp"
+    # TODO how to run the webapp? webrick? puma? foreman?
+    exec chpst -u vcap:vcap rackup -p 5000 \
+         >>$LOG_DIR/webapp.stdout.log \
+         2>>$LOG_DIR/webapp.stderr.log
 
     ;;
 
@@ -85,7 +88,7 @@ case $1 in
 
     ;;
   *)
-    echo "Usage: rackapp_ctl {start|stop}"
+    echo "Usage: webapp_ctl {start|stop}"
 
     ;;
 

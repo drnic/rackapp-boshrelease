@@ -5,7 +5,7 @@ templates:
   nginx.conf.erb:    config/nginx.conf
   mime.types:        config/mime.types
   appconfig.yml.erb: config/appconfig.yml
-  rackapp_ctl.erb:   bin/rackapp_ctl
+  webapp_ctl.erb:   bin/webapp_ctl
   blacklist.txt:     config/blacklist.txt
 packages:
   - common
