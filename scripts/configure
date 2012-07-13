@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -x
+set -e
 
 # Pass rebuild=1 to force /tmp/release.tgz to be rebuilt
 
