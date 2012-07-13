@@ -15,14 +15,14 @@ apt-get install -y --force-yes build-essential flex bison upstart runit patch g+
   libxslt-dev libpq-dev git-core libsqlite3-dev vim curl || exit 1
 
 bosh_users_password=vcap
-addgroup --system admin
-adduser --disabled-password --gecos Ubuntu vcap
-echo \"vcap:${bosh_users_password}\" | chpasswd
-echo \"root:${bosh_users_password}\" | chpasswd
+/usr/sbin/addgroup --system admin
+/usr/sbin/adduser --disabled-password --gecos Ubuntu vcap
+echo \"vcap:${bosh_users_password}\" | /usr/sbin/chpasswd
+echo \"root:${bosh_users_password}\" | /usr/sbin/chpasswd
 
 for grp in admin adm audio cdrom dialout floppy video plugdev dip
 do
-  adduser vcap $grp
+  /usr/sbin/adduser vcap $grp
 done
 
 if [[ -x /var/vcap/bosh/bin/monit ]]
