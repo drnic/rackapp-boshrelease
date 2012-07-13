@@ -9,11 +9,22 @@ cd $(dirname $0)/..
 release_path=$(pwd)
 
 # apt-get update
-apt-get install -y --force-yes patch g++ libxml2-dev libxslt-dev libpq-dev git-core
+apt-get install -y --force-yes flex bison upstart patch g++ libxml2-dev libxslt-dev libpq-dev git-core
 
-gem install bundler webmock rake --no-ri --no-rdoc
-cd /bosh
-rake bundle_install
-rake build
+build_dir=/bosh/agent/misc/stemcell/build2/
+work_path="/"
+export chroot="/"
+if [[ -x /var/vcap/bosh/bin/monit ]]
+then
+  /var/vcap/bosh/bin/monit -V
+else
+  ${build_dir}/stages/bosh_monit/apply.sh ${work_path}
+fi
+
+
+# gem install bundler webmock rake --no-ri --no-rdoc
+# cd /bosh
+# rake bundle_install
+# rake build
 
 cd ${release_path}
