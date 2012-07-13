@@ -76,16 +76,27 @@ sudo ./scripts/install_dependencies
 ./scripts/start
 ```
 
-Whenever you make changes to your release, you run the following commands in your host machine/laptop and guest VM/vagrant respectively:
+If you change a **package**, then run the following commands in your host machine/laptop and guest VM/vagrant respectively:
 
 ```
 [inside host]
 bosh create release --force
 
-[inside vagrant]
-sudo su - vcap
+[inside vagrant as vcap user]
 cd /vagrant
 ./scripts/install
+./scripts/configure
+./scripts/start
+```
+
+If you change a **job**, then run the following commands in your host machine/laptop and guest VM/vagrant respectively:
+
+```
+[inside host]
+bosh create release --force
+
+[inside vagrant as vcap user]
+cd /vagrant
 ./scripts/configure
 ./scripts/start
 ```
@@ -97,5 +108,7 @@ Job failing to start and you don't know why?
 
 ```
 [inside vagrant as vcap]
-/var/vcap/jobs/webapp/bin/webapp_ctl start || tail /var/vcap/sys/log/monit/*
+rm /var/vcap/sys/log/monit/*
+rm /var/vcap/sys/log/app/*
+sudo /var/vcap/jobs/webapp/bin/webapp_ctl start || tail /var/vcap/sys/log/monit/* /var/vcap/sys/log/app/*
 ```
