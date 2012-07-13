@@ -49,9 +49,44 @@ latest_dev_release = YAML.load_file(latest_dev_release_path)
 jobs = latest_dev_release["jobs"]
 release_version = latest_dev_release["version"]
 
+# Create spec of all packages to be installed by all jobs
+#
+# In normal bosh, a job would depend on a subset of packages
+# During agent #job_install, only those subset of packages would be installed
+# and any other already-installed packages would be removed
+#
+# Because of the removal step, we will tell the agent to install
+# all packages for all jobs.
+#
+# As there is no blobstore, we stub the HTTP request to the blobstore
+# to return the compiled_package blob; using webmock's #stub_request
+packages_spec = {}
+# For each package, add the latest compiled_package; e.g.
+# {
+#   "common" => { "name" => "common", "version" => "0.2-dev", "sha1" => Digest::SHA1.file(package_common_tgz).hexdigest, "blobstore_id" => "package_common_blobstore" }
+# }
+compiled_packages_path="#{base_dir}/data/packages/compiled/"
+Dir[compiled_packages_path + "*"].each do |compiled_package_path|
+  p compiled_package_path
+  latest_compiled_package = `ls -ct #{compiled_package_path}/*.compiled`.lines.first.strip
+  p latest_compiled_package
+  latest_compiled_package =~ %r{/([^/]+).compiled} # find "0.5-dev" within "...packages/compiled/some-package/0.5-dev.compiled"
+  name              = File.basename(compiled_package_path)
+  version           = $1
+  sha1              = Digest::SHA1.file(latest_compiled_package).hexdigest
+  fake_blobstore_id = "compiled_package_#{name}"
+  packages_spec[name] = {
+    "name" => name,
+    "version" => version,
+    "sha1" => sha1,
+    "blobstore_id" => fake_blobstore_id
+  }
+  stub_request(:get, "http://resources/#{fake_blobstore_id}?").to_return(:body => File.read(latest_compiled_package))
+end
+
 jobs.each do |job|
   job_tgz = ".dev_builds/jobs/#{job['name']}/#{job['version']}.tgz"
-  package_common_tgz = ".dev_builds/packages/common/0.2-dev.tgz"
+  compiled_package_common = ".dev_builds/packages/common/0.2-dev.tgz"
   job_sha1 = Digest::SHA1.file(job_tgz).hexdigest
   
   # +job+ contains:
@@ -73,9 +108,7 @@ jobs.each do |job|
     "deployment" => "rackapp",
     "release" => { "version" => release_version },
     "job" => apply_job_spec,
-    "packages" => {
-      "common" => { "name" => "common", "version" => "0.2-dev", "sha1" => Digest::SHA1.file(package_common_tgz).hexdigest, "blobstore_id" => "package_common_blobstore" }
-    },
+    "packages" => packages_spec,
     "configuration_hash" => "deadbeef"
   }.merge(job_manifest)
 
@@ -90,7 +123,6 @@ jobs.each do |job|
   Bosh::Agent::Monit.setup_monit_user
 
   stub_request(:get, "http://resources/job_app_blobstore?").to_return(:body => File.read(job_tgz))
-  stub_request(:get, "http://resources/package_common_blobstore?").to_return(:body => File.read(package_common_tgz))
 
 
   Bosh::Agent::Message::Apply.process([apply_spec])
