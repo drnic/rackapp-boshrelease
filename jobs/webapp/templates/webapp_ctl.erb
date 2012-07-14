@@ -6,8 +6,10 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 export RACKAPP_JOB_DIR=/var/vcap/jobs/webapp
-export RAILS_ENV=production
 export PATH=/var/vcap/packages/ruby/bin:$PATH
+
+export RAILS_ENV=production
+export RACK_ENV=production
 export PORT=5000
 
 RACKAPP_PACKAGE_DIR=/var/vcap/packages/rackapp
@@ -58,9 +60,6 @@ case $1 in
     chown vcap:vcap $LOG_DIR
     chown vcap:vcap $TMPDIR
 
-    echo $$ > $PIDFILE
-    chown vcap:vcap $PIDFILE
-
     cd $RACKAPP_PATH
     <% if properties.webapp && properties.webapp.run_migrations %>
     export RACKAPP_NOSTART=1
@@ -83,9 +82,11 @@ case $1 in
     cd $RACKAPP_DIR
     echo "Launching webapp within $RACKAPP_DIR"
 
-    exec chpst -u vcap:vcap -e $RACKAPP_DIR bundle exec rackup -D -p $PORT \
+    exec chpst -u vcap:vcap -e $RACKAPP_DIR bundle exec rackup -D -P $PIDFILE -p $PORT \
          >>$LOG_DIR/webapp.stdout.log \
          2>>$LOG_DIR/webapp.stderr.log || exit 1
+
+    chown vcap:vcap $PIDFILE
 
     echo "Running webapp on $PORT"
     ;;
