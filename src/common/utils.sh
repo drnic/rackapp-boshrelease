@@ -1,9 +1,14 @@
 
-SCRIPT=$(basename $0)
-mkdir -p /var/vcap/sys/log/monit
+# If loaded within monit ctl scripts then pipe output
+# If loaded from 'source ../utils.sh' then normal STDOUT
+if [[ $0 -ne '-bash' ]]
+then
+  SCRIPT=$(basename $0)
 
-exec 1>> /var/vcap/sys/log/monit/$SCRIPT.log
-exec 2>> /var/vcap/sys/log/monit/$SCRIPT.err.log
+  exec 1>> /var/vcap/sys/log/monit/$SCRIPT.log
+  exec 2>> /var/vcap/sys/log/monit/$SCRIPT.err.log
+fi
+mkdir -p /var/vcap/sys/log/monit
 
 pid_guard() {
   pidfile=$1
