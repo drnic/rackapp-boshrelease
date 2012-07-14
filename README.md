@@ -109,7 +109,7 @@ Job failing to start and you don't know why?
 
 ```
 [inside vagrant as vcap]
-./scripts/configure
+./vagrant/scripts/configure
 sudo rm -rf /var/vcap/sys/log/monit/* /var/vcap/sys/log/webapp/*
 sudo /var/vcap/jobs/webapp/bin/webapp_ctl start || tail /var/vcap/sys/log/monit/* /var/vcap/sys/log/webapp/*
 ```
