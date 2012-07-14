@@ -63,7 +63,7 @@ case $1 in
     chown vcap:vcap $LOG_DIR
     chown vcap:vcap $TMPDIR
 
-    cd $RACKAPP_PATH
+    cd $RACKAPP_DIR
     <% if properties.webapp && properties.webapp.run_migrations %>
     export RACKAPP_NOSTART=1
     chpst -u vcap:vcap bundle exec rake db:migrate >>$LOG_DIR/db_migrate.stdout.log 2>>$LOG_DIR/db_migrate.stderr.log
