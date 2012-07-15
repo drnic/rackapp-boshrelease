@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-set -e
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
 
 if [[ $EUID -ne 0 ]]; then
   echo "ERROR: This script must be run as root" 1>&2
