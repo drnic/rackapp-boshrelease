@@ -83,8 +83,11 @@ Dir[compiled_packages_path + "*"].each do |compiled_package_path|
 end
 
 jobs.each do |job|
-  job_tgz = ".dev_builds/jobs/#{job['name']}/#{job['version']}.tgz"
-  compiled_package_common = ".dev_builds/packages/common/0.2-dev.tgz"
+  # if $package_version contains a decimal point, then its a dev build (.dev_builds),
+  # else a finalized package
+  job_version = job['version'].to_s
+  build_folder = job_version =~ /dev/ ? '.dev_builds' : '.final_builds'
+  job_tgz = "#{build_folder}/jobs/#{job['name']}/#{job['version']}.tgz"
   job_sha1 = Digest::SHA1.file(job_tgz).hexdigest
   
   # +job+ contains:
@@ -95,12 +98,9 @@ jobs.each do |job|
   # required for spec: name template version sha1 blobstore_id
   apply_job_spec = job.merge({
     "template" => job["name"],
+    "version" => job_version,
     "blobstore_id" => "job_app_blobstore"
   })
-  
-  # NOTE: the package blobs are assumed to be pre-compiled
-  # FIXME: package_common_tgz IS NOT the .dev_builds tgz; rather the post-compiled tgz blob
-  # IDEA: tarball up the outputs of scripts/install into tarballs
   
   apply_spec = {
     "deployment" => "rackapp",
@@ -122,5 +122,6 @@ jobs.each do |job|
 
   stub_request(:get, "http://resources/job_app_blobstore?").to_return(:body => File.read(job_tgz))
 
+  p apply_spec
   Bosh::Agent::Message::Apply.process([apply_spec])
 end

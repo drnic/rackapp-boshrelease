@@ -96,11 +96,11 @@ do
     # else a finalized package
     if [[ "${package_version}" =~ "dev" ]]
     then
-      package_path="${release_path}/.dev_builds/packages"
+      packages_path="${release_path}/.dev_builds/packages"
     else
-      package_path="${release_path}/.final_builds/packages"
+      packages_path="${release_path}/.final_builds/packages"
     fi
-    tar -zxf ${package_path}/${package}/${package_version}.tgz 2>&1
+    tar -zxf ${packages_path}/${package}/${package_version}.tgz 2>&1
 
     ls -al packaging
     
