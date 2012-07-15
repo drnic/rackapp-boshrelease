@@ -1,0 +1,12 @@
+#!/bin/sh
+mkdir -p /var/vcap/sys/log/monit
+{
+  echo "MONIT-DEBUG date"
+  date
+  echo "MONIT-DEBUG env"
+  env
+  echo "MONIT-DEBUG $@"
+  $@
+  R=$?
+  echo "MONIT-DEBUG exit code $R"
+} >/var/vcap/sys/log/monit/monit_debugger.log 2>&1
