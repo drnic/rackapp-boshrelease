@@ -91,7 +91,16 @@ do
     cd ${BOSH_COMPILE_TARGET}
     # - get source package (reference from .dev_builds)
     # - unpack source package
-    tar -zxf ${release_path}/.dev_builds/packages/${package}/${package_version}.tgz 2>&1
+    
+    # if $package_version contains a decimal point, then its a dev build (.dev_builds),
+    # else a finalized package
+    if [[ "${package_version}" =~ "dev" ]]
+    then
+      package_path="${release_path}/.dev_builds/packages"
+    else
+      package_path="${release_path}/.final_builds/packages"
+    fi
+    tar -zxf ${package_path}/${package}/${package_version}.tgz 2>&1
 
     ls -al packaging
     
