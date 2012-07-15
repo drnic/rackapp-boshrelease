@@ -1,12 +1,11 @@
 #!/bin/bash
 
+echo webapp_ctl pre-1
+
 set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
 
-if [[ $EUID -ne 0 ]]; then
-  echo "ERROR: This script must be run as root" 1>&2
-  exit 1
-fi
+echo webapp_ctl pre-2
 
 export RACKAPP_JOB_DIR=/var/vcap/jobs/webapp
 export PATH=/var/vcap/packages/ruby/bin:$PATH
@@ -26,6 +25,8 @@ export RACKAPP_CONFIG=$RACKAPP_JOB_DIR/config/appconfig.yml
 export BUNDLE_GEMFILE=$RACKAPP_DIR/Gemfile
 export HOME=/home/vcap # rake needs it to be set to run tasks
 export TMPDIR=/var/vcap/data/webapp/tmp
+
+echo webapp_ctl pre-3
 
 <% if properties.env %>
 <% if properties.env.http_proxy %>
@@ -48,12 +49,20 @@ export C_INCLUDE_PATH=/var/vcap/packages/mysqlclient/include/mysql:/var/vcap/pac
 export LIBRARY_PATH=/var/vcap/packages/mysqlclient/lib/mysql:/var/vcap/packages/sqlite/lib:/var/vcap/packages/libpq/lib
 export LANG=en_US.UTF-8
 
+echo webapp_ctl pre-4
+
 source /var/vcap/packages/common/utils.sh
+
+echo webapp_ctl 5
 
 case $1 in
 
   start)
+    echo webapp_ctl start-1
+
     pid_guard $PIDFILE "webapp"
+
+    echo webapp_ctl start-2
 
     mkdir -p $RUN_DIR
     mkdir -p $LOG_DIR
@@ -75,20 +84,18 @@ case $1 in
     unset RACKAPP_NOSTART
     <% end %>
 
-    # Configure the core file location
-    mkdir -p /var/vcap/sys/cores
-    chown vcap:vcap /var/vcap/sys/cores
-    echo /var/vcap/sys/cores/core-%e-%s-%p-%t > /proc/sys/kernel/core_pattern
-
+    echo webapp_ctl start-3
     ulimit -c unlimited
 
     cd $RACKAPP_DIR
+    echo webapp_ctl start-4
     echo "Launching webapp within $RACKAPP_DIR"
 
-    exec chpst -u vcap:vcap -e $RACKAPP_DIR bundle exec rackup -D -P $PIDFILE -p $PORT \
+    exec bundle exec rackup -D -P $PIDFILE -p $PORT \
          >>$LOG_DIR/webapp.stdout.log \
          2>>$LOG_DIR/webapp.stderr.log || exit 1
 
+    echo webapp_ctl start-5
     chown vcap:vcap $PIDFILE
 
     echo "Running webapp on $PORT"

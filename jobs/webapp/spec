@@ -1,6 +1,7 @@
 ---
 name: webapp
 templates:
+  monit_wrapper:     bin/monit_wrapper
   nginx_ctl:         bin/nginx_ctl
   nginx.conf.erb:    config/nginx.conf
   mime.types:        config/mime.types
