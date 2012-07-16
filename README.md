@@ -73,8 +73,9 @@ sudo /vagrant/scripts/install_dependencies
 sudo su - vcap
 cd /vagrant
 ./scripts/install
-./scripts/configure
+./scripts/configure examples/rackonly.yml
 ./scripts/start
+./scripts/tail_logs -f
 ```
 
 If you change a **package**, then run the following commands in your host machine/laptop and guest VM/vagrant respectively:
@@ -86,8 +87,8 @@ bosh create release --force
 [inside vagrant as vcap user]
 cd /vagrant
 ./scripts/install
-./scripts/configure
 ./scripts/start
+./scripts/tail_logs -f
 ```
 
 If you change a **job**, then run the following commands in your host machine/laptop and guest VM/vagrant respectively:
@@ -98,8 +99,9 @@ bosh create release --force
 
 [inside vagrant as vcap user]
 cd /vagrant
-./scripts/configure
+./scripts/configure examples/rackonly.yml
 ./scripts/start
+./scripts/tail_logs -f
 ```
 
 
@@ -110,8 +112,9 @@ Job failing to start and you don't know why?
 ```
 [inside vagrant as vcap]
 /vagrant/scripts/reset_logs
-/vagrant/scripts/configure
-/var/vcap/jobs/webapp/bin/webapp_ctl start || tail /var/vcap/sys/log/monit/* /var/vcap/sys/log/webapp/*
+/vagrant/scripts/configure examples/rackonly.yml
+/var/vcap/jobs/webapp/bin/webapp_ctl start
+/vagrant/scripts/tail_logs
 ```
 
 ## Issues
