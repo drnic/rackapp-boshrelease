@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Updates to latest BOSH release (dev_builds)
+#
+# 1. If a package has a new version, then package installed
+# 2. If a job has a new version, then job templates rendered
+# 3. Jobs (monit) restarted
+
+# Currently, see Rakefile "rake update"
