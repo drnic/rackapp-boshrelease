@@ -1,11 +1,7 @@
 #!/bin/bash
 
-echo webapp_ctl pre-1
-
 set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
-
-echo webapp_ctl pre-2
 
 APP_PACKAGE=todo # which bosh package contains the rackapp/webapp
 export RAILS_ENV=production
@@ -26,8 +22,6 @@ export WEBAPP_CONFIG=$WEBAPP_JOB_DIR/config/appconfig.yml
 export BUNDLE_GEMFILE=$WEBAPP_DIR/Gemfile
 export HOME=/home/vcap # rake needs it to be set to run tasks
 export TMPDIR=/var/vcap/data/webapp/tmp
-
-echo webapp_ctl pre-3
 
 # https://github.com/pmirshad/cgit-on-nginx/wiki/Installing-cgit-with-nginx-on-Ubuntu-11.10
 <% if properties.env %>
@@ -51,21 +45,14 @@ export C_INCLUDE_PATH=/var/vcap/packages/mysqlclient/include/mysql:/var/vcap/pac
 export LIBRARY_PATH=/var/vcap/packages/mysqlclient/lib/mysql:/var/vcap/packages/sqlite/lib:/var/vcap/packages/libpq/lib
 export LANG=en_US.UTF-8
 
-echo webapp_ctl pre-4
-
 source /var/vcap/packages/common/utils.sh
 redirect_output 'webapp'
-
-echo webapp_ctl pre-5
 
 case $1 in
 
   start)
-    echo webapp_ctl start-1
-
+    echo pid_guard $PIDFILE "webapp"
     pid_guard $PIDFILE "webapp"
-
-    echo webapp_ctl start-2
 
     mkdir -p $RUN_DIR
     mkdir -p $LOG_DIR
@@ -77,6 +64,7 @@ case $1 in
 
     cd $WEBAPP_DIR
     <% if properties.webapp && properties.webapp.run_migrations %>
+    echo "Running migrations"
     export WEBAPP_NOSTART=1
     bundle exec rake db:migrate >>$LOG_DIR/db_migrate.stdout.log 2>>$LOG_DIR/db_migrate.stderr.log
     if [ $? != 0 ]; then
@@ -84,13 +72,13 @@ case $1 in
       exit 1
     fi
     unset WEBAPP_NOSTART
+    <% else %>
+    echo "Skipping migrations"
     <% end %>
 
-    echo webapp_ctl start-3
     ulimit -c unlimited
 
     cd $WEBAPP_DIR
-    echo webapp_ctl start-4
     echo "Launching webapp within $WEBAPP_DIR"
 
     <% if properties.webapp && properties.webapp.appstack == 'puma' %>
@@ -106,7 +94,6 @@ case $1 in
          2>>$LOG_DIR/webapp.stderr.log || exit 1
     <% end %>
 
-    echo webapp_ctl start-5
     chown vcap:vcap $PIDFILE
 
     echo "Running webapp on $PORT"
