@@ -28,6 +28,7 @@ export TMPDIR=/var/vcap/data/webapp/tmp
 
 echo webapp_ctl pre-3
 
+# https://github.com/pmirshad/cgit-on-nginx/wiki/Installing-cgit-with-nginx-on-Ubuntu-11.10
 <% if properties.env %>
 <% if properties.env.http_proxy %>
 export HTTP_PROXY='<%= properties.env.http_proxy %>'
