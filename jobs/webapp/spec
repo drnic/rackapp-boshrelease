@@ -9,7 +9,7 @@ templates:
   blacklist.txt:     config/blacklist.txt
 packages:
   - common
-  - rackapp
+  - todo
   - libpq
   - sqlite
   - mysqlclient

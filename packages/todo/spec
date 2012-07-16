@@ -1,0 +1,9 @@
+---
+name: todo
+dependencies:
+- libpq
+- mysqlclient
+- sqlite
+- ruby
+files:
+- todo/**/*
