@@ -32,7 +32,7 @@ case "$1" in
       mkdir -p $DATA_DIR
       chown vcap:vcap $DATA_DIR
 
-      su - vcap -c "LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH $PACKAGE_DIR/bin/initdb -E utf8 -D $DATA_DIR"
+      LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH $PACKAGE_DIR/bin/initdb -E utf8 -D $DATA_DIR
 
       echo postgres_ctl start-3
 
@@ -49,7 +49,7 @@ case "$1" in
     fi
 
     echo "Starting PostgreSQL 9.0: "
-    su - vcap -c "LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH $PACKAGE_DIR/bin/pg_ctl -o \"-h $HOST -p $PORT\" -w start -D $DATA_DIR -l \"$DATA_DIR/pg_log/startup.log\""
+    LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH $PACKAGE_DIR/bin/pg_ctl -o "-h $HOST -p $PORT" -w start -D $DATA_DIR -l "$DATA_DIR/pg_log/startup.log"
 
     echo postgres_ctl start-5
 
@@ -60,7 +60,7 @@ case "$1" in
       echo postgres_ctl start-6
 
       echo "Trying to create database..."
-      su - vcap -c "LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH $PACKAGE_DIR/bin/createdb $DBNAME -p $PORT"
+      LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH $PACKAGE_DIR/bin/createdb $DBNAME -p $PORT
 
       echo "Trying to create user..."
       LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH $PACKAGE_DIR/bin/psql -d $DBNAME -p $PORT -U vcap -c "create role \"$USER\" NOSUPERUSER LOGIN INHERIT CREATEDB"
@@ -79,13 +79,13 @@ case "$1" in
   stop)
     echo "Stopping PostgreSQL 9.0: "
     PID=$(head -1 $PIDFILE)
-    su - vcap -c "LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH $PACKAGE_DIR/bin/pg_ctl stop -m fast -w -D $DATA_DIR"
+    LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH $PACKAGE_DIR/bin/pg_ctl stop -m fast -w -D $DATA_DIR
     while [ -e /proc/$PID ]; do sleep 0.1; done
     rm -f $PIDFILE
     ;;
 
   status)
-    su - vcap -c "LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH $PACKAGE_DIR/bin/pg_ctl status -D $DATA_DIR"
+    LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH $PACKAGE_DIR/bin/pg_ctl status -D $DATA_DIR
     ;;
 
   *)
