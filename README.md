@@ -84,8 +84,11 @@ Whenever you make changes to your BOSH release, including any applications inclu
 bosh create release --force
 
 [inside vagrant as vcap user]
-/vagrant/scripts/update examples/rackonly.yml
+cd /vagrant
+./scripts/update examples/rackonly.yml && ./scripts/tail_logs -f
 ```
+
+All logs will be sent to the terminal so you can watch for any errors as quickly as possible.
 
 ### Finalizing a release
 
