@@ -1,5 +1,8 @@
 #!/bin/bash -e
 
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
 PACKAGE_DIR=/var/vcap/packages/postgres
 JOB_DIR=/var/vcap/jobs/postgres
 DATA_DIR=/var/vcap/store/postgres
@@ -43,6 +46,9 @@ case "$1" in
       echo "PostgreSQL 9.0 started successfully"
       head -n 1 $DATA_DIR/postmaster.pid > $PIDFILE
 
+      # These can fail when data already exists
+      set +e
+
       echo "Trying to create database..."
       su - vcap -c "LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH $PACKAGE_DIR/bin/createdb $DBNAME -p $PORT"
 
@@ -51,6 +57,9 @@ case "$1" in
 
       echo "Trying to alter user (to change password)..."
       LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH $PACKAGE_DIR/bin/psql -d $DBNAME -p $PORT -U vcap -c "alter role \"$USER\" with password '$PASSWORD'"
+
+      # Restore 'set -e' for completeness
+      set -e
 
       exit 0
     else
