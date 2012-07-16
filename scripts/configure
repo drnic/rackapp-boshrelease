@@ -42,7 +42,7 @@ do
   rm -rf ${job_install_path}
   mkdir -p ${job_install_path}
   
-  release_tgz=$(${scripts}/helpers/create_release_tgz ${release_path} ${release_tgz} || exit 1)
+  release_tgz=$(${scripts}/helpers/create_release_tgz ${release_path})
   
   echo Applying job ${job} using release ${release_tgz}...
 
