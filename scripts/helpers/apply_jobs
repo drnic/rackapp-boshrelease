@@ -82,6 +82,7 @@ Dir[compiled_packages_path + "*"].each do |compiled_package_path|
   stub_request(:get, "http://resources/#{fake_blobstore_id}?").to_return(:body => File.read(latest_compiled_package))
 end
 
+saved_symlinks = {}
 jobs.each do |job|
   # if $package_version contains a decimal point, then its a dev build (.dev_builds),
   # else a finalized package
@@ -124,9 +125,19 @@ jobs.each do |job|
 
   Bosh::Agent::Message::Apply.process([apply_spec])
   
-  # TODO Need to rescue all job/*.monitrc files (and their symlinks)
-  # as next Apply.process will destroy them
-  # OR try multiple templates to deployment manifest
+  # Need to rescue all job/*.monitrc files (and their symlinks)
+  # as next Apply.process will destroy them.
+  # Rescue them by deleting the /var/vcap/monit/jobs/*.monitrc symlink
+  # and restore it below
+  Dir["/var/vcap/monit/job/*"].each do |f|
+    saved_symlinks[f.to_s] = File.readlink(f)
+    FileUtils.rm_rf(f)
+  end
+
+  # TODO Use colocation (multiple job-templates with one wrapper deployment-job)
 end
 
-# TODO Restore all job/*.monitrc files and recreate symlinks
+# Restore all job/*.monitrc files and recreate symlinks
+saved_symlinks.each do |link_path, monitrc|
+  Bosh::Agent::Util.create_symlink(monitrc, link_path)
+end
