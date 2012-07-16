@@ -1,0 +1,46 @@
+--- 
+packages: 
+- name: common
+  version: 2
+  sha1: fc99dc4ae35c04be3627edcd55838ad934e9d94e
+  dependencies: []
+
+- name: libpq
+  version: 1
+  sha1: 8a0685be16875a1e9f81f9c4c9b023ae3c3a31c2
+  dependencies: []
+
+- name: mysqlclient
+  version: 1
+  sha1: 4c6ec28aaf2cc85c49f9b57310171ec3bd43e95d
+  dependencies: []
+
+- name: nginx
+  version: 1
+  sha1: 8b0b5018f44564f87d4d9602e694be81ba779fef
+  dependencies: []
+
+- name: rackapp
+  version: 1
+  sha1: de0881f624e618d5c0d104c3d82e653d54c1b6da
+  dependencies: 
+  - libpq
+  - mysqlclient
+  - sqlite
+  - ruby
+- name: ruby
+  version: 1
+  sha1: 055f87ec0d5a48b19f9f4204d1fb49491cad8a75
+  dependencies: []
+
+- name: sqlite
+  version: 1
+  sha1: 375a31650cd84b960b51d256c3d7ec58e05706d9
+  dependencies: []
+
+jobs: 
+- name: webapp
+  version: 2
+  sha1: 52537885e9005d65f69b00b58adbe3a66adef23d
+name: rackapp
+version: 2
