@@ -7,22 +7,23 @@ set -u # report the usage of uninitialized variables
 
 echo webapp_ctl pre-2
 
-export RACKAPP_JOB_DIR=/var/vcap/jobs/webapp
-export PATH=/var/vcap/packages/ruby/bin:$PATH
-
+APP_PACKAGE=todo # which bosh package contains the rackapp/webapp
 export RAILS_ENV=production
 export RACK_ENV=production
 export PORT=5000
 
-RACKAPP_PACKAGE_DIR=/var/vcap/packages/rackapp
-RACKAPP_DIR=$RACKAPP_PACKAGE_DIR/rackapp
+export PATH=/var/vcap/packages/ruby/bin:$PATH
+
+export WEBAPP_JOB_DIR=/var/vcap/jobs/webapp
+WEBAPP_PACKAGE_DIR=/var/vcap/packages/$APP_PACKAGE
+WEBAPP_DIR=$WEBAPP_PACKAGE_DIR/$APP_PACKAGE
 
 RUN_DIR=/var/vcap/sys/run/webapp
 LOG_DIR=/var/vcap/sys/log/webapp
 PIDFILE=$RUN_DIR/webapp.pid
 
-export RACKAPP_CONFIG=$RACKAPP_JOB_DIR/config/appconfig.yml
-export BUNDLE_GEMFILE=$RACKAPP_DIR/Gemfile
+export WEBAPP_CONFIG=$WEBAPP_JOB_DIR/config/appconfig.yml
+export BUNDLE_GEMFILE=$WEBAPP_DIR/Gemfile
 export HOME=/home/vcap # rake needs it to be set to run tasks
 export TMPDIR=/var/vcap/data/webapp/tmp
 
@@ -44,7 +45,7 @@ export no_proxy='<%= properties.env.no_proxy %>'
 <% end %>
 <% end %>
 
-export CONFIG_DIR=$RACKAPP_JOB_DIR/config
+export CONFIG_DIR=$WEBAPP_JOB_DIR/config
 
 export C_INCLUDE_PATH=/var/vcap/packages/mysqlclient/include/mysql:/var/vcap/packages/sqlite/include:/var/vcap/packages/libpq/include
 export LIBRARY_PATH=/var/vcap/packages/mysqlclient/lib/mysql:/var/vcap/packages/sqlite/lib:/var/vcap/packages/libpq/lib
@@ -74,23 +75,23 @@ case $1 in
     chown vcap:vcap $LOG_DIR
     chown vcap:vcap $TMPDIR
 
-    cd $RACKAPP_DIR
+    cd $WEBAPP_DIR
     <% if properties.webapp && properties.webapp.run_migrations %>
-    export RACKAPP_NOSTART=1
+    export WEBAPP_NOSTART=1
     bundle exec rake db:migrate >>$LOG_DIR/db_migrate.stdout.log 2>>$LOG_DIR/db_migrate.stderr.log
     if [ $? != 0 ]; then
       echo "Migrations failed"
       exit 1
     fi
-    unset RACKAPP_NOSTART
+    unset WEBAPP_NOSTART
     <% end %>
 
     echo webapp_ctl start-3
     ulimit -c unlimited
 
-    cd $RACKAPP_DIR
+    cd $WEBAPP_DIR
     echo webapp_ctl start-4
-    echo "Launching webapp within $RACKAPP_DIR"
+    echo "Launching webapp within $WEBAPP_DIR"
 
     exec bundle exec rackup -D -P $PIDFILE -p $PORT \
          >>$LOG_DIR/webapp.stdout.log \
