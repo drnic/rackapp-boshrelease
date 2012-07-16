@@ -21,7 +21,7 @@ require "cli"
 # from: /Users/drnic/Projects/bosh_releases/rackapp-boshrelease/dev_releases/rackapp-boshrelease-0.6-dev.yml
 # to: /vagrant/dev_releases/rackapp-boshrelease-0.6-dev.yml
 def local_manifest_path(hostmachine_manifest_path, work_dir)
-  if hostmachine_manifest_path =~ %r{(/dev_releases/.*)$}
+  if hostmachine_manifest_path =~ %r{(/(?:dev_releases|releases)/.*)$}
     File.join(work_dir, $1)
   else
     hostmachine_manifest_path
@@ -32,6 +32,7 @@ Bosh::Cli::Config.output = STDERR
 
 # assumes that latest release is a manifest yaml file
 # e.g. dev_releases/rackapp-boshrelease-0.6-dev.yml
+# e.g. releases/rackapp-boshrelease-2.yml
 release            = Bosh::Cli::Release.new(work_dir)
 host_manifest_path = release.latest_release_filename
 manifest_path      = local_manifest_path(host_manifest_path, work_dir)
