@@ -13,13 +13,3 @@ task :job_properties do
     end
   end
 end
-
-# Updates to latest BOSH release (dev_builds)
-#
-# 1. If a package has a new version, then package installed
-# 2. If a job has a new version, then job templates rendered
-# 3. Jobs (monit) restarted
-desc "Updates to latest BOSH release"
-task :update do
-  
-end
