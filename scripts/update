@@ -24,8 +24,8 @@ if [[ ! -f ${manifest_path} ]]; then
   exit 1
 fi
 
-./scripts/stop
 ./scripts/reset_logs
+./scripts/stop
 ./scripts/install
 ./scripts/configure ${manifest_path}
 ./scripts/start
