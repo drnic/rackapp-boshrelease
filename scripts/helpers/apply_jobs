@@ -9,7 +9,8 @@ job_path         = ARGV.shift
 job_install_path = ARGV.shift
 manifest_path    = ARGV.shift
 
-base_dir = ENV['BASE_DIR'] || '/var/vcap'
+logging_level = (ENV['LOG_LEVEL'] || 'WARN').upcase
+base_dir      = ENV['BASE_DIR'] || '/var/vcap'
 
 def error_usage; $stderr.puts "USAGE: apply_jobs RELEASE_TGZ RELEASE_JOB_PATH JOB_INSTALL_PATH MANIFEST_PATH"; exit 1; end
 def error_path_invalid(field); $stderr.puts "ERROR: Path #{field} does not exist"; error_usage; end
@@ -112,7 +113,7 @@ jobs.each do |job|
   Bosh::Agent::Config.base_dir = base_dir
 
   # setup taken from apply_spec.rb in bosh/agent
-  Bosh::Agent::Config.setup({"logging" => { "file" => STDOUT, "level" => "WARN" }, "mbus" => nil, "blobstore_options" => {}})
+  Bosh::Agent::Config.setup({"logging" => { "file" => STDOUT, "level" => logging_level }, "mbus" => nil, "blobstore_options" => {}})
   Bosh::Agent::Config.blobstore_provider = "simple"
   Bosh::Agent::Config.platform_name = "dummy"
 
