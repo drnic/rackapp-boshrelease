@@ -91,13 +91,13 @@ jobs.each do |job|
   
   # +job+ contains:
   # - name: app
-  #   version: 0.2-dev
+  #   version: 0.2-dev or 1
   #   sha1: b53fb0cb1bea8a13e4a51b273c17371a16d3918d
   
   # required for spec: name template version sha1 blobstore_id
   apply_job_spec = job.merge({
     "template" => job["name"],
-    "version" => job_version,
+    "version" => job_version,             # ensure its a string
     "blobstore_id" => "job_app_blobstore" # matches stub_request below
   })
   
@@ -105,7 +105,7 @@ jobs.each do |job|
     "deployment" => "deployment",
     "release" => { "version" => release_version },
     "job" => apply_job_spec,
-    "packages" => packages_spec,
+    "packages" => packages_spec,       # install all packages for all jobs
     "configuration_hash" => "deadbeef" # TODO what's this for?
   }.merge(job_manifest)
 
