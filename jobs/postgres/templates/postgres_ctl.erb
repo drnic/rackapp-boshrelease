@@ -64,7 +64,6 @@ case "$1" in
       echo "Trying to alter user (to change password)..."
       LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH $PACKAGE_DIR/bin/psql -d $DBNAME -p $PORT -U vcap -c "alter role \"$USER\" with password '$PASSWORD'"
 
-      echo postgres_ctl start-7
       exit 0
     else
       echo "The PostgreSQL server start seems to have some problems, please see logs for details."

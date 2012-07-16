@@ -63,6 +63,10 @@ case $1 in
     chown vcap:vcap $TMPDIR
 
     cd $WEBAPP_DIR
+
+    echo "Linking database.yml"
+    ln -s $WEBAPP_JOB_DIR/config/database.yml $WEBAPP_DIR/config/database.yml
+
     <% if properties.webapp && properties.webapp.run_migrations %>
     echo "Running migrations"
     export WEBAPP_NOSTART=1
