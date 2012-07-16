@@ -23,4 +23,4 @@ if [[ ! -f ${manifest_path} ]]; then
   exit 1
 fi
 
-kicker -e "sudo chpst -u vcap:vcap ${scripts}/update ${manifest_path}" ${release_path}/dev_releases/index.yml 
+kicker -c -e "sudo chpst -u vcap:vcap ${scripts}/update ${manifest_path}" ${release_path}/dev_releases/index.yml 
