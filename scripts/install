@@ -56,7 +56,7 @@ do
   # compiled_packages will go into:
   #   /var/vcap/data/packages/compiled/$package/$package_version.compiled
   
-  # During script/configure (agent job_install), the packages will be
+  # During scripts/configure (agent job_install), the packages will be
   # re-installed by the agent (library) from the packed blobs
 
   unset GEM_HOME; unset BUNDLE_GEMFILE; unset RUBYOPT

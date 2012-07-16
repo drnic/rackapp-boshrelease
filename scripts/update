@@ -2,11 +2,11 @@
 
 # Updates to latest BOSH release (dev_builds)
 #
-# 1. Stop all jobs (script/stop)
+# 1. Stop all jobs (scripts/stop)
 # 2. Archive all log files
-# 3. Install packages (script/install)
-# 4. Render templates (script/configure MANIFEST)
-# 5. Start all jobs (script/start)
+# 3. Install packages (scripts/install)
+# 4. Render templates (scripts/configure MANIFEST)
+# 5. Start all jobs (scripts/start)
 
 set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables

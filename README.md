@@ -68,41 +68,38 @@ $ vagrant ssh
 Inside the VM:
 
 ```
-sudo su - vcap
 sudo /vagrant/scripts/install_dependencies
 sudo su - vcap
 cd /vagrant
-./scripts/install
-./scripts/configure examples/rackonly.yml
-./scripts/start
+./scripts/update examples/rackonly.yml
 ./scripts/tail_logs -f
 ```
 
-If you change a **package**, then run the following commands in your host machine/laptop and guest VM/vagrant respectively:
+### Deploying new releases
+
+Whenever you make changes to your BOSH release, including any applications included, then it is a simple process to create a new development release and deploy it into your vagrant VM:
 
 ```
-[inside host]
+[outside vagrant]
 bosh create release --force
 
 [inside vagrant as vcap user]
-cd /vagrant
-./scripts/install
-./scripts/start
-./scripts/tail_logs -f
+/vagrant/scripts/update examples/rackonly.yml
 ```
 
-If you change a **job**, then run the following commands in your host machine/laptop and guest VM/vagrant respectively:
+### Alternate configurations
+
+This BOSH release is configurable during deployment with properties. 
+
+Please maintain example scenarios in the `examples/` folder.
+
+To switch between example scenarios, run `scripts/update` with a different example scenario.
 
 ```
-[inside host]
-bosh create release --force
-
 [inside vagrant as vcap user]
-cd /vagrant
-./scripts/configure examples/rackonly.yml
-./scripts/start
-./scripts/tail_logs -f
+/vagrant/scripts/update examples/nginx.yml
 ```
+
 
 ### Automatically update
 
