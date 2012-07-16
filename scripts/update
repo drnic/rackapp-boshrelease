@@ -3,9 +3,10 @@
 # Updates to latest BOSH release (dev_builds)
 #
 # 1. Stop all jobs (script/stop)
-# 2. Install packages (script/install)
-# 3. Render templates (script/configure MANIFEST)
-# 4. Start all jobs (script/start)
+# 2. Archive all log files
+# 3. Install packages (script/install)
+# 4. Render templates (script/configure MANIFEST)
+# 5. Start all jobs (script/start)
 
 set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
@@ -24,6 +25,7 @@ if [[ ! -f ${manifest_path} ]]; then
 fi
 
 ./scripts/stop
+./scripts/reset_logs
 ./scripts/install
 ./scripts/configure ${manifest_path}
 ./scripts/start

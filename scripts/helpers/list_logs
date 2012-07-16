@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# Lists all *.log files for jobs and monit
+
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+cd $(dirname $0)/..
+release_path=$(pwd)
+scripts=${release_path}/scripts
+
+log_dir=/var/vcap/sys/log
+find ${log_dir} -name "*.log"
