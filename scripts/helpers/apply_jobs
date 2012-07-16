@@ -76,7 +76,7 @@ Dir[compiled_packages_path + "*"].each do |compiled_package_path|
     "name" => name,
     "version" => version,
     "sha1" => sha1,
-    "blobstore_id" => fake_blobstore_id
+    "blobstore_id" => fake_blobstore_id # matches stub_request below
   }
   stub_request(:get, "http://resources/#{fake_blobstore_id}?").to_return(:body => File.read(latest_compiled_package))
 end
@@ -98,15 +98,15 @@ jobs.each do |job|
   apply_job_spec = job.merge({
     "template" => job["name"],
     "version" => job_version,
-    "blobstore_id" => "job_app_blobstore"
+    "blobstore_id" => "job_app_blobstore" # matches stub_request below
   })
   
   apply_spec = {
-    "deployment" => "rackapp",
+    "deployment" => "deployment",
     "release" => { "version" => release_version },
     "job" => apply_job_spec,
     "packages" => packages_spec,
-    "configuration_hash" => "deadbeef"
+    "configuration_hash" => "deadbeef" # TODO what's this for?
   }.merge(job_manifest)
 
   Bosh::Agent::Config.base_dir = base_dir
