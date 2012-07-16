@@ -12,8 +12,8 @@ cd $(dirname $0)/..
 release_path=$(pwd)
 scripts=${release_path}/scripts
 
-sudo chpst -u vcap:vcap ${scripts}/helpers/start_monit
+${scripts}/helpers/start_monit
 
 sudo chown vcap:vcap -R /var/vcap
 
-echo "tail -f /var/vcap/sys/log/monit/* /var/vcap/sys/log/webapp/* /var/vcap/monit/monit.log  # monit log"
+echo "${scripts}/tail_logs -f  # tail all logs"
