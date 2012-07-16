@@ -2,17 +2,13 @@
 
 set -e # exit immediately if a simple command exits with a non-zero status
 
+[ "$(whoami)" != 'vcap' ] && ( echo ERROR: run as vcap user; exit 1 )
+
+
 base_dir=/var/vcap
 
-if [[ $EUID -eq 0 ]]
-then
-  mkdir -p ${base_dir}
-  chmod 777 ${base_dir}
-  exit 1
-else
-  sudo mkdir -p ${base_dir}
-  sudo chmod 777 ${base_dir}
-fi
+sudo mkdir -p ${base_dir}
+sudo chown vcap:vcap ${base_dir}
 
 cd $(dirname $0)/..
 release_path=$(pwd)
