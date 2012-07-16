@@ -52,8 +52,9 @@ export LANG=en_US.UTF-8
 echo webapp_ctl pre-4
 
 source /var/vcap/packages/common/utils.sh
+redirect_output 'webapp'
 
-echo webapp_ctl 5
+echo webapp_ctl pre-5
 
 case $1 in
 

@@ -9,6 +9,9 @@ RACKAPP_PACKAGE_DIR=/var/vcap/packages/rackapp
 RACKAPP_JOB_DIR=/var/vcap/jobs/webapp
 
 source /var/vcap/packages/common/utils.sh
+redirect_output 'nginx'
+
+echo nginx_ctl pre-3
 
 case $1 in
 
