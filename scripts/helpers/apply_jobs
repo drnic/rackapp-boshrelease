@@ -123,4 +123,10 @@ jobs.each do |job|
   stub_request(:get, "http://resources/job_app_blobstore?").to_return(:body => File.read(job_tgz))
 
   Bosh::Agent::Message::Apply.process([apply_spec])
+  
+  # TODO Need to rescue all job/*.monitrc files (and their symlinks)
+  # as next Apply.process will destroy them
+  # OR try multiple templates to deployment manifest
 end
+
+# TODO Restore all job/*.monitrc files and recreate symlinks
