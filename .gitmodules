@@ -1,0 +1,3 @@
+[submodule "src/todo"]
+	path = src/todo
+	url = git://github.com/engineyard/todo.git
