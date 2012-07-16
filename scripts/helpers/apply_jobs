@@ -112,7 +112,7 @@ jobs.each do |job|
   Bosh::Agent::Config.base_dir = base_dir
 
   # setup taken from apply_spec.rb in bosh/agent
-  Bosh::Agent::Config.setup({"logging" => { "file" => STDOUT, "level" => "DEBUG" }, "mbus" => nil, "blobstore_options" => {}})
+  Bosh::Agent::Config.setup({"logging" => { "file" => STDOUT, "level" => "WARN" }, "mbus" => nil, "blobstore_options" => {}})
   Bosh::Agent::Config.blobstore_provider = "simple"
   Bosh::Agent::Config.platform_name = "dummy"
 
