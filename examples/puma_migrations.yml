@@ -1,6 +1,6 @@
 ---
 properties:
-  description: "My Rack App: Using puma"
+  description: "Todo app: puma with migrations"
   webapp:
     run_migrations: 1
     appstack: puma
