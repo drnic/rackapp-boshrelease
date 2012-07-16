@@ -1,6 +1,8 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    addressable (2.2.8)
+    crack (0.1.8)
     ffi (1.0.11)
     kicker (2.6.1)
       listen
@@ -8,14 +10,20 @@ GEM
       rb-fchange (~> 0.0.5)
       rb-fsevent (~> 0.9.1)
       rb-inotify (~> 0.8.8)
+    rake (0.9.2.2)
     rb-fchange (0.0.5)
       ffi
     rb-fsevent (0.9.1)
     rb-inotify (0.8.8)
       ffi (>= 0.5.0)
+    webmock (1.8.7)
+      addressable (>= 2.2.7)
+      crack (>= 0.1.7)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   kicker
+  rake
+  webmock (~> 1.8.7)
