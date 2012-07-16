@@ -104,6 +104,11 @@ cd /vagrant
 ./scripts/tail_logs -f
 ```
 
+### Automatically update
+
+NOTE: This is WIP due to this vagrant/listen [issue](https://github.com/guard/listen/issues/53).
+
+If you run `/vagrant/scripts/autoupdate /vagrant/examples/rackonly.yml` within vagrant (as vagrant user), then it [should] automatically stop/install/configure/start the release whenever a new development release is created in the host machine.
 
 ## Run job manually
 
@@ -116,6 +121,8 @@ Job failing to start and you don't know why?
 /var/vcap/jobs/webapp/bin/webapp_ctl start
 /vagrant/scripts/tail_logs
 ```
+
+
 
 ## Issues
 
