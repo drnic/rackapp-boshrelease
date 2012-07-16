@@ -122,6 +122,9 @@ Job failing to start and you don't know why?
 If you have trouble accessing the ubuntu package servers, try changing `/etc/resolv.conf` to the following [[source](http://suranyami.com/fixing-temporary-failure-resolving-usarchiveu "Fixing &quot; Temporary failure resolving 'us.archive.ubuntu.com'&quot; in Ubuntu, Vagrant - Suranyami")]:
 
 ```
-nameserver 8.8.8.8
-nameserver 8.8.4.4
+sudo su -
+
+mv /etc/resolv.conf > /etc/resolv.conf.bak
+echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
+echo 'nameserver 8.8.4.4' >> /etc/resolv.conf
 ```
