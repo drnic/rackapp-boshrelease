@@ -8,8 +8,8 @@ DATA_DIR=/var/vcap/store/postgres
 RUN_DIR=/var/vcap/sys/run/postgres
 PIDFILE=$RUN_DIR/postgres.pid
 
-HOST=<%= properties.postgres.host %>
-PORT=<%= properties.postgres.port %>
+HOST='<%= properties.postgres.host %>'
+PORT='<%= properties.postgres.port %>'
 USER='<%= properties.postgres.user %>'
 PASSWORD='<%= properties.postgres.password %>'
 DBNAME='<%= properties.postgres.database %>'
