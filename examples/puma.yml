@@ -1,0 +1,9 @@
+---
+properties:
+  description: "My Rack App: Using puma"
+  webapp:
+    appstack: puma
+    puma:
+      threads:
+        min: 0
+        max: 20

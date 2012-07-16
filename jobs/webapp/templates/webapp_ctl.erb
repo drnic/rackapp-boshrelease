@@ -93,9 +93,18 @@ case $1 in
     echo webapp_ctl start-4
     echo "Launching webapp within $WEBAPP_DIR"
 
+    <% if properties.webapp && properties.webapp.appstack == 'puma' %>
+    <% puma_threads = properties.webapp.puma && properties.webapp.puma.threads %>
+    MIN_THREADS=<%= (puma_threads && puma_threads.min) || 0 %>
+    MAX_THREADS=<%= (puma_threads && puma_threads.max) || 16 %>
+    exec bundle exec puma -D --pidfile $PIDFILE -p $PORT -t $MIN_THREADS:$MAX_THREADS \
+         >>$LOG_DIR/webapp.stdout.log \
+         2>>$LOG_DIR/webapp.stderr.log || exit 1
+    <% else %>
     exec bundle exec rackup -D -P $PIDFILE -p $PORT \
          >>$LOG_DIR/webapp.stdout.log \
          2>>$LOG_DIR/webapp.stderr.log || exit 1
+    <% end %>
 
     echo webapp_ctl start-5
     chown vcap:vcap $PIDFILE
