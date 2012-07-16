@@ -7,16 +7,12 @@ set -e # exit immediately if a simple command exits with a non-zero status
 
 base_dir=/var/vcap
 
-sudo mkdir -p ${base_dir}
-sudo chown vcap:vcap ${base_dir}
-
 cd $(dirname $0)/..
 release_path=$(pwd)
 scripts=${release_path}/scripts
 
 # preserve env variables
 gem_home=$GEM_HOME; bundle_gemfile=$BUNDLE_GEMFILE; rubyopt=$RUBYOPT
-
 
 # iterate over sorted list of packages to install from `packages_to_install` script
 for package in $(${scripts}/helpers/packages_to_install)
