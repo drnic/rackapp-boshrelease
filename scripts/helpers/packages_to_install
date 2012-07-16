@@ -12,6 +12,8 @@ require "bundler/setup"
 $:.unshift("/bosh/cli/lib")
 require "cli"
 
+include Bosh::Cli::DependencyHelper # for tsort_packages
+
 # Convert a full host-machine file path (relative to release project)
 # into a full guest-machine file path
 # e.g.
@@ -34,6 +36,12 @@ release            = Bosh::Cli::Release.new(work_dir)
 host_manifest_path = release.latest_release_filename
 manifest_path      = local_manifest_path(host_manifest_path, work_dir)
 manifest           = YAML.load_file(manifest_path)
-manifest["packages"].each do |package|
-  puts package["name"]
+
+package_index = manifest["packages"].inject({}) do |index, package|
+  index[package["name"]] = package["dependencies"]
+  index
+end
+sorted_packages = tsort_packages(package_index)
+sorted_packages.each do |package_name|
+  puts package_name
 end
