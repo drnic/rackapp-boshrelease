@@ -9,5 +9,7 @@ cd $(dirname $0)/..
 release_path=$(pwd)
 scripts=${release_path}/scripts
 
+# TODO - add package's **/*.log too (e.g. webapps)
+
 log_dir=/var/vcap/sys/log
 find ${log_dir} -name "*.log"

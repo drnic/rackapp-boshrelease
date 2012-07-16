@@ -66,7 +66,6 @@ case $1 in
 
     echo "Linking database.yml"
     mv $WEBAPP_DIR/config/database.yml{,.orig}
-    ln -s $WEBAPP_JOB_DIR/config/database.yml 
     ln -s $WEBAPP_JOB_DIR/config/database.yml $WEBAPP_DIR/config/database.yml
 
     <% if properties.webapp && properties.webapp.run_migrations %>
@@ -81,6 +80,14 @@ case $1 in
     <% else %>
     echo "Skipping migrations"
     <% end %>
+    
+    <% if properties.webapp && properties.webapp.run_asset_compilation %>
+    echo "Running asset compilation"
+    bundle exec rake assets:precompile >>$LOG_DIR/assets_precompile.stdout.log 2>>$LOG_DIR/assets_precompile.stderr.log
+    <% else %>
+    echo "Skipping asset compilation"
+    <% end %>
+    
 
     ulimit -c unlimited
 

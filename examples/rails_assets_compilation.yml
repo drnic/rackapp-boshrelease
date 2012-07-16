@@ -1,0 +1,6 @@
+---
+properties:
+  description: "Rails 3.1+ asset compilation"
+  webapp:
+    run_migrations: 1
+    run_asset_compilation: 1
