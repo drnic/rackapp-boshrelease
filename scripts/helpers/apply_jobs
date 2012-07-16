@@ -40,12 +40,13 @@ rescue ArgumentError => e
   exit 1
 end
 
-release_name = "rackapp" # TODO what is it?
-
 latest_dev_release_path = `ls -t dev_releases/*-dev.yml`.lines.first.strip
 latest_dev_release = YAML.load_file(latest_dev_release_path)
-jobs = latest_dev_release["jobs"]
+
+release_name    = latest_dev_release["name"]
 release_version = latest_dev_release["version"]
+
+jobs = latest_dev_release["jobs"]
 
 # Create spec of all packages to be installed by all jobs
 #
