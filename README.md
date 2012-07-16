@@ -75,7 +75,7 @@ cd /vagrant
 ./scripts/tail_logs -f
 ```
 
-### Deploying new releases
+### Deploying new development releases
 
 Whenever you make changes to your BOSH release, including any applications included, then it is a simple process to create a new development release and deploy it into your vagrant VM:
 
@@ -86,6 +86,20 @@ bosh create release --force
 [inside vagrant as vcap user]
 /vagrant/scripts/update examples/rackonly.yml
 ```
+
+### Finalizing a release
+
+If you create a final release `bosh create release --final`, you must immediately create a new development release. Yeah, this is a bug I guess.
+
+```
+[outside vagrant]
+bosh create release --final
+bosh create release
+
+[inside vagrant as vcap user]
+/vagrant/scripts/update examples/rackonly.yml
+```
+
 
 ### Alternate configurations
 
