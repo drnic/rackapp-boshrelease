@@ -41,7 +41,7 @@ do
   echo Configuring job ${job} ${job_version}...
   
   job_install_path=${jobs_dir}/${job}/${job_version}
-  rm -rf ${job_install_path}
+  sudo rm -rf ${job_install_path}
   mkdir -p ${job_install_path}
   
   release_tgz=$(${scripts}/helpers/create_release_tgz ${release_path})
