@@ -6,7 +6,20 @@ This project is a BOSH release for `rackapp-boshrelease`.
 
 See example deployment scenarios in `/examples/` folder. Copy the `properties:` sections into your deployment manifest.
 
-## Dependencies
+## Preparation
+
+```
+git submodule update --init
+cd src/todo
+bundle
+bundle package
+cd ../rackapp
+bundle
+bundle package
+cd ../..
+```
+
+### Dependencies
 
 The bosh installation needs the following patches:
 
@@ -25,7 +38,6 @@ Desirable patches
 cd $BOSH_SRC
 git pull ssh://$(whoami)@reviews.cloudfoundry.org:29418/bosh refs/changes/19/7119/1
 ```
-
 
 ## Development with Vagrant
 
