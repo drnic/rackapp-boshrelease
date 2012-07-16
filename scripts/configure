@@ -3,6 +3,9 @@
 # Render job templates
 # Use example manifest for properties for template rendering
 
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
 manifest_template=$1
 if [[ ! -f ${manifest_template} ]]; then
   echo "USAGE: configure MANIFEST_TEMPLATE"
@@ -10,11 +13,6 @@ if [[ ! -f ${manifest_template} ]]; then
   exit 1
 fi
 
-set -e
-
-# release_tgz      = ARGV.shift
-
-# Pass rebuild=1 to force /tmp/release.tgz to be rebuilt
 
 base_dir=/var/vcap
 jobs_dir=${base_dir}/data/jobs
