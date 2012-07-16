@@ -1,6 +1,18 @@
 #!/usr/bin/env bash
 
+# Render job templates
+# Use example manifest for properties for template rendering
+
+manifest_template=$1
+if [[ ! -f ${manifest_template} ]]; then
+  echo "USAGE: configure MANIFEST_TEMPLATE"
+  echo "  # MANIFEST_TEMPLATE - YAML file, contains 'properties' key."
+  exit 1
+fi
+
 set -e
+
+# release_tgz      = ARGV.shift
 
 # Pass rebuild=1 to force /tmp/release.tgz to be rebuilt
 
@@ -36,7 +48,7 @@ do
   
   echo Applying job ${job} using release ${release_tgz}...
 
-  sudo ${scripts}/helpers/apply_jobs ${release_tgz} ${job_path} ${job_install_path} || exit 1
+  sudo ${scripts}/helpers/apply_jobs ${release_tgz} ${job_path} ${job_install_path} ${manifest_template} || exit 1
 done
 
 sudo chown vcap:vcap -R /var/vcap

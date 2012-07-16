@@ -33,7 +33,13 @@ require "agent"
 
 if manifest_path
   error_path_invalid('MANIFEST_PATH') unless File.exist?(manifest_path)
-  job_manifest = YAML.load_file(manifest_path)
+  begin
+    job_manifest = YAML.load_file(manifest_path)
+  rescue ArgumentError => e
+    $stderr.puts "Invalid YAML format for #{manifest_path}"
+    $stderr.puts e
+    exit 1
+  end
 end
 job_manifest ||= {
   "properties" => {
