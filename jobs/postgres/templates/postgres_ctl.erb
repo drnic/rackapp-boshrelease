@@ -51,13 +51,9 @@ case "$1" in
     echo "Starting PostgreSQL 9.0: "
     LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH $PACKAGE_DIR/bin/pg_ctl -o "-h $HOST -p $PORT" -w start -D $DATA_DIR -l "$DATA_DIR/pg_log/startup.log"
 
-    echo postgres_ctl start-5
-
     if [ $? == 0 ]; then
       echo "PostgreSQL 9.0 started successfully"
       head -n 1 $DATA_DIR/postmaster.pid > $PIDFILE
-
-      echo postgres_ctl start-6
 
       echo "Trying to create database..."
       LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH $PACKAGE_DIR/bin/createdb $DBNAME -p $PORT

@@ -13,4 +13,4 @@ properties:
     port: 5432
     user: todo
     password: p03tgR3s
-    dbname: todo
+    database: todo
