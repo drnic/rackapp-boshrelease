@@ -19,6 +19,12 @@ bundle package
 cd ../..
 ```
 
+To create a new BOSH release:
+
+```
+bosh create release
+```
+
 ### Dependencies
 
 The bosh installation needs the following patches:
