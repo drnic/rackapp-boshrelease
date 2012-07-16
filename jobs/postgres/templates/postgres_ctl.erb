@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+echo postgres_ctl pre-1
+
 PACKAGE_DIR=/var/vcap/packages/postgres
 JOB_DIR=/var/vcap/jobs/postgres
 DATA_DIR=/var/vcap/store/postgres
@@ -12,15 +14,27 @@ USER='<%= properties.postgres.user %>'
 PASSWORD='<%= properties.postgres.password %>'
 DBNAME='<%= properties.postgres.database %>'
 
+echo postgres_ctl pre-2
+
+source /var/vcap/packages/common/utils.sh
+redirect_output 'postgres'
+
+echo postgres_ctl pre-3
+
 case "$1" in
   start)
+    echo postgres_ctl start-1
+    
     mkdir -p $RUN_DIR
 
     if [ ! -d $DATA_DIR -o ! -f $DATA_DIR/postgresql.conf ]; then
+      echo postgres_ctl start-2
       mkdir -p $DATA_DIR
       chown vcap:vcap $DATA_DIR
 
       su - vcap -c "LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH $PACKAGE_DIR/bin/initdb -E utf8 -D $DATA_DIR"
+
+      echo postgres_ctl start-3
 
       if [ $? != 0 ]; then
         echo "ERROR: Unable to Initialize Postgres DB"
@@ -31,14 +45,19 @@ case "$1" in
 
       mkdir -p $DATA_DIR/pg_log
       chown vcap:vcap $DATA_DIR/pg_log
+      echo postgres_ctl start-4
     fi
 
     echo "Starting PostgreSQL 9.0: "
     su - vcap -c "LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH $PACKAGE_DIR/bin/pg_ctl -o \"-h $HOST -p $PORT\" -w start -D $DATA_DIR -l \"$DATA_DIR/pg_log/startup.log\""
 
+    echo postgres_ctl start-5
+
     if [ $? == 0 ]; then
       echo "PostgreSQL 9.0 started successfully"
       head -n 1 $DATA_DIR/postmaster.pid > $PIDFILE
+
+      echo postgres_ctl start-6
 
       echo "Trying to create database..."
       su - vcap -c "LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH $PACKAGE_DIR/bin/createdb $DBNAME -p $PORT"
@@ -49,6 +68,7 @@ case "$1" in
       echo "Trying to alter user (to change password)..."
       LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH $PACKAGE_DIR/bin/psql -d $DBNAME -p $PORT -U vcap -c "alter role \"$USER\" with password '$PASSWORD'"
 
+      echo postgres_ctl start-7
       exit 0
     else
       echo "The PostgreSQL server start seems to have some problems, please see logs for details."
