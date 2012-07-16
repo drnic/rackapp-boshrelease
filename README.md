@@ -4,25 +4,7 @@ This project is a BOSH release for `rackapp-boshrelease`.
 
 ## Properties
 
-To run migrations
-
-``` yaml
-properties:
-  webapp:
-    run_migrations: 1
-```
-
-To run nginx in front of the webapp, and pick one of `http_proxy`, `https_proxy` or `no_proxy` lines.
-
-``` yaml
-properties:
-  use_nginx: 1
-  env:
-    # http_proxy: 1
-    https_proxy: 1
-    # no_proxy: 1
-```
-
+See example deployment scenarios in `/examples/` folder. Copy the `properties:` sections into your deployment manifest.
 
 ## Dependencies
 
