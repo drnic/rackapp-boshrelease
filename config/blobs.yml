@@ -95,3 +95,11 @@ mysql/client-5.1.62-rel13.3-435-Linux-x86_64.tar.gz:
   object_id: 550498bd-044e-452f-8b2f-875d64116ea9
   sha: 6e5a17195831688a5f14f20aa5d9cd5d5f4164db
   size: 4105211
+postgres/postgres-9.0.3-1.amd64.tar.gz:
+  object_id: 2bec8f1b-c84b-462d-bfc4-1b4e840d06bc
+  sha: e47ee9c841ecde4df121f44df282aeb3c50a48d2
+  size: 16203511
+postgres/postgres-9.0.3-1.i386.tar.gz:
+  object_id: 07e981f8-7b0e-4be6-8d66-b6080dfa5593
+  sha: b2bde31e720eb219bfdc9f1b784f985ecca2cbfb
+  size: 15111387
