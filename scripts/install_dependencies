@@ -22,8 +22,8 @@ then
   bosh_users_password=vcap
   /usr/sbin/addgroup --system admin
   /usr/sbin/adduser --disabled-password --gecos Ubuntu vcap
-  echo \"vcap:${bosh_users_password}\" | /usr/sbin/chpasswd
-  echo \"root:${bosh_users_password}\" | /usr/sbin/chpasswd
+  echo "vcap:${bosh_users_password}" | /usr/sbin/chpasswd
+  echo "root:${bosh_users_password}" | /usr/sbin/chpasswd
 
   for grp in admin adm audio cdrom dialout floppy video plugdev dip
   do
@@ -41,16 +41,12 @@ else
   ${build_dir}/stages/bosh_monit/apply.sh ${work_path} || exit 1
 fi
 
-gem install bundler --no-ri --no-rdoc
+gem install bundler rake --no-ri --no-rdoc
 cd ${bosh_dir}
 rake bundle_install
 rake build
 
 cd ${release_path}
 bundle --local
-
-mkdir -p /var/vcap/bosh
-chmod 775 /var/vcap/bosh
-chown -R vcap:vcap /var/vcap
 
 cd ${release_path}
