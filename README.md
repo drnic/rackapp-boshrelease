@@ -71,8 +71,8 @@ Inside the VM:
 sudo /vagrant/scripts/install_dependencies
 sudo su - vcap
 cd /vagrant
-./scripts/update examples/rackonly.yml
-./scripts/tail_logs -f
+sudo ./scripts/update examples/puma_migrations_postgres.yml
+sudo ./scripts/tail_logs -f
 ```
 
 ### Deploying new development releases
@@ -85,7 +85,7 @@ bosh create release --force
 
 [inside vagrant as vcap user]
 cd /vagrant
-./scripts/update examples/rackonly.yml && ./scripts/tail_logs -f
+sudo ./scripts/update examples/puma_migrations_postgres.yml && sudo ./scripts/tail_logs -f
 ```
 
 All logs will be sent to the terminal so you can watch for any errors as quickly as possible.
@@ -100,7 +100,7 @@ bosh create release --final
 bosh create release
 
 [inside vagrant as vcap user]
-/vagrant/scripts/update examples/rackonly.yml
+/vagrant/scripts/update examples/puma_migrations_postgres.yml
 ```
 
 
@@ -131,7 +131,7 @@ Job failing to start and you don't know why?
 ```
 [inside vagrant as vcap]
 /vagrant/scripts/reset_logs
-/vagrant/scripts/configure examples/rackonly.yml
+/vagrant/scripts/configure examples/puma_migrations_postgres.yml
 /var/vcap/jobs/webapp/bin/webapp_ctl start
 /vagrant/scripts/tail_logs
 ```
