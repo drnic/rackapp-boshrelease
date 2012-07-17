@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/opt/ruby/bin/ruby
 
 # AIM: Install each job (and its packages, if not already installed) as if each being applied to own VM
 
