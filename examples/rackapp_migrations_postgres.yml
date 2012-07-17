@@ -1,0 +1,11 @@
+---
+properties:
+  description: "Todo app: puma, migrations and postgresql"
+  webapp:
+    run_migrations: 1
+  postgres:
+    host: 127.0.0.1
+    port: 5432
+    user: todo
+    password: p03tgR3s
+    database: todo
