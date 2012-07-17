@@ -8,6 +8,8 @@ DATA_DIR=/var/vcap/store/postgres
 RUN_DIR=/var/vcap/sys/run/postgres
 PIDFILE=$RUN_DIR/postgres.pid
 
+NAME_VERSION=$(bin/pg_ctl -V | head -n 1)
+
 HOST='<%= properties.postgres.host %>'
 PORT='<%= properties.postgres.port %>'
 USER='<%= properties.postgres.user %>'
@@ -38,11 +40,11 @@ case "$1" in
       chown vcap:vcap $DATA_DIR/pg_log
     fi
 
-    echo "Starting PostgreSQL 9.0: "
+    echo "Starting $NAME_VERSION: "
     su - vcap -c "LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH $PACKAGE_DIR/bin/pg_ctl -o \"-h $HOST -p $PORT\" -w start -D $DATA_DIR -l \"$DATA_DIR/pg_log/startup.log\""
 
     if [ $? == 0 ]; then
-      echo "PostgreSQL 9.0 started successfully"
+      echo "$NAME_VERSION started successfully"
       head -n 1 $DATA_DIR/postmaster.pid > $PIDFILE
 
       # These can fail when data already exists
@@ -68,7 +70,7 @@ case "$1" in
     ;;
 
   stop)
-    echo "Stopping PostgreSQL 9.0: "
+    echo "Stopping $NAME_VERSION: "
     PID=$(head -1 $PIDFILE)
     su - vcap -c "LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH $PACKAGE_DIR/bin/pg_ctl stop -m fast -w -D $DATA_DIR"
     while [ -e /proc/$PID ]; do sleep 0.1; done
