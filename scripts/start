@@ -3,7 +3,7 @@
 set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
 
-[ "$(whoami)" != 'vcap' ] && ( echo ERROR: run as vcap user; exit 1 )
+[ "$(whoami)" != 'root' ] && ( echo ERROR: run as root user; exit 1 )
 
 base_dir=/var/vcap
 jobs_dir=${base_dir}/data/jobs
@@ -13,7 +13,5 @@ release_path=$(pwd)
 scripts=${release_path}/scripts
 
 ${scripts}/helpers/start_monit
-
-sudo chown vcap:vcap -R /var/vcap
 
 echo "${scripts}/tail_logs -f  # tail all logs"

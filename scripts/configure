@@ -6,7 +6,7 @@
 set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
 
-[ "$(whoami)" != 'vcap' ] && ( echo ERROR: run as vcap user; exit 1 )
+[ "$(whoami)" != 'root' ] && ( echo ERROR: run as root user; exit 1 )
 
 manifest_template=$1
 if [[ ! -f ${manifest_template} ]]; then
@@ -50,5 +50,3 @@ do
 
   sudo ${scripts}/helpers/apply_jobs ${release_tgz} ${job_path} ${job_install_path} ${manifest_template} || exit 1
 done
-
-sudo chown vcap:vcap -R /var/vcap
