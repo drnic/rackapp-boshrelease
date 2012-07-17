@@ -30,7 +30,7 @@ Vagrant::Config.run do |config|
   local_bosh_src = ENV['BOSH_SRC'] || File.expand_path("../vendor/bosh", __FILE__)
   unless File.exist?(local_bosh_src)
     puts "Vendoring bosh source at #{local_bosh_src} (alternately use $BOSH_SRC for other local location)..."
-    `mkdir -p File.dirname(#{local_bosh_src})`
+    `mkdir -p #{File.dirname(local_bosh_src)}`
     `git clone git://github.com/cloudfoundry/bosh.git #{local_bosh_src}`
     `git pull ssh://drnic@reviews.cloudfoundry.org:29418/bosh refs/changes/26/7126/1`
     `git pull ssh://drnic@reviews.cloudfoundry.org:29418/bosh refs/changes/19/7119/1`
