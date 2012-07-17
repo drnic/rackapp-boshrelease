@@ -8,20 +8,10 @@ See example deployment scenarios in `/examples/` folder. Copy the `properties:` 
 
 ## Preparation
 
+To fetch submoduled sources, sync large blobs and create the first installable development BOSH release:
+
 ```
 git submodule update --init
-cd src/todo
-bundle
-bundle package
-cd ../rackapp
-bundle
-bundle package
-cd ../..
-```
-
-To create a new BOSH release:
-
-```
 bosh create release
 ```
 
