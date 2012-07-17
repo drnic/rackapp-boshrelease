@@ -48,6 +48,24 @@ export LANG=en_US.UTF-8
 source /var/vcap/packages/common/utils.sh
 redirect_output 'webapp'
 
+PG_PACKAGE_DIR=/var/vcap/package/postgres
+function database_ready() {
+  HOST='<%= properties.postgres.host %>'
+  PORT='<%= properties.postgres.port %>'
+  USER='<%= properties.postgres.user %>'
+  PASSWORD='<%= properties.postgres.password %>'
+  DBNAME='<%= properties.postgres.database %>'
+  LD_LIBRARY_PATH=$PG_PACKAGE_DIR/lib $PG_PACKAGE_DIR/bin/psql -d $DBNAME -p $PORT -U vcap -c "select 1;"
+}
+
+function wait_for_database() {
+  while [[ ! database_ready ]]
+  do
+    echo "Waiting for database availability"
+    sleep 1;
+  done
+}
+
 case $1 in
 
   start)
@@ -69,6 +87,8 @@ case $1 in
     ln -s $WEBAPP_JOB_DIR/config/database.yml $WEBAPP_DIR/config/database.yml
 
     <% if properties.webapp && properties.webapp.run_migrations %>
+    wait_for_database
+    
     echo "Running migrations"
     export WEBAPP_NOSTART=1
     bundle exec rake db:migrate >>$LOG_DIR/db_migrate.stdout.log 2>>$LOG_DIR/db_migrate.stderr.log
@@ -93,7 +113,8 @@ case $1 in
 
     cd $WEBAPP_DIR
     echo "Launching webapp within $WEBAPP_DIR"
-
+    wait_for_database
+    
     <% if properties.webapp && properties.webapp.appstack == 'puma' %>
     <% puma_threads = properties.webapp.puma && properties.webapp.puma.threads %>
     MIN_THREADS=<%= (puma_threads && puma_threads.min) || 0 %>
@@ -101,6 +122,7 @@ case $1 in
     exec bundle exec puma --pidfile $PIDFILE -p $PORT -t $MIN_THREADS:$MAX_THREADS \
          >>$LOG_DIR/webapp.stdout.log \
          2>>$LOG_DIR/webapp.stderr.log || exit 1
+
     <% else %>
     exec bundle exec rackup -D -P $PIDFILE -p $PORT \
          >>$LOG_DIR/webapp.stdout.log \

@@ -12,6 +12,7 @@ packages:
   - common
   - todo
   - libpq
+  - postgres
   - sqlite
   - mysqlclient
   - ruby

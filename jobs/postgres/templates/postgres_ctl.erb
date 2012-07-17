@@ -70,11 +70,17 @@ case "$1" in
     ;;
 
   stop)
-    echo "Stopping $NAME_VERSION: "
-    PID=$(head -1 $PIDFILE)
-    su - vcap -c "LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH $PACKAGE_DIR/bin/pg_ctl stop -m fast -w -D $DATA_DIR"
-    while [ -e /proc/$PID ]; do sleep 0.1; done
-    rm -f $PIDFILE
+    if [[ -f $PIDFILE ]]
+    then
+      echo "Stopping $NAME_VERSION: "
+      PID=$(head -1 $PIDFILE)
+      su - vcap -c "LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH $PACKAGE_DIR/bin/pg_ctl stop -m fast -w -D $DATA_DIR"
+      while [ -e /proc/$PID ]; do sleep 0.1; done
+      rm -f $PIDFILE
+    else
+      echo "Skipping stop, no PID file for $NAME_VERSION"
+      echo "May require manual shutdown of $NAME_VERSION process"
+    fi
     ;;
 
   status)
