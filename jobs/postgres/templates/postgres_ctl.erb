@@ -8,7 +8,7 @@ DATA_DIR=/var/vcap/store/postgres
 RUN_DIR=/var/vcap/sys/run/postgres
 PIDFILE=$RUN_DIR/postgres.pid
 
-NAME_VERSION=$(bin/pg_ctl -V | head -n 1)
+NAME_VERSION=$($PACKAGE_DIR/bin/pg_ctl -V | head -n 1)
 
 HOST='<%= properties.postgres.host %>'
 PORT='<%= properties.postgres.port %>'
