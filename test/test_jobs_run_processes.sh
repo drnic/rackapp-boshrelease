@@ -23,6 +23,23 @@ before() {
   rm -rf /var/vcap/store
 }
 
+# rackonly.yml
+it_rackonly_running() {
+  example=${release_path}/examples/rackonly.yml
+  ${scripts}/update ${example}
+
+  expected_webapp='rackup -D -P /var/vcap/sys/run/webapp/webapp.pid -p 5000'
+  no_expected_postgres='postgres'
+
+  # wait for webapp to start
+  sleep 3
+
+  # show last 20 processes (for debugging if test fails)
+  ps ax | tail -n 20
+
+  test $(ps ax | grep "${expected_webapp}" | grep -v 'grep' | wc -l) = 1
+  test $(ps ax | grep "${no_expected_postgres}" | grep -v 'grep' | wc -l) = 0
+}
 # puma_migrations_postgres.yml
 it_pg_and_puma_running() {
   example=${release_path}/examples/puma_migrations_postgres.yml
@@ -31,14 +48,11 @@ it_pg_and_puma_running() {
   expected_puma='puma --pidfile /var/vcap/sys/run/webapp/webapp.pid -p 5000 -t 0:20'
   expected_postgres='postgres -D /var/vcap/store/postgres -h 127.0.0.1 -p 5432'
 
-  sleep 8 # wait for postgres to setup DB & webapp to start
+  # wait for postgres to setup DB & webapp to start
+  sleep 8
 
-  ps ax
-  echo "show puma:"
-  ps ax | grep "${expected_puma}" | grep -v 'grep'
-  echo "show postgres:"
-  ps ax | grep "${expected_postgres}" | grep -v 'grep'
-  echo "now the tests..."
+  # show last 20 processes (for debugging if test fails)
+  ps ax | tail -n 20
 
   # test that there is one 'ps ax' line that matches for each expected_* above
   test $(ps ax | grep "${expected_puma}" | grep -v 'grep' | wc -l) = 1
