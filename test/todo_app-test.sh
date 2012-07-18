@@ -43,6 +43,11 @@ before() {
   fi
 }
 
+it_runs_webapp_behind_nginx() {
+  expected='nginx'
+  test $(ps ax | grep "${expected}" | grep -v 'grep' | wc -l) = 1
+}
+
 it_runs_webapp_using_puma() {
   expected='puma --pidfile /var/vcap/sys/run/webapp/webapp.pid -p 5000 -t 0:20'
   test $(ps ax | grep "${expected}" | grep -v 'grep' | wc -l) = 1
@@ -55,10 +60,10 @@ it_runs_postgres() {
 
 it_responds_to_root_path() {
   # expected="<title>Getting Things Done with Engine Yard AppCloud</title>"
-  test $(curl -s -i http://localhost:5000 | grep 'HTTP/1.1 200 OK' | wc -l) = 1
+  test $(curl -s -i http://localhost:80 | grep 'HTTP/1.1 200 OK' | wc -l) = 1
 }
 
 it_responds_to_javascript_asset() {
   # expected="<title>Getting Things Done with Engine Yard AppCloud</title>"
-  test $(curl -s -i http://localhost:5000/javascripts/jquery.js | grep 'HTTP/1.1 200 OK' | wc -l) = 1
+  test $(curl -s -i http://localhost:80/javascripts/jquery.js | grep 'HTTP/1.1 200 OK' | wc -l) = 1
 }

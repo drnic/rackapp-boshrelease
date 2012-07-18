@@ -1,4 +1,5 @@
 ---
 properties:
   description: "My Rack App: Using nginx in front of rackup"
-  use_nginx: 1
+  webapp:
+    use_nginx: 1

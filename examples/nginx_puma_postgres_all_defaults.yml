@@ -4,10 +4,21 @@ properties:
   webapp:
     package: todo
     use_nginx: 1
+    nginx:
+      port: 80
+      server_name: '_'
+      worker_processes: 1
+      client_inactivity_timeout: 30
+      app_inactivity_timeout: 30
     run_migrations: 1
     appstack: puma
+    puma:
+      threads:
+        min: 0
+        max: 20
   postgres:
     host: 127.0.0.1
+    port: 5432
     user: todo
     password: p03tgR3s
     database: todo

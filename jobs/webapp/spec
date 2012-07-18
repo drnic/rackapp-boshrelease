@@ -3,6 +3,7 @@ name: webapp
 templates:
   nginx_ctl:         bin/nginx_ctl
   nginx.conf.erb:    config/nginx.conf
+  nginx_proxy.conf:  config/nginx_proxy.conf
   mime.types:        config/mime.types
   appconfig.yml.erb: config/appconfig.yml
   database.yml.erb:  config/database.yml

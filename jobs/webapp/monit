@@ -4,7 +4,7 @@ check process webapp
   stop program "/var/vcap/packages/common/bin/monit_debugger '/var/vcap/jobs/webapp/bin/webapp_ctl stop'"
   group vcap
 
-<% if properties.use_nginx %>
+<% if properties.webapp && properties.webapp.use_nginx %>
 check process nginx
   with pidfile /var/vcap/sys/run/nginx/nginx.pid
   start program "/var/vcap/packages/common/bin/monit_debugger '/var/vcap/jobs/webapp/bin/nginx_ctl start'"
