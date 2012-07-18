@@ -36,6 +36,8 @@ before_all() {
   ps ax | tail -n 20
 }
 
+# before() is only hook into roundup
+# TODO add before_all() to roundup
 before() {
   if [ ! -f /tmp/before_all_run_already ]
   then
