@@ -2,6 +2,7 @@
 properties:
   description: "Todo app: puma, migrations and postgresql"
   webapp:
+    package: todo
     run_migrations: 1
   postgres:
     host: 127.0.0.1

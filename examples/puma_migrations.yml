@@ -2,6 +2,7 @@
 properties:
   description: "Todo app: puma with migrations"
   webapp:
+    package: todo
     run_migrations: 1
     appstack: puma
     puma:
