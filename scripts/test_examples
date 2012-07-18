@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+# Iterates through each examples/*yml to ensure that it is a valid example for this boshrelease;
+# or that the bosh release still works against all expected examples.
+
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+[ "$(whoami)" != 'root' ] && ( echo ERROR: run as root user; exit 1 )
+
+cd $(dirname $0)/..
+release_path=$(pwd)
+scripts=${release_path}/scripts
+
+examples=$(ls -R ${release_path}/examples/*.yml)
+
+echo "|"
+echo "| Stopping any existing jobs"
+echo "|"
+${scripts}/stop
+
+echo "|"
+echo "| Testing configuration template rendering"
+echo "|"
+for example in ${examples}
+do
+  ${scripts}/configure ${example}
+done
+
+echo "|"
+echo "| Testing full update & start sequences"
+echo "|"
+for example in ${examples}
+do
+  ${scripts}/update ${example}
+done
