@@ -28,6 +28,11 @@ do
   ${scripts}/configure ${example}
 done
 
+# TODO - there is no test/assertion below
+# Perhaps put "ps ax" expectations in the examples/*.yml?
+#
+#  expected_process='puma --pidfile /var/vcap/sys/run/webapp/webapp.pid -p 5000 -t 0:20'
+#  ps ax | grep "${expected_process}" | grep -v 'grep'
 for example in ${examples}
 do
   echo "|"

@@ -4,18 +4,25 @@ GEM
     addressable (2.2.8)
     crack (0.1.8)
     ffi (1.0.11)
+    hpricot (0.8.6)
     kicker (2.6.1)
       listen
     listen (0.4.7)
       rb-fchange (~> 0.0.5)
       rb-fsevent (~> 0.9.1)
       rb-inotify (~> 0.8.8)
+    mustache (0.99.4)
     rake (0.9.2.2)
     rb-fchange (0.0.5)
       ffi
     rb-fsevent (0.9.1)
     rb-inotify (0.8.8)
       ffi (>= 0.5.0)
+    rdiscount (1.6.8)
+    ronn (0.7.3)
+      hpricot (>= 0.8.2)
+      mustache (>= 0.7.0)
+      rdiscount (>= 1.5.8)
     webmock (1.8.7)
       addressable (>= 2.2.7)
       crack (>= 0.1.7)
@@ -26,4 +33,5 @@ PLATFORMS
 DEPENDENCIES
   kicker
   rake
+  ronn
   webmock (~> 1.8.7)
