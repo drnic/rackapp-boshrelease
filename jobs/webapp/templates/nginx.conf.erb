@@ -82,7 +82,7 @@ http {
     #
     # The application root which is inherited for all location blocks below.
     #
-    root /var/vcap/packages/<%= package_name %>/<%= package_name %>/current/public;
+    root /var/vcap/packages/<%= package_name %>/<%= package_name %>/public;
 
     #
     # Logging
@@ -100,6 +100,12 @@ http {
     location ~ ^/(images|assets|javascripts|stylesheets)/ {
       try_files  $uri $uri/index.html /last_assets/$uri /last_assets/$uri.html @app_<%= package_name %>;
       expires 10y;
+    }
+
+    # For Puma, simply proxy
+    location @app_<%= package_name %> {
+      include /var/vcap/jobs/webapp/config/nginx_proxy.conf;
+      proxy_pass http://<%= package_name %>_upstream;
     }
 
     #
@@ -123,12 +129,6 @@ http {
       rewrite ^(.*)$ /system/maintenance.html break;
     }
     error_page 503 /system/maintenance.html;
-
-    # For Puma, simply proxy
-    location @app_<%= package_name %> {
-      include /var/vcap/jobs/webapp/config/nginx_proxy.conf;
-      proxy_pass http://<%= package_name %>_upstream;
-    }
 
     #
     # The default location will process the request as follows:
