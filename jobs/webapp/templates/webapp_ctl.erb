@@ -50,12 +50,16 @@ redirect_output 'webapp'
 
 PG_PACKAGE_DIR=/var/vcap/package/postgres
 function database_ready() {
+  <% if properties.postgres %>
   HOST='<%= properties.postgres.host %>'
   PORT='<%= properties.postgres.port %>'
   USER='<%= properties.postgres.user %>'
   PASSWORD='<%= properties.postgres.password %>'
   DBNAME='<%= properties.postgres.database %>'
   LD_LIBRARY_PATH=$PG_PACKAGE_DIR/lib $PG_PACKAGE_DIR/bin/psql -d $DBNAME -p $PORT -U vcap -c "select 1;"
+  <% else %>
+  echo 'No database configured'
+  <% end %>
 }
 
 function wait_for_database() {
