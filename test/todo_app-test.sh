@@ -17,7 +17,6 @@ before_all() {
   echo "|"
   echo "| Stopping any existing jobs"
   echo "|"
-  /var/vcap/bosh/bin/monit quit
   ${scripts}/stop
 
   echo "|"
