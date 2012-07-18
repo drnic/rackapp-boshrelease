@@ -11,7 +11,7 @@ PIDFILE=$RUN_DIR/postgres.pid
 NAME_VERSION=$($PACKAGE_DIR/bin/pg_ctl -V | head -n 1)
 
 HOST='<%= properties.postgres.host %>'
-PORT='<%= properties.postgres.port %>'
+PORT='<%= properties.postgres.port || 5432 %>'
 USER='<%= properties.postgres.user %>'
 PASSWORD='<%= properties.postgres.password %>'
 DBNAME='<%= properties.postgres.database %>'
@@ -96,7 +96,7 @@ esac
 echo properties.postgres not configured
 echo required properties:
 echo * properties.postgres.host
-echo * properties.postgres.port
+echo * properties.postgres.port (default: 5432)
 echo * properties.postgres.user
 echo * properties.postgres.password
 echo * properties.postgres.database

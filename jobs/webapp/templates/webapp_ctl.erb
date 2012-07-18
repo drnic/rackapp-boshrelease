@@ -52,7 +52,7 @@ PG_PACKAGE_DIR=/var/vcap/package/postgres
 function database_ready() {
   <% if properties.postgres %>
   HOST='<%= properties.postgres.host %>'
-  PORT='<%= properties.postgres.port %>'
+  PORT='<%= properties.postgres.port || 5432 %>'
   USER='<%= properties.postgres.user %>'
   PASSWORD='<%= properties.postgres.password %>'
   DBNAME='<%= properties.postgres.database %>'

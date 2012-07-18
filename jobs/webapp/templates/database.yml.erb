@@ -4,7 +4,7 @@ production:
   encoding: unicode
   database: '<%= properties.postgres.database %>'
   host:     '<%= properties.postgres.host %>'
-  port:     '<%= properties.postgres.port %>'
+  port:     '<%= properties.postgres.port || 5432 %>'
   username: '<%= properties.postgres.user %>'
   password: '<%= properties.postgres.password %>'
   pool: 5

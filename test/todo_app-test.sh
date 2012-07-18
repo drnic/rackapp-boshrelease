@@ -17,6 +17,7 @@ before_all() {
   echo "|"
   echo "| Stopping any existing jobs"
   echo "|"
+  /var/vcap/bosh/bin/monit quit
   ${scripts}/stop
 
   echo "|"
@@ -29,7 +30,7 @@ before_all() {
   ${scripts}/update ${example}
 
   # wait for postgres to setup DB & webapp to start
-  sleep 8
+  sleep 15
   
   # show last 20 processes (for debugging if test fails)
   ps ax | tail -n 20
@@ -44,12 +45,12 @@ before() {
 }
 
 it_runs_webapp_behind_nginx() {
-  expected='nginx'
+  expected='sbin/nginx -c /var/vcap/jobs/webapp/config/nginx.conf'
   test $(ps ax | grep "${expected}" | grep -v 'grep' | wc -l) = 1
 }
 
 it_runs_webapp_using_puma() {
-  expected='puma --pidfile /var/vcap/sys/run/webapp/webapp.pid -p 5000 -t 0:20'
+  expected='puma --pidfile /var/vcap/sys/run/webapp/webapp.pid -p 5000 -t 0:16'
   test $(ps ax | grep "${expected}" | grep -v 'grep' | wc -l) = 1
 }
 
