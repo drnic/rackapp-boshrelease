@@ -19,18 +19,20 @@ echo "| Stopping any existing jobs"
 echo "|"
 ${scripts}/stop
 
-echo "|"
-echo "| Testing configuration template rendering"
-echo "|"
 for example in ${examples}
 do
+  echo "|"
+  echo "| Testing configuration template rendering:"
+  echo "| * ${example}"
+  echo "|"
   ${scripts}/configure ${example}
 done
 
-echo "|"
-echo "| Testing full update & start sequences"
-echo "|"
 for example in ${examples}
 do
+  echo "|"
+  echo "| Testing full update & start sequences:"
+  echo "| * ${example}"
+  echo "|"
   ${scripts}/update ${example}
 done
