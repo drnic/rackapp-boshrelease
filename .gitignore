@@ -15,3 +15,4 @@ blobs/*
 #*
 .vagrant
 vendor/bosh
+.roundup*
