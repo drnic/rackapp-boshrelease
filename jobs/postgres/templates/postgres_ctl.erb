@@ -1,5 +1,5 @@
 #!/bin/bash -e
-
+<% if properties.postgres %> # do nothing if postgres not configured
 set -e # exit immediately if a simple command exits with a non-zero status
 
 PACKAGE_DIR=/var/vcap/packages/postgres
@@ -92,3 +92,12 @@ case "$1" in
     exit 1
     ;;
 esac
+<% else %>
+echo properties.postgres not configured
+echo required properties:
+echo * properties.postgres.host
+echo * properties.postgres.port
+echo * properties.postgres.user
+echo * properties.postgres.password
+echo * properties.postgres.database
+<% end %>
