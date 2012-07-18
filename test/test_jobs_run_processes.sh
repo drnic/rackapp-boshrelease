@@ -23,6 +23,12 @@ before() {
   rm -rf /var/vcap/store
 }
 
+# it_regexp() {
+#   output="Hello from your rack app is awesome"
+#   expected="Hello from your rack app"
+#   if [[ ${output} =~ ${expected} ]]; then true; else false; fi
+# }
+
 # rackonly.yml
 it_rackonly_running() {
   example=${release_path}/examples/rackonly.yml
@@ -32,16 +38,21 @@ it_rackonly_running() {
   no_expected_postgres='postgres'
 
   # wait for webapp to start
-  sleep 3
-
+  sleep 6
+  
   # show last 20 processes (for debugging if test fails)
   ps ax | tail -n 20
-
+  
   test $(ps ax | grep "${expected_webapp}" | grep -v 'grep' | wc -l) = 1
   test $(ps ax | grep "${no_expected_postgres}" | grep -v 'grep' | wc -l) = 0
+  
+  output=$(curl http://localhost:5000)
+  expected="Hello from your rack app! Aren't kids fun."
+  test "${output}" = "${expected}"
 }
+
 # puma_migrations_postgres.yml
-it_pg_and_puma_running() {
+Xit_pg_and_puma_running() {
   example=${release_path}/examples/puma_migrations_postgres.yml
   ${scripts}/update ${example}
 
@@ -50,11 +61,17 @@ it_pg_and_puma_running() {
 
   # wait for postgres to setup DB & webapp to start
   sleep 8
-
+  
   # show last 20 processes (for debugging if test fails)
   ps ax | tail -n 20
-
+  
   # test that there is one 'ps ax' line that matches for each expected_* above
   test $(ps ax | grep "${expected_puma}" | grep -v 'grep' | wc -l) = 1
   test $(ps ax | grep "${expected_postgres}" | grep -v 'grep' | wc -l) = 1
+
+  output=$(curl http://localhost:5000)
+  expected="<title>Getting Things Done with Engine Yard AppCloud</title>"
+  # [[ ${output} =~ ${expected} ]]
+  
 }
+
