@@ -17,4 +17,4 @@ packages:
   - sqlite
   - mysqlclient
   - ruby
-  - nginx
+  - nginx_next
