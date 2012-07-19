@@ -1,4 +1,7 @@
 ---
+jobs:
+  - phpfpm
+  - postgres
 properties:
   description: "Wordpress, nginx and postgresql"
   webapp:

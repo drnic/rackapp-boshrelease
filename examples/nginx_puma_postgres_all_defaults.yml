@@ -1,4 +1,7 @@
 ---
+jobs:
+  - webapp
+  - postgres
 properties:
   description: "Todo app: puma, migrations and postgresql"
   webapp:

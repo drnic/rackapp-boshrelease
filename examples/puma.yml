@@ -1,4 +1,6 @@
 ---
+jobs:
+  - webapp
 properties:
   description: "My Rack App: Using puma"
   webapp:

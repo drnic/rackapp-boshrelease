@@ -1,6 +1,8 @@
 ---
+jobs:
+  - webapp
 properties:
-  description: "Todo app: puma with migrations"
+  description: "Todo app: puma, sqlite with migrations"
   webapp:
     package: todo
     run_migrations: 1
