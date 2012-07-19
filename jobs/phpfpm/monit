@@ -1,7 +1,7 @@
 check process phpfpm
   with pidfile /var/vcap/sys/run/phpfpm/phpfpm_ctl.pid
-  start program "/var/vcap/jobs/phpfpm/bin/phpfpm_ctl start"
-  stop program "/var/vcap/jobs/phpfpm/bin/phpfpm_ctl stop"
+  start program "/var/vcap/packages/common/bin/monit_debugger phpfpm_ctl /var/vcap/jobs/phpfpm/bin/phpfpm_ctl start"
+  stop program "/var/vcap/packages/common/bin/monit_debugger phpfpm_ctl /var/vcap/jobs/phpfpm/bin/phpfpm_ctl stop"
   group vcap
 
 <% if properties.webapp && properties.webapp.use_nginx %>

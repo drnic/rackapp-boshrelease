@@ -24,7 +24,7 @@
 ; Pid file
 ; Note: the default prefix is /opt/php5/var
 ; Default Value: none
-pid = run/php-fpm.pid
+pid = /var/vcap/sys/run/phpfpm/phpfpm.pid
 
 ; Error log file
 ; Note: the default prefix is /opt/php5/var
@@ -95,8 +95,8 @@ pid = run/php-fpm.pid
 ;                            specific port;
 ;   '/path/to/unix/socket' - to listen on a unix socket.
 ; Note: This value is mandatory.
-;listen = 127.0.0.1:9000
-listen = /var/run/php5-fpm.socket
+listen = 127.0.0.1:9000
+;listen = /var/run/php5-fpm.socket
 
 ; Set listen(2) backlog. A value of '-1' means unlimited.
 ; Default Value: 128 (-1 on FreeBSD and OpenBSD)
@@ -122,8 +122,8 @@ listen = /var/run/php5-fpm.socket
 ; Unix user/group of processes
 ; Note: The user is mandatory. If the group is not set, the default user's group
 ;       will be used.
-user = www-data
-group = www-data
+user  = vcap
+group = vcap
 
 ; Choose how the process manager will control the number of child processes.
 ; Possible Values:
@@ -281,9 +281,9 @@ pm.status_path = /status
 ; Default Value: clean env
 ;env[HOSTNAME] = $HOSTNAME
 ;env[PATH] = /usr/local/bin:/usr/bin:/bin
-;env[TMP] = /tmp
-;env[TMPDIR] = /tmp
-;env[TEMP] = /tmp
+env[TMP] = /var/vcap/data/phpfpm/tmp
+env[TMPDIR] = /var/vcap/data/phpfpm/tmp
+env[TEMP] = /var/vcap/data/phpfpm/tmp
 
 ; Additional php.ini defines, specific to this pool of workers. These settings
 ; overwrite the values previously defined in the php.ini. The directives are the

@@ -23,11 +23,6 @@ case $1 in
       mkdir -p $UPLOADS_DIR
     fi
 
-    if [ ! -d "$STAGED_UPLOADS_DIR" ]
-    then
-      mkdir -p $STAGED_UPLOADS_DIR
-    fi
-
     exec /var/vcap/packages/nginx_next/sbin/nginx \
          -c /var/vcap/jobs/phpfpm/config/nginx.conf \
          >>$LOG_DIR/nginx.stdout.log \
