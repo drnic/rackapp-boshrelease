@@ -103,3 +103,7 @@ postgres/postgres-9.0.3-1.i386.tar.gz:
   object_id: 07e981f8-7b0e-4be6-8d66-b6080dfa5593
   sha: b2bde31e720eb219bfdc9f1b784f985ecca2cbfb
   size: 15111387
+php5/php-5.3.10.tar.gz:
+  object_id: 73d8d89c-b3c0-4f7e-9c98-3d1438bacaac
+  sha: e36b75b6193ad593377a9ff5bad8945136a4d57b
+  size: 15390163
