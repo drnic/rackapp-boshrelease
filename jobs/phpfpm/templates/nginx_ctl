@@ -37,9 +37,7 @@ case $1 in
 
   stop)
     echo "Stopping nginx"
-    kill_and_wait $OTHER_PIDFILE
-    # kill_and_wait $PIDFILE
-    # TODO why is nginx dropping this additional pidfile?
+    kill_and_wait $PIDFILE
     ;;
 
   *)
