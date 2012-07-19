@@ -56,9 +56,11 @@ function database_ready() {
   USER='<%= properties.postgres.user %>'
   PASSWORD='<%= properties.postgres.password %>'
   DBNAME='<%= properties.postgres.database %>'
+  echo Testing postgresl: psql -d $DBNAME -p $PORT -U vcap -c "select 1;"
   LD_LIBRARY_PATH=$PG_PACKAGE_DIR/lib $PG_PACKAGE_DIR/bin/psql -d $DBNAME -p $PORT -U vcap -c "select 1;"
   <% else %>
   echo 'No database configured'
+  true
   <% end %>
 }
 
