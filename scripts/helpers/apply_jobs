@@ -114,7 +114,7 @@ end
 
 saved_symlinks = {}
 jobs.each do |job|
-  puts "Installing job #{job.inspect}"
+  puts "Applying job #{job.inspect}"
   # if $package_version contains a decimal point, then its a dev build (.dev_builds),
   # else a finalized package
   job_version = job['version'].to_s
