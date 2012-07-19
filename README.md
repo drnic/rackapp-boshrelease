@@ -114,19 +114,15 @@ NOTE: This is WIP due to this vagrant/listen [issue](https://github.com/guard/li
 
 If you run `/vagrant/scripts/autoupdate /vagrant/examples/rackonly.yml` within vagrant (as vagrant user), then it [should] automatically stop/install/configure/start the release whenever a new development release is created in the host machine.
 
-## Run job manually
+## Tests
 
-Job failing to start and you don't know why?
+Tests are a WIP. Here is the current test script and how to run it. If it fails, all the log files will be displayed.
 
 ```
-[inside vagrant as vcap]
-/vagrant/scripts/reset_logs
-/vagrant/scripts/configure examples/puma_migrations_postgres.yml
-/var/vcap/jobs/webapp/bin/webapp_ctl start
-/vagrant/scripts/tail_logs
+[inside vagrant as root]
+cd /vagrant
+roundup test/todo_app-test.sh || ./scripts/tail_logs -n 200
 ```
-
-
 
 ## Issues
 
