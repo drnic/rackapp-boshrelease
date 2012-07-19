@@ -1,0 +1,52 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+APP_PACKAGE='<%= properties.webapp && properties.webapp.package || "wordpress" %>' # which bosh package contains the rackapp/webapp
+export PORT=5000
+
+export PATH=/var/vcap/packages/php5/bin:$PATH
+
+export WEBAPP_JOB_DIR=/var/vcap/jobs/phpfpm
+WEBAPP_DIR=/var/vcap/packages/$APP_PACKAGE
+
+RUN_DIR=/var/vcap/sys/run/phpfpm
+LOG_DIR=/var/vcap/sys/log/phpfpm
+PIDFILE=$RUN_DIR/phpfpm.pid
+
+export TMPDIR=/var/vcap/data/phpfpm/tmp
+
+case $1 in
+
+  start)
+    pid_guard $PIDFILE "webapp"
+
+    mkdir -p $RUN_DIR
+    mkdir -p $LOG_DIR
+    mkdir -p $TMPDIR
+
+    chown vcap:vcap $RUN_DIR
+    chown vcap:vcap $LOG_DIR
+    chown vcap:vcap $TMPDIR
+
+    cd $WEBAPP_DIR
+
+    # TODO postgres config db.php
+    # link wordpress config file into wordpress package
+    if [ ! -f /var/vcap/packages/$APP_PACKAGE/wp-config.php ]; then
+      ln -s /var/vcap/jobs/$APP_PACKAGE/config/wp-config.php \
+        /var/vcap/packages/$APP_PACKAGE/wp-config.php
+    fi
+
+    # TODO launch php-fpm on $PORT
+    ;;
+
+  stop)
+    kill_and_wait $PIDFILE
+    ;;
+
+  *)
+  echo "Usage: ${JOB}_ctl {start|stop}" ;;
+esac
+exit 0

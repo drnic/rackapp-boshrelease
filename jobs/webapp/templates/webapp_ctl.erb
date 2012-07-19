@@ -11,8 +11,7 @@ export PORT=5000
 export PATH=/var/vcap/packages/ruby/bin:$PATH
 
 export WEBAPP_JOB_DIR=/var/vcap/jobs/webapp
-WEBAPP_PACKAGE_DIR=/var/vcap/packages/$APP_PACKAGE
-WEBAPP_DIR=$WEBAPP_PACKAGE_DIR/$APP_PACKAGE
+WEBAPP_DIR=/var/vcap/packages/$APP_PACKAGE
 
 RUN_DIR=/var/vcap/sys/run/webapp
 LOG_DIR=/var/vcap/sys/log/webapp
@@ -75,7 +74,6 @@ function wait_for_database() {
 case $1 in
 
   start)
-    echo pid_guard $PIDFILE "webapp"
     pid_guard $PIDFILE "webapp"
 
     mkdir -p $RUN_DIR

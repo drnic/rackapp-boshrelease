@@ -10,3 +10,12 @@ properties:
     user: todo
     password: p03tgR3s
     database: todo
+  wordpress:
+    auth_key: auth_key
+    secure_auth_key: secure_auth_key
+    logged_in_key: logged_in_key
+    nonce_key: nonce_key
+    auth_salt: auth_salt
+    secure_auth_salt: secure_auth_salt
+    logged_in_salt: logged_in_salt
+    nonce_salt: nonce_salt
