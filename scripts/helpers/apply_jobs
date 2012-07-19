@@ -104,6 +104,14 @@ Dir[compiled_packages_path + "*"].each do |compiled_package_path|
   stub_request(:get, "http://resources/#{fake_blobstore_id}?").to_return(:body => File.read(latest_compiled_package))
 end
 
+# Clear out monit symlinks
+# Normally BOSH agent does this, but we're managing
+# monitrc symlinks manually so that we can
+# install multiple jobs into same VM
+Dir["/var/vcap/monit/job/*"].each do |f|
+  FileUtils.rm_rf(f)
+end
+
 saved_symlinks = {}
 jobs.each do |job|
   puts "Installing job #{job.inspect}"
