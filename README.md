@@ -121,8 +121,11 @@ Tests are a WIP. Here is the current test script and how to run it. If it fails,
 ```
 [inside vagrant as root]
 cd /vagrant
-roundup test/todo_app-test.sh || ./scripts/tail_logs -n 200
+./test/todo_app-test.sh || ./scripts/tail_error_logs -n 200
+./test/wordpress-test.sh || ./scripts/tail_error_logs -n 200
 ```
+
+The test scripts use [roundup](http://bmizerany.github.com/roundup/ "roundup"), which is installed via `scripts/install_dependencies`.
 
 ### Clear out logs
 

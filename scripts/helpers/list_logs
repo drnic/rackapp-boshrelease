@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
 # Lists all *.log files for jobs and monit
+# Usage:
+# list_logs        - lists all *.log files for jobs and monit
+# list_logs errors - lists all *err*.log files for jobs and monit
 
 set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
@@ -13,4 +16,13 @@ scripts=${release_path}/scripts
 
 log_dir=/var/vcap/sys/log
 mkdir -p ${log_dir}
-find ${log_dir} -name "*.log"
+
+action=${1:-all}
+if [[ ${action} = 'errors' ]]
+then
+  find ${log_dir} -name "monit_debugger*.log"
+  find ${log_dir} -name "*err*.log"
+else
+  find ${log_dir} -name "*.log"
+fi
+
