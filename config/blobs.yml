@@ -107,3 +107,7 @@ php5/php-5.3.10.tar.gz:
   object_id: 73d8d89c-b3c0-4f7e-9c98-3d1438bacaac
   sha: e36b75b6193ad593377a9ff5bad8945136a4d57b
   size: 15390163
+php5/php-5.4.4.tar.gz:
+  object_id: c0a78270-5c61-4d9c-a989-166633d7966e
+  sha: 5b218c805078dca5925bef26bb3fb7a9cf98a940
+  size: 14060505
