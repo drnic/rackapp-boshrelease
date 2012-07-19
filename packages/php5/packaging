@@ -17,9 +17,9 @@ cd php-${PHP_VERSION}
   --with-pgsql=$PG_ROOT \
   --with-pdo-pgsql=$PG_ROOT \
   --enable-fpm \
-  --with-openssl
+  --with-openssl \
+  --with-pear
   # --enable-gd-native-ttf \
-  # --with-pear \
   # --with-freetype \
   # --with-zlib \
   # --enable-mbstring \
