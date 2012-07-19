@@ -44,10 +44,15 @@ case $1 in
       ln -s $WEBAPP_JOB_DIR/config/wp-config.php $WEBAPP_DIR/wp-config.php
     fi
 
-    # TODO postgres config db.php
-    echo "Starting php-fpm --fpm-config $WEBAPP_JOB_DIR/config/php-fpm.conf"
+    JOB_PHP_INI=$WEBAPP_JOB_DIR/etc/php.ini
 
-    /var/vcap/packages/php5/sbin/php-fpm --fpm-config $WEBAPP_JOB_DIR/config/php-fpm.conf
+    # TODO postgres config db.php
+    echo "Starting php-fpm -c $WEBAPP_JOB_DIR/etc/php.ini --fpm-config $WEBAPP_JOB_DIR/etc/php-fpm.conf --pid $PIDFILE"
+
+    /var/vcap/packages/php5/sbin/php-fpm \
+      -c $WEBAPP_JOB_DIR/etc/php.ini \
+      --fpm-config $WEBAPP_JOB_DIR/etc/php-fpm.conf \
+      --pid $PIDFILE
     
     echo "Done"
     ;;

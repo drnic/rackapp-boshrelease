@@ -2,13 +2,13 @@
 name: phpfpm
 templates:
   nginx_ctl:          bin/nginx_ctl
+  phpfpm_ctl.erb:     bin/phpfpm_ctl
   nginx.conf.erb:     config/nginx.conf
   nginx_proxy.conf:   config/nginx_proxy.conf
   mime.types:         config/mime.types
-  phpfpm_ctl.erb:     bin/phpfpm_ctl
   wp-config.php.erb:  config/wp-config.php
-  php.ini:            config/php.ini
-  php-fpm.conf.erb:   config/php-fpm.conf
+  php.ini:            etc/php.ini
+  php-fpm.conf.erb:   etc/php-fpm.conf
 packages:
   - wordpress
   - php5
