@@ -124,6 +124,21 @@ cd /vagrant
 roundup test/todo_app-test.sh || ./scripts/tail_logs -n 200
 ```
 
+### Clear out logs
+
+You can reset all logs to empty size
+
+```
+./scripts/reset_logs
+```
+
+You can also stop all processes and delete all logs.
+
+```
+./scripts/stop 
+./scripts/helpers/list_logs | xargs rm
+```
+
 ## Issues
 
 If you have trouble accessing the ubuntu package servers, try changing `/etc/resolv.conf` to the following [[source](http://suranyami.com/fixing-temporary-failure-resolving-usarchiveu "Fixing &quot; Temporary failure resolving 'us.archive.ubuntu.com'&quot; in Ubuntu, Vagrant - Suranyami")]:
