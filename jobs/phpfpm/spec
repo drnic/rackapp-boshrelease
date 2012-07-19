@@ -8,6 +8,7 @@ templates:
   phpfpm_ctl.erb:     bin/phpfpm_ctl
   wp-config.php.erb:  config/wp-config.php
   php.ini:            config/php.ini
+  php-fpm.conf:       config/php-fpm.conf
 packages:
   - wordpress
   - php5
