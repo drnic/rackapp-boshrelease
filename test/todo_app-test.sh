@@ -71,5 +71,5 @@ it_responds_to_javascript_asset() {
 }
 
 it_restarted_nginx() {
-  test $(cat /var/vcap/sys/log/nginx/nginx.stderr.log | wc -l) = 0
+  test $(cat /var/vcap/sys/log/webapp/nginx.stderr.log | wc -l) = 0
 }

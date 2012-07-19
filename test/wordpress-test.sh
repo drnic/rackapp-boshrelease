@@ -65,5 +65,5 @@ it_responds_to_root_path() {
 }
 
 it_restarted_nginx() {
-  test $(cat /var/vcap/sys/log/nginx/nginx.stderr.log | wc -l) = 0
+  test $(cat /var/vcap/sys/log/phpfpm/nginx.stderr.log | wc -l) = 0
 }

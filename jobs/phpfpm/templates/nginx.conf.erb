@@ -88,10 +88,10 @@ http {
     #
     # Logging
     #
-    # Log files are stored within the /var/log/engineyard/nginx/ directory.
+    # Log files are stored within the /var/vcap/sys/log/phpfpm/ directory.
     #
-    access_log  /var/vcap/sys/log/nginx/<%= package_name %>.access.log  main;
-    error_log   /var/vcap/sys/log/nginx/<%= package_name %>.error.log notice;
+    access_log  /var/vcap/sys/log/phpfpm/<%= package_name %>.access.log  main;
+    error_log   /var/vcap/sys/log/phpfpm/<%= package_name %>.error.log notice;
 
     #
     # Expire header on assets. For more information on the reasoning behind
