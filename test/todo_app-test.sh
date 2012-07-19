@@ -69,3 +69,7 @@ it_responds_to_javascript_asset() {
   # expected="<title>Getting Things Done with Engine Yard AppCloud</title>"
   test $(curl -s -i http://localhost:80/javascripts/jquery.js | grep 'HTTP/1.1 200 OK' | wc -l) = 1
 }
+
+it_restarted_nginx() {
+  test $(cat /var/vcap/sys/log/nginx/nginx.stderr.log | wc -l) = 0
+}
