@@ -7,6 +7,7 @@
 
 user vcap vcap;
 worker_processes <%= properties.webapp.nginx.worker_processes || 1 %>;
+pid /var/vcap/sys/run/webapp/nginx.pid;
 
 events {
   worker_connections  8192;
