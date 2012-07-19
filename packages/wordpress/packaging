@@ -2,7 +2,15 @@
 set -e
 
 echo "Extracting wordpress..."
+echo from $(pwd)
+ls -al
 tar xzf wordpress/wordpress-3.3.1.tgz
+
+# http://wordpress.org/extend/plugins/postgresql-for-wordpress/installation/
+echo "Extracting wordpress for postgresql..."
+unzip wordpress/postgresql-for-wordpress.1.3.0.zip
+cp -a postgresql-for-wordpress/pg4wp wordpress/wp-content/
+cp wordpress/wp-content/pg4wp/db.php wordpress/wp-content/
 
 cd wordpress
 cp -a . ${BOSH_INSTALL_TARGET}
@@ -10,5 +18,7 @@ cp -a . ${BOSH_INSTALL_TARGET}
 # remove sample as we populate it with a real config from the job
 rm ${BOSH_INSTALL_TARGET}/wp-config-sample.php
 
-# clean up tar ball
+
+# clean up archives
 rm ${BOSH_INSTALL_TARGET}/wordpress-3.3.1.tgz
+rm ${BOSH_INSTALL_TARGET}/postgresql-for-wordpress.1.3.0.zip

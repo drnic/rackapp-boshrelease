@@ -18,3 +18,5 @@ packages:
   - mysqlclient
   - ruby
   - nginx_next
+  - wordpress
+  - php5

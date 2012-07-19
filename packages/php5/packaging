@@ -1,24 +1,43 @@
 # abort script on any command that exit with a non zero value
 set -e
 
-echo "Extracting php5..."
-tar xzf php5/php-5.3.10.tar.gz
+PHP_VERSION='5.4.4'
 
-export APACHE2=/var/vcap/packages/apache2
+echo "Extracting php5 (${PHP_VERSION})..."
+tar xzf php5/php-${PHP_VERSION}.tar.gz
 
+# Following instructions from http://www.tuicool.com/articles/qQn6Jz
 echo "Building php5..."
-cd php-5.3.10
+PHP_ROOT=${BOSH_INSTALL_TARGET}
+PHP_EXTRA_LIBS=
+cd php-${PHP_VERSION}
   ./configure \
-  --prefix=${BOSH_INSTALL_TARGET} \
-  --with-apxs2=${APACHE2}/bin/apxs \
-  --with-config-file-path=/var/vcap/jobs/wordpress/config/php.ini \
-  --with-mysql=/var/vcap/packages/mysqlclient
+  --prefix=$PHP_ROOT \
+  --with-config-file-path=$PHP_ROOT/etc/ \
+  --with-pgsql=$PG_ROOT \
+  --with-pdo-pgsql=$PG_ROOT \
+  --enable-fpm \
+  --with-openssl
+  # --enable-gd-native-ttf \
+  # --with-pear \
+  # --with-freetype \
+  # --with-zlib \
+  # --enable-mbstring \
+  # --with-gd \
+  # --with-curl \
+  # --with-iconv=$PHP_EXTRA_LIBS/libiconv-1.14 \
+  # --with-pcre-dir=$PHP_EXTRA_LIBS/pcre-8.21 \
+  # --with-mhash=$PHP_EXTRA_LIBS/mhash-0.9.9.9 \
+  # --with-mcrypt=$PHP_EXTRA_LIBS/mcrypt-2.6.8
 
 # redirecting stdout to /dev/null as the output becomes too large for nats
 make > /dev/null
 make install > /dev/null
 
+cp ./php.ini-production $PHP_ROOT/etc/php.ini
+cp $PHP_ROOT/etc/php-fpm.conf.default $PHP_ROOT/etc/php-fpm.conf
+
 # php installs the shared object in the apache module dir, so we need to
 # copy it back to the php package dir
 mkdir -p ${BOSH_INSTALL_TARGET}/modules
-cp ${APACHE2}/modules/libphp5.so ${BOSH_INSTALL_TARGET}/modules
+# cp ${APACHE2}/modules/libphp5.so ${BOSH_INSTALL_TARGET}/modules

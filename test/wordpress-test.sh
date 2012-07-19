@@ -1,6 +1,6 @@
 #!/usr/bin/env roundup
 
-describe "run todo webapp with postgresql"
+describe "run wordpress webapp with postgresql"
 
 set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
@@ -25,7 +25,7 @@ before_all() {
   rm -rf /var/vcap/store
 
   # update deployment with example properties
-  example=${release_path}/examples/puma_migrations_postgres.yml
+  example=${release_path}/examples/nginx_wordpress.yml
   ${scripts}/update ${example}
 
   # wait for postgres to setup DB & webapp to start
@@ -50,9 +50,9 @@ it_runs_webapp_behind_nginx() {
   test $(ps ax | grep "${expected}" | grep -v 'grep' | wc -l) = 1
 }
 
-it_runs_webapp_using_puma() {
-  expected='puma --pidfile /var/vcap/sys/run/webapp/webapp.pid -p 5000 -t 0:16'
-  test $(ps ax | grep "${expected}" | grep -v 'grep' | wc -l) = 1
+it_runs_webapp_using_php_fpm() {
+  echo "pending"
+  false
 }
 
 it_runs_postgres() {
@@ -61,13 +61,7 @@ it_runs_postgres() {
 }
 
 it_responds_to_root_path() {
-  # expected="<title>Getting Things Done with Engine Yard AppCloud</title>"
   test $(curl -s -i http://localhost:80 | grep 'HTTP/1.1 200 OK' | wc -l) = 1
-}
-
-it_responds_to_javascript_asset() {
-  # expected="<title>Getting Things Done with Engine Yard AppCloud</title>"
-  test $(curl -s -i http://localhost:80/javascripts/jquery.js | grep 'HTTP/1.1 200 OK' | wc -l) = 1
 }
 
 it_restarted_nginx() {

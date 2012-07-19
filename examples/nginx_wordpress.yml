@@ -1,0 +1,12 @@
+---
+properties:
+  description: "Wordpress, nginx and postgresql"
+  webapp:
+    package: wordpress
+    use_nginx: 1
+    appstack: php-fpm
+  postgres:
+    host: 127.0.0.1
+    user: todo
+    password: p03tgR3s
+    database: todo

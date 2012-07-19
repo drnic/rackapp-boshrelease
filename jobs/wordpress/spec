@@ -7,6 +7,5 @@ templates:
   php.ini.erb:        config/php.ini
 packages:
   - mysqlclient
-  - apache2
   - php5
   - wordpress
