@@ -51,8 +51,8 @@ it_runs_webapp_behind_nginx() {
 }
 
 it_runs_webapp_using_php_fpm() {
-  echo "pending"
-  false
+  expected='php-fpm: master process (/var/vcap/jobs/phpfpm/config/php-fpm.conf)'
+  test $(ps ax | grep "${expected}" | grep -v 'grep' | wc -l) = 1
 }
 
 it_runs_postgres() {
