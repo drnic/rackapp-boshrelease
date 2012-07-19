@@ -2,23 +2,29 @@
 
 # AIM: Install each job (and its packages, if not already installed) as if each being applied to own VM
 
-# Render the templates in your local release (job_path) into your /var/vcap/data/jobs (job_install_path)
-# Any properties required by templates should be passed via a manifest file (manifest_path)
+# Render the jobs & templates in your local release into your /var/vcap/data/jobs
+# Any properties required by templates should be passed via a manifest file (manifest_path, 'properties' key)
+# You can also limit which jobs are installed via the manifest file (manifest_path, 'jobs' key)
+#
+# See examples/ folder for example manifest_path files
+# Top level keys of manifest_path file are:
+# - jobs: restricted list of job names to install (optional; defaults to all)
+# - properties: example job template properties
+
 release_tgz      = ARGV.shift
-job_path         = ARGV.shift
-job_install_path = ARGV.shift
 manifest_path    = ARGV.shift
 
 logging_level = (ENV['LOG_LEVEL'] || 'WARN').upcase
 base_dir      = ENV['BASE_DIR'] || '/var/vcap'
 
-def error_usage; $stderr.puts "USAGE: apply_jobs RELEASE_TGZ RELEASE_JOB_PATH JOB_INSTALL_PATH MANIFEST_PATH"; exit 1; end
-def error_path_invalid(field); $stderr.puts "ERROR: Path #{field} does not exist"; error_usage; end
+def error(*msgs); msgs.each {|msg| $stderr.puts msg}; error_usage; exit 1; end
+def error_usage; error "USAGE: apply_jobs RELEASE_TGZ MANIFEST_PATH"; end
+def error_path_invalid(field); error "ERROR: Path #{field} does not exist"; end
+def error_yaml_format_required(error); error "Invalid YAML format for #{manifest_path}", error; end
+def error_manifest_jobs_format; error "Manifest 'job' is an array of job names"; end
 
-error_usage unless job_install_path
+error_usage unless manifest_path
 error_path_invalid('RELEASE_TGZ') unless File.exist?(release_tgz)
-error_path_invalid('RELEASE_JOB_PATH') unless File.exist?(job_path)
-error_path_invalid('JOB_INSTALL_PATH') unless File.exist?(job_install_path)
 error_path_invalid('MANIFEST_PATH') unless File.exist?(manifest_path)
 
 require "yaml"
@@ -34,11 +40,21 @@ $:.unshift("/bosh/agent/lib")
 require "agent"
 
 begin
-  job_manifest = YAML.load_file(manifest_path)
+  deployment_manifest = YAML.load_file(manifest_path)
 rescue ArgumentError => e
-  $stderr.puts "Invalid YAML format for #{manifest_path}"
-  $stderr.puts e
-  exit 1
+  error_yaml_format_required
+end
+
+# See examples/ folder for example manifest_path files
+# Top level keys of manifest_path file are:
+# - jobs: restricted list of job names to install (optional; defaults to all)
+# - properties: example job template properties
+deployment_properties = deployment_manifest["properties"]
+requested_jobs = deployment_manifest["jobs"]
+
+# optional to specify list of jobs; else install all
+if requested_jobs
+  error_manifest_jobs_format unless requested_jobs.is_a?(Array) && requested_jobs.first.is_a?(String)
 end
 
 latest_dev_release_path = `ls -t dev_releases/*-dev.yml`.lines.first.strip
@@ -47,7 +63,13 @@ latest_dev_release = YAML.load_file(latest_dev_release_path)
 release_name    = latest_dev_release["name"]
 release_version = latest_dev_release["version"]
 
-jobs = latest_dev_release["jobs"]
+# optional to specify list of jobs; else install all
+available_jobs = latest_dev_release["jobs"]
+if requested_jobs
+  jobs = available_jobs.select { |job| requested_jobs.include? job["name"] }
+else
+  jobs = available_jobs.clone
+end
 
 # Create spec of all packages to be installed by all jobs
 #
@@ -84,6 +106,7 @@ end
 
 saved_symlinks = {}
 jobs.each do |job|
+  puts "Installing job #{job.inspect}"
   # if $package_version contains a decimal point, then its a dev build (.dev_builds),
   # else a finalized package
   job_version = job['version'].to_s
@@ -108,8 +131,9 @@ jobs.each do |job|
     "release" => { "version" => release_version },
     "job" => apply_job_spec,
     "packages" => packages_spec,       # install all packages for all jobs
-    "configuration_hash" => "deadbeef" # TODO what's this for?
-  }.merge(job_manifest)
+    "configuration_hash" => "deadbeef", # TODO what's this for?
+    "properties" => deployment_properties
+  }
 
   Bosh::Agent::Config.base_dir = base_dir
 
