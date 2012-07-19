@@ -1,0 +1,67 @@
+--- 
+packages: 
+- name: common
+  version: 3
+  sha1: 6b0b6b9d33a07969f5d6658b2a86ed25d930a1b1
+  dependencies: []
+
+- name: libpq
+  version: 1
+  sha1: 8a0685be16875a1e9f81f9c4c9b023ae3c3a31c2
+  dependencies: []
+
+- name: mysqlclient
+  version: 1
+  sha1: 4c6ec28aaf2cc85c49f9b57310171ec3bd43e95d
+  dependencies: []
+
+- name: nginx
+  version: 1
+  sha1: 8b0b5018f44564f87d4d9602e694be81ba779fef
+  dependencies: []
+
+- name: nginx_next
+  version: 1
+  sha1: 9770a71c917994da0a30b87b2bebbbd1b4f7585f
+  dependencies: []
+
+- name: postgres
+  version: 1
+  sha1: c3a9fda6dc57094d5cc788412e8cb0d8fa376a84
+  dependencies: []
+
+- name: rackapp
+  version: 2
+  sha1: 8e70cb2f91752fa5092f490fb8acdf0c7de6bbfc
+  dependencies: 
+  - libpq
+  - mysqlclient
+  - sqlite
+  - ruby
+- name: ruby
+  version: 1
+  sha1: 055f87ec0d5a48b19f9f4204d1fb49491cad8a75
+  dependencies: []
+
+- name: sqlite
+  version: 1
+  sha1: 375a31650cd84b960b51d256c3d7ec58e05706d9
+  dependencies: []
+
+- name: todo
+  version: 2
+  sha1: 278b52f89a039e7253c6f74e19689b6afcbde168
+  dependencies: 
+  - libpq
+  - mysqlclient
+  - sqlite
+  - ruby
+jobs: 
+- name: postgres
+  version: 3
+  sha1: f3fd3e966063ee2b558c975387add51ef21ec1fa
+- name: webapp
+  version: 6
+  sha1: 285221d887082b9276390245b0f18ea8a4505235
+name: rackapp
+version: 6
