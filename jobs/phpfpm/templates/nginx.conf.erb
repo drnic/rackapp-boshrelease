@@ -3,7 +3,9 @@
 <% properties.webapp ||= OpenStruct.new %>
 <% properties.webapp.nginx ||= OpenStruct.new %>
 <% package_name = properties.webapp.package || 'wordpress' %>
-<% webapp_port_start = 9000 %>
+<% app_index = properties.webapp.nginx.app_index || 'index.php' %>
+<% app_root = "/var/vcap/packages/#{package_name}" %>
+<% document_root = File.join("/var/vcap/packages", package_name, File.dirname(app_index)) %>
 
 user vcap vcap;
 worker_processes <%= properties.webapp.nginx.worker_processes || 1 %>;
@@ -14,7 +16,6 @@ events {
   use epoll;
 }
 
-
 http {
   include       mime.types;
   default_type  text/html;
@@ -24,6 +25,10 @@ http {
                    '"$request" $status $bytes_sent '
                    '"$http_referer" "$http_user_agent" '
                    '$remote_addr response_time:$upstream_response_time';
+
+  log_format fiveohs '$status: $remote_addr - $remote_user [$time_local] "$request" '
+                     '$body_bytes_sent "$http_referer" '
+                     '"$http_user_agent" "$http_x_forwarded_for"';
 
   sendfile             on;  #enable use of sendfile()
   tcp_nopush           on;
@@ -39,8 +44,8 @@ http {
   gzip_buffers      16 8k;
   gzip_types        application/json text/plain text/css application/x-javascript text/xml application/xml application/xml+rss text/javascript;
 
-  upstream <%= package_name %>_upstream {
-    server 127.0.0.1:<%= webapp_port_start %>;
+  upstream web_workers {
+     server unix:/var/vcap/sys/run/phpfpm/www-<%= package_name %>.sock;
   }
 
   server {
@@ -52,7 +57,7 @@ http {
     # By default Nginx will listen for traffic on the specified port for all IP
     # addresses assigned to the host.
     #
-    listen       <%= properties.webapp.nginx.port || 80 %>;
+    listen <%= properties.webapp.nginx.port || 80 %>;
 
     #
     # Server Names
@@ -80,10 +85,14 @@ http {
     #
     client_max_body_size 256M;
 
+
     #
     # The application root which is inherited for all location blocks below.
     #
-    root /var/vcap/packages/<%= package_name %>/public;
+    root <%= document_root %>;
+
+
+    index <%= app_index %> index.html;
 
     #
     # Logging
@@ -94,85 +103,100 @@ http {
     error_log   /var/vcap/sys/log/phpfpm/<%= package_name %>.error.log notice;
 
     #
+    # Allow for bigger cookies by increasing the buffers (but not their size)
+    #
+    large_client_header_buffers 8 8k;
+    fastcgi_buffer_size 128k;
+    fastcgi_buffers 128 4k;
+    fastcgi_busy_buffers_size 128k;
+    fastcgi_temp_file_write_size 128k;
+
+    #
     # Expire header on assets. For more information on the reasoning behind
     # this please browse http://developer.yahoo.com/performance/rules.html#expires
     #
     # set Expire header on assets: see http://developer.yahoo.com/performance/rules.html#expires
-    location ~ ^/(images|assets|javascripts|stylesheets)/ {
-      try_files  $uri $uri/index.html /last_assets/$uri /last_assets/$uri.html @app_<%= package_name %>;
-      expires 10y;
-    }
-
     location ~* ^.+.(jpg|jpeg|gif|css|png|js|ico|xml)$ {
       access_log off;
-      expires 10y;
+      expires 24h;
     }
 
-    # Parse all .php file in the /var/www directory
-    location ~ .php$ {
-      fastcgi_split_path_info ^(.+\.php)(.*)$;
-      # fastcgi_pass   backend;
-      fastcgi_pass    127.0.0.1:<%= webapp_port_start %>;
-      fastcgi_index  index.php;
-      fastcgi_param  SCRIPT_FILENAME  /var/www$fastcgi_script_name; # FIXME
-      # include fastcgi_params;
-      fastcgi_param  QUERY_STRING     $query_string;
-      fastcgi_param  REQUEST_METHOD   $request_method;
-      fastcgi_param  CONTENT_TYPE     $content_type;
-      fastcgi_param  CONTENT_LENGTH   $content_length;
-      fastcgi_intercept_errors        on;
-      fastcgi_ignore_client_abort     off;
-      fastcgi_connect_timeout 60;
-      fastcgi_send_timeout 180;
-      fastcgi_read_timeout 180;
-      fastcgi_buffer_size 128k;
-      fastcgi_buffers 4 256k;
-      fastcgi_busy_buffers_size 256k;
-      fastcgi_temp_file_write_size 256k;
-    }
-
-    # Disable viewing .htaccess & .htpassword
-    location ~ /\.ht {
-        deny  all;
-    }
-
-    #
-    # HTTP Error handling.
-    #
-    # 404 - Resource Not found.
-    error_page 404 /404.html;
-    # 50X - Application Error(s)
-    error_page 500 502 504 /500.html;
-    # 503 - System Maintenance
-    error_page 503 @503;
-    recursive_error_pages on;
-    location @503 {
-      error_page 405 = /system/maintenance.html;
-
-      # Serve static assets if found.
-      if (-f $request_filename) {
-        break;
-      }
-
-      rewrite ^(.*)$ /system/maintenance.html break;
-    }
-    error_page 503 /system/maintenance.html;
-
-    #
-    # The default location will process the request as follows:
-    #
-    # 1. If a system maintenance page is in place, serve it.
-    # 2. If the request uri matches a resource on disk, serve it.
-    # 3. If the request uri/index.html matches a cache file on disk, serve it.
-    # 4. If the request uri.html is cached on disk, serve it.
-    # 5. Failing any caching or system maintenance, pass the request to the
-    #    application.
-    #
     location / {
-      if (-f $document_root/system/maintenance.html) { return 503; }
-      try_files $uri $uri/index.html $uri.html $uri.php @app_<%= package_name %>;
+        # index.php?foo=1... $is_args is ? if $args is not empty
+        try_files $uri $uri/ /<%= app_index %>$is_args$args;
     }
 
+    location ~ \.php$ {
+        if (!-f $request_filename) {
+            return 404;
+        }
+        fastcgi_pass  web_workers;
+        fastcgi_index <%= app_index %>;
+        fastcgi_intercept_errors off;
+
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        # fastcgi_param HTTPS $https_enabled if_not_empty;
+    }
+
+    error_page 500 501 502 503 504 @five_oh_ex;
+    location @five_oh_ex {
+        access_log  /var/vcap/sys/log/phpfpm/50x.errors.log fiveohs;
+
+        add_header Set-Cookie "_orchestra=1; Max-Age=2; Path=/";
+
+        if (-f "<%= app_root %>/addons/error/50x.html") {
+            rewrite ^ /addons/error/50x.html last;
+        }
+
+        if (!-f "<%= app_root %>/addons/error/50x.php") {
+            return 500;
+        }
+
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME <%= app_root %>/addons/error/50x.php;
+        fastcgi_pass  web_workers;
+    }
+    location = /addons/error/50x.html {
+        internal;
+        root <%= app_root %>;
+    }
+
+    error_page 404 @four_oh_four;
+    location @four_oh_four {
+        add_header Set-Cookie "_orchestra=1; Max-Age=2; Path=/";
+
+        if (-f "<%= app_root %>/addons/error/404.html") {
+            rewrite ^ /addons/error/404.html last;
+        }
+
+        if (!-f "<%= app_root %>/addons/error/404.php") {
+            return 404;
+        }
+
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME <%= app_root %>/addons/error/404.php;
+        fastcgi_pass  web_workers;
+    }
+    location = /addons/error/404.html {
+        internal;
+        root <%= app_root %>;
+    }
+
+    error_page 405 =200 @four_oh_five;
+    location @four_oh_five {
+        if (!-f $request_filename) {
+            return 404;
+        }
+
+        proxy_method GET;
+        proxy_pass http://localhost:80;
+    }
+
+    # deny access to all .dot-files
+    location ~ /\. {
+        deny all;
+    }
   }
 }
 

@@ -4,6 +4,7 @@ describe "run wordpress webapp with postgresql"
 
 set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
+# set -x
 
 [ "$(whoami)" != 'root' ] && ( echo ERROR: run as root user; exit 1 )
 
@@ -29,7 +30,7 @@ before_all() {
   ${scripts}/update ${example}
 
   # wait for postgres to setup DB & webapp to start
-  sleep 15
+  sleep 5
   
   # show last 20 processes (for debugging if test fails)
   ps ax | tail -n 20
@@ -46,12 +47,12 @@ before() {
 }
 
 it_runs_webapp_behind_nginx() {
-  expected='sbin/nginx -c /var/vcap/jobs/webapp/config/nginx.conf'
+  expected='sbin/nginx -c /var/vcap/jobs/phpfpm/config/nginx.conf'
   test $(ps ax | grep "${expected}" | grep -v 'grep' | wc -l) = 1
 }
 
 it_runs_webapp_using_php_fpm() {
-  expected='php-fpm: master process (/var/vcap/jobs/phpfpm/config/php-fpm.conf)'
+  expected='php-fpm: master process (/var/vcap/jobs/phpfpm/etc/php-fpm.conf)'
   test $(ps ax | grep "${expected}" | grep -v 'grep' | wc -l) = 1
 }
 

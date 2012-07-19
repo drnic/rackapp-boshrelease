@@ -8,6 +8,8 @@ properties:
     package: wordpress
     use_nginx: 1
     appstack: php-fpm
+    nginx:
+      app_index: index.php
   postgres:
     host: 127.0.0.1
     user: todo

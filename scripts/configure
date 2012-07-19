@@ -33,21 +33,3 @@ fi
 
 release_tgz=$(${scripts}/helpers/create_release_tgz ${release_path})
 ${scripts}/helpers/apply_jobs ${release_tgz} ${manifest_template}
-
-# for job in $(${scripts}/helpers/jobs_to_configure)
-# do
-#   job_path=${release_path}/jobs/${job}
-#   job_version=$(${scripts}/helpers/dev_job_version ${job})
-#   
-#   echo Configuring job ${job} ${job_version}...
-#   
-#   job_install_path=${jobs_dir}/${job}/${job_version}
-#   sudo rm -rf ${job_install_path}
-#   mkdir -p ${job_install_path}
-#   
-#   release_tgz=$(${scripts}/helpers/create_release_tgz ${release_path})
-#   
-#   echo Applying job ${job} using release ${release_tgz}...
-# 
-#   sudo ${scripts}/helpers/apply_jobs ${release_tgz} ${job_path} ${job_install_path} ${manifest_template} || exit 1
-# done

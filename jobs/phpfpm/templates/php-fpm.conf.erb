@@ -4,6 +4,11 @@
 
 ; Borrowed from https://raw.github.com/vladgh/VladGh.com/master/php-fpm.conf
 
+<% require 'ostruct' %>
+<% properties.webapp ||= OpenStruct.new %>
+<% properties.webapp.nginx ||= OpenStruct.new %>
+<% package_name = properties.webapp.package || 'wordpress' %>
+
 ; All relative paths in this configuration file are relative to PHP's install
 ; prefix (/opt/php5). This prefix can be dynamicaly changed by using the
 ; '-p' argument from the command line.
@@ -95,8 +100,8 @@ pid = /var/vcap/sys/run/phpfpm/phpfpm.pid
 ;                            specific port;
 ;   '/path/to/unix/socket' - to listen on a unix socket.
 ; Note: This value is mandatory.
-listen = 127.0.0.1:9000
-;listen = /var/run/php5-fpm.socket
+;listen = 127.0.0.1:9000
+listen = /var/vcap/sys/run/phpfpm/www-<%= package_name %>.sock
 
 ; Set listen(2) backlog. A value of '-1' means unlimited.
 ; Default Value: 128 (-1 on FreeBSD and OpenBSD)

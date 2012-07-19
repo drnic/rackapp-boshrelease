@@ -25,7 +25,12 @@ if [[ ! -f ${manifest_path} ]]; then
 fi
 
 ./scripts/stop || true
-./scripts/helpers/list_logs | xargs rm
+logs=$(./scripts/helpers/list_logs)
+if [[ $logs ]]
+then
+  echo rm $logs
+  rm $logs
+fi
 ./scripts/install
 ./scripts/configure ${manifest_path}
 ./scripts/start

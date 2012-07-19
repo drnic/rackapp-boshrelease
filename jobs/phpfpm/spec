@@ -9,6 +9,7 @@ templates:
   wp-config.php.erb:  config/wp-config.php
   php.ini:            etc/php.ini
   php-fpm.conf.erb:   etc/php-fpm.conf
+  fastcgi_params:     config/fastcgi_params
 packages:
   - wordpress
   - php5
