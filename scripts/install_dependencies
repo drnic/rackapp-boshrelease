@@ -32,6 +32,11 @@ then
   done
 fi
 
+echo "export PATH=/var/vcap/bosh/bin:\$PATH" >> /root/.bashrc
+echo "export PATH=/var/vcap/bosh/bin:\$PATH" >> /home/vcap/.bashrc
+echo "export PATH=/var/vcap/bosh/bin:\$PATH" >> /home/vagrant/.bashrc
+source ~/.bashrc
+
 if [[ -x /var/vcap/bosh/bin/monit ]]
 then
   /var/vcap/bosh/bin/monit -V
@@ -51,6 +56,5 @@ cd ${release_path}
 bundle --local
 
 ./${scripts}/dependencies/install_roundup
-
 
 cd ${release_path}

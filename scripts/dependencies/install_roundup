@@ -11,6 +11,6 @@ cd /tmp
 rm -rf bmizerany-roundup-*
 curl -L https://github.com/bmizerany/roundup/tarball/v${roundup_version} | tar xvzf -
 cd bmizerany-roundup-*
-./configure # see --help for options
+./configure --prefix=/var/vcap/bosh
 make
-make install # you may need sudo
+make install
