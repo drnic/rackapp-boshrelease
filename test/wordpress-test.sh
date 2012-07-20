@@ -61,8 +61,8 @@ it_runs_postgres() {
   test $(ps ax | grep "${expected}" | grep -v 'grep' | wc -l) = 1
 }
 
-it_responds_to_root_path() {
-  test $(curl -s -i http://localhost:80 | grep 'HTTP/1.1 200 OK' | wc -l) = 1
+it_initially_redirects_to_login_or_setup() {
+  test $(curl -s -i http://localhost:80 | grep 'HTTP/1.1 302 Found' | wc -l) = 1
 }
 
 it_restarted_nginx() {
