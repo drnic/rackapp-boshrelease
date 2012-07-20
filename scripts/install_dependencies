@@ -38,9 +38,9 @@ if [[ -d /home/vagrant ]]
 then
   echo "export PATH=/var/vcap/bosh/bin:\$PATH" >> /home/vagrant/.bashrc
 fi
-set +x
+set +e
 source ~/.bashrc
-set -x
+set -e
 
 if [[ -x /var/vcap/bosh/bin/monit ]]
 then
