@@ -34,7 +34,10 @@ fi
 
 echo "export PATH=/var/vcap/bosh/bin:\$PATH" >> /root/.bashrc
 echo "export PATH=/var/vcap/bosh/bin:\$PATH" >> /home/vcap/.bashrc
-echo "export PATH=/var/vcap/bosh/bin:\$PATH" >> /home/vagrant/.bashrc
+if [[ -d /home/vagrant ]]
+then
+  echo "export PATH=/var/vcap/bosh/bin:\$PATH" >> /home/vagrant/.bashrc
+fi
 source ~/.bashrc
 
 if [[ -x /var/vcap/bosh/bin/monit ]]
@@ -48,6 +51,7 @@ else
 fi
 
 gem install bundler rake --no-ri --no-rdoc
+
 cd ${bosh_dir}
 rake bundle_install
 rake build
