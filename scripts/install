@@ -15,7 +15,7 @@ scripts=${release_path}/scripts
 gem_home=$GEM_HOME; bundle_gemfile=$BUNDLE_GEMFILE; rubyopt=$RUBYOPT
 
 # iterate over sorted list of packages to install from `packages_to_install` script
-for package in $(${scripts}/helpers/packages_to_install)
+for package in $(${scripts}/helpers/packages_to_install ${release_path})
 do
   package_version=$(${scripts}/helpers/dev_package_version ${package})
   
