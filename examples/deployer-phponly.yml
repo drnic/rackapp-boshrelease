@@ -1,0 +1,13 @@
+---
+jobs:
+  - deployer
+properties:
+  description: "Deployer: demo php app"
+  deployer:
+    package: deployer-pending-php
+    use_nginx: 1
+    appstack: php-fpm
+    app:
+      uri: git://github.com/engineyard/sputnik-demo.git
+    nginx:
+      app_index: index.php

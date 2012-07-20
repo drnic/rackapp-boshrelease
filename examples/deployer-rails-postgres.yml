@@ -1,0 +1,20 @@
+---
+jobs:
+  - deployer
+  - postgres
+properties:
+  description: "Deployer: rails app, puma, migrations and postgresql"
+  deployer:
+    package: deployer-pending-rack
+    app:
+      uri: git://github.com/engineyard/sputnik-demo.git
+    use_nginx: 1
+    nginx:
+      app_index: index.php
+    run_migrations: 1
+    appstack: puma
+  postgres:
+    host: 127.0.0.1
+    user: todo
+    password: p03tgR3s
+    database: todo
