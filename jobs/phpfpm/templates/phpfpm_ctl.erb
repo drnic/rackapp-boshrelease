@@ -37,17 +37,29 @@ case $1 in
     cd $WEBAPP_DIR
 
     echo "Testing for existing wp-config.php"
-
-    # link wordpress config file into wordpress package
-    if [ ! -f $WEBAPP_DIR/wp-config.php ]; then
-      echo "Symlinking wp-config.php"
-      ln -s $WEBAPP_JOB_DIR/config/wp-config.php $WEBAPP_DIR/wp-config.php
+    
+    # echo ls -al $WEBAPP_DIR/
+    # ls -al $WEBAPP_DIR/
+    # 
+    # echo $WEBAPP_JOB_DIR/config
+    # ls -al $WEBAPP_JOB_DIR/config
+    # 
+    if [[ -h $WEBAPP_DIR/wp-config.php ]]
+    then
+      echo "Removing existing symlink for wp-config.php"
+      rm $WEBAPP_DIR/wp-config.php
     fi
 
-    JOB_PHP_INI=$WEBAPP_JOB_DIR/etc/php.ini
+    # Link wordpress config file into wordpress package
+    if [[ ! -f $WEBAPP_DIR/wp-config.php ]]
+    then
+      echo "Copying wp-config.php"
+      cp $WEBAPP_JOB_DIR/config/wp-config.php $WEBAPP_DIR/wp-config.php
+    fi
 
     # TODO postgres config db.php
-    echo "Starting php-fpm -c $WEBAPP_JOB_DIR/etc/php.ini --fpm-config $WEBAPP_JOB_DIR/etc/php-fpm.conf --pid $PIDFILE"
+
+    echo "Starting php-fpm"
 
     /var/vcap/packages/php5/sbin/php-fpm \
       -c $WEBAPP_JOB_DIR/etc/php.ini \
