@@ -150,6 +150,35 @@ You can also stop all processes and delete all logs.
 ./scripts/helpers/list_logs | xargs rm
 ```
 
+## Deployment without BOSH
+
+This release can be installed into a single VM without requiring BOSH running.
+
+Within an Ubuntu 64-bit VM, as root user:
+
+```
+apt-get install git-core -y
+ssh-keygen
+# add the ~/.ssh/id_dsa.pub to your github user profile
+# add the ~/.ssh/id_dsa.pub to your gerrit user profile
+
+git clone git@github.com:engineyard/rackapp-boshrelease.git
+cd rackapp-boshrelease
+
+./scripts/install_ruby
+./scripts/fetch_bosh /bosh GERRIT_USER
+./scripts/install_dependencies
+
+git submodule update --init
+bosh create release
+./scripts/update examples/puma_migrations_postgres.yml
+```
+
+URLs:
+
+* [github ssh keys](https://github.com/settings/ssh)
+* [gerrit ssh keys](http://reviews.cloudfoundry.org/#/settings/ssh-keys "Gerrit Code Review")
+
 ## Issues
 
 If you have trouble accessing the ubuntu package servers, try changing `/etc/resolv.conf` to the following [[source](http://suranyami.com/fixing-temporary-failure-resolving-usarchiveu "Fixing &quot; Temporary failure resolving 'us.archive.ubuntu.com'&quot; in Ubuntu, Vagrant - Suranyami")]:
