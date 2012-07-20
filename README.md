@@ -118,11 +118,19 @@ If you run `/vagrant/scripts/autoupdate /vagrant/examples/rackonly.yml` within v
 
 Tests are a WIP. Here is the current test script and how to run it. If it fails, all the log files will be displayed.
 
+To run all tests:
+
 ```
 [inside vagrant as root]
-cd /vagrant
-./test/todo_app-test.sh || ./scripts/tail_error_logs -n 200
-./test/wordpress-test.sh || ./scripts/tail_error_logs -n 200
+cd /vagrant/test
+roundup
+```
+
+To run & debug a specific test:
+
+```
+[inside vagrant as root]
+./vagrant/test/wordpress-test.sh || ./scripts/tail_error_logs -n 200
 ```
 
 The test scripts use [roundup](http://bmizerany.github.com/roundup/ "roundup"), which is installed via `scripts/install_dependencies`.
