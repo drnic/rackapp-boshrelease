@@ -6,6 +6,8 @@ PHP_VERSION='5.4.4'
 echo "Extracting php5 (${PHP_VERSION})..."
 tar xzf php5/php-${PHP_VERSION}.tar.gz
 
+PG_ROOT=/var/vcap/packages/libpq
+
 # Following instructions from http://www.tuicool.com/articles/qQn6Jz
 echo "Building php5..."
 PHP_ROOT=${BOSH_INSTALL_TARGET}
