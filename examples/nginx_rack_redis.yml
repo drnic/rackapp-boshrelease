@@ -1,6 +1,7 @@
 ---
 jobs:
   - webapp
+  - redis
 properties:
   description: "Rack updating redis counter"
   webapp:
