@@ -62,11 +62,13 @@ it_runs_redis() {
 
 it_responds_to_root_path() {
   # expected="<title>Getting Things Done with Engine Yard AppCloud</title>"
-  test $(curl -s -i http://localhost:80 | grep 'HTTP/1.1 200 OK' | wc -l) = 1
+  test $(curl -s -i http://localhost | grep 'HTTP/1.1 200 OK' | wc -l) = 1
 }
 
-it_responds_to_javascript_asset() {
-  test $(curl -s -i http://localhost:80/javascripts/jquery.js | grep 'HTTP/1.1 200 OK' | wc -l) = 1
+it_connects_to_redis() {
+  output=$(curl http://localhost)
+  expected='Hello from your rack app with redis!'
+  test "${output}" = "${expected}"
 }
 
 it_restarted_nginx() {
