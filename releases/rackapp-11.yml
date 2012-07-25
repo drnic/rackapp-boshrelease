@@ -1,0 +1,89 @@
+--- 
+packages: 
+- name: common
+  version: 3
+  sha1: 6b0b6b9d33a07969f5d6658b2a86ed25d930a1b1
+  dependencies: []
+
+- name: libpq
+  version: 1
+  sha1: 8a0685be16875a1e9f81f9c4c9b023ae3c3a31c2
+  dependencies: []
+
+- name: mysqlclient
+  version: 1
+  sha1: 4c6ec28aaf2cc85c49f9b57310171ec3bd43e95d
+  dependencies: []
+
+- name: nginx
+  version: 1
+  sha1: 8b0b5018f44564f87d4d9602e694be81ba779fef
+  dependencies: []
+
+- name: nginx_next
+  version: 1
+  sha1: 9770a71c917994da0a30b87b2bebbbd1b4f7585f
+  dependencies: []
+
+- name: php5
+  version: 2
+  sha1: f9b8853b842d499eed0dc7e2c7fdae8872f8ed9c
+  dependencies: 
+  - libpq
+  - mysqlclient
+- name: postgres
+  version: 1
+  sha1: c3a9fda6dc57094d5cc788412e8cb0d8fa376a84
+  dependencies: []
+
+- name: rackapp
+  version: 4
+  sha1: c78eae684da35c10a83b964148186a1e773a9d6a
+  dependencies: 
+  - libpq
+  - mysqlclient
+  - sqlite
+  - ruby
+- name: redis
+  version: 1
+  sha1: df5ccd12ddc78a6d055535f6448b08a60b209b99
+  dependencies: []
+
+- name: ruby
+  version: 1
+  sha1: 055f87ec0d5a48b19f9f4204d1fb49491cad8a75
+  dependencies: []
+
+- name: sqlite
+  version: 1
+  sha1: 375a31650cd84b960b51d256c3d7ec58e05706d9
+  dependencies: []
+
+- name: todo
+  version: 3
+  sha1: fcb3cedba02fb1ee622152f7f92a8d53f76abff7
+  dependencies: 
+  - libpq
+  - mysqlclient
+  - sqlite
+  - ruby
+- name: wordpress
+  version: 1
+  sha1: af5bb75715f9e381a7b3813b4a0ee014b448529b
+  dependencies: 
+  - php5
+jobs: 
+- name: phpfpm
+  version: 2
+  sha1: 02ef8a9c6d8a58e62b61fb4d32f26edf1a04865c
+- name: postgres
+  version: 3
+  sha1: f3fd3e966063ee2b558c975387add51ef21ec1fa
+- name: redis
+  version: 1
+  sha1: 232ce9d2179e9509c4ac1bb70502ddcdcfe4def1
+- name: webapp
+  version: 9
+  sha1: 6179915baa7457f5ea6b5737078ab8b55935d45e
+name: rackapp
+version: 11
