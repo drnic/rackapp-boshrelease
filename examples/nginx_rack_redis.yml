@@ -1,0 +1,9 @@
+---
+jobs:
+  - webapp
+properties:
+  description: "Rack updating redis counter"
+  webapp:
+    use_nginx: 1
+  redis:
+    password: rEd!s
