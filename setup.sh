@@ -8,6 +8,13 @@ if [[ ! -f /var/vcap/install_dependencies_complete ]]
 then
   echo Installing dependencies for bosh-solo
 
+  if [[ ! -f /etc/resolv.conf.bak ]]
+  then
+    mv /etc/resolv.conf /etc/resolv.conf.bak
+    echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
+    echo 'nameserver 8.8.4.4' >> /etc/resolv.conf
+  fi
+  
   sudo apt-get install curl git-core -y
   
   if [[ ! -x /opt/sm/bin/sm ]]
@@ -22,11 +29,8 @@ then
   sudo /opt/sm/bin/sm ext install bosh-solo git://github.com/drnic/bosh-solo.git
   sudo /opt/sm/bin/sm bosh-solo install_dependencies
 
-  sudo /usr/local/rvm/bin/rvm 1.9.3 --default
-  
-  mv /etc/resolv.conf /etc/resolv.conf.bak
-  echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
-  echo 'nameserver 8.8.4.4' >> /etc/resolv.conf
+  /etc/profile.d/rvm.sh
+  rvm 1.9.3 --default
   
   sudo mkdir -p /var/vcap
   sudo touch /var/vcap/install_dependencies_complete
