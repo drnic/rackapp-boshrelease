@@ -12,6 +12,7 @@ templates:
 packages:
   - common
   - todo
+  - rackapp
   - libpq
   - postgres
   - sqlite
