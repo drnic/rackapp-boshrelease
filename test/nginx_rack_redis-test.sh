@@ -67,7 +67,7 @@ it_responds_to_root_path() {
 
 it_connects_to_redis() {
   output=$(curl http://localhost)
-  expected='Hello from your rack app with redis!'
+  expected='Hello from your rack app with redis @ 127.0.0.1:6379'
   test "${output}" = "${expected}"
 }
 
