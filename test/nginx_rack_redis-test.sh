@@ -17,7 +17,7 @@ before_all() {
   echo "|"
   echo "| Stopping any existing jobs"
   echo "|"
-  ${scripts}/stop
+  sm bosh-solo stop
 
   echo "|"
   echo "| Deleting /var/vcap/store databases"
@@ -26,7 +26,7 @@ before_all() {
 
   # update deployment with example properties
   example=${release_path}/examples/nginx_rack_redis.yml
-  ${scripts}/update ${example}
+  sm bosh-solo update ${example}
 
   # wait DB & webapp to start
   sleep 15

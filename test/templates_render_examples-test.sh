@@ -17,7 +17,7 @@ it_configures_successfully_for_each_example() {
   echo "|"
   echo "| Stopping any existing jobs"
   echo "|"
-  ${scripts}/stop
+  sm bosh-solo stop
 
   for example in ${examples}
   do
@@ -25,7 +25,7 @@ it_configures_successfully_for_each_example() {
     echo "| Testing configuration template rendering:"
     echo "| * ${example}"
     echo "|"
-    ${scripts}/configure ${example}
+    sm bosh-solo configure ${example}
   done
   true
 }

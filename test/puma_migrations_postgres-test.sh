@@ -17,7 +17,7 @@ before_all() {
   echo "|"
   echo "| Stopping any existing jobs"
   echo "|"
-  ${scripts}/stop
+  sm bosh-solo stop
 
   echo "|"
   echo "| Deleting postgres databases"
@@ -26,7 +26,7 @@ before_all() {
 
   # update deployment with example properties
   example=${release_path}/examples/puma_migrations_postgres.yml
-  ${scripts}/update ${example}
+  sm bosh-solo update ${example}
 
   # wait for postgres to setup DB & webapp to start
   sleep 15

@@ -2,15 +2,13 @@
 
 describe "run RedisLive with postgresql to monitor Redis DBs"
 
-set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
-# set -x
+set -x
 
 [ "$(whoami)" != 'root' ] && ( echo ERROR: run as root user; exit 1 )
 
 cd /vagrant/ # need to hardcode as roundup overrides $0
 release_path=$(pwd)
-scripts=${release_path}/scripts
 
 rm -rf /tmp/before_all_run_already
 
@@ -18,7 +16,7 @@ before_all() {
   echo "|"
   echo "| Stopping any existing jobs"
   echo "|"
-  ${scripts}/stop
+  sm bosh-solo stop
 
   echo "|"
   echo "| Deleting databases"
@@ -27,7 +25,7 @@ before_all() {
 
   # update deployment with example properties
   example=${release_path}/examples/tornado_postgres_redis.yml
-  ${scripts}/update ${example}
+  sm bosh-solo update ${example}
 
   # wait for postgres to setup DB & webapp to start
   sleep 5
