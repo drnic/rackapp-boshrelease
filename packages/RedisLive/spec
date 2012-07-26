@@ -1,6 +1,6 @@
 ---
 name: RedisLive
 dependencies:
-- python32
+- python27
 files:
 - RedisLive/**/*

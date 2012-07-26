@@ -115,19 +115,19 @@ redis/redis-2.4.13.tar.gz:
   object_id: 0f916aef-ced3-4b26-9d23-9af93e3ed0f9
   sha: 212128b1c7cc0021beb3dae38b7fe957d6743f3b
   size: 625464
-pip/pip-1.0.tar.gz:
-  object_id: 1a37d24c-02de-41ff-9eda-60792dca9742
-  sha: 822009671932f0dbfc39e325ea529e7feea60bd3
-  size: 100102
 python32/Python-3.2.3.tgz:
   object_id: b6188b20-015e-4127-bea7-cdeca1cf42e9
   sha: 2c65024cb32c446deeefe5584ed4062304807d61
   size: 12787688
-python32/setuptools-0.6c11.tar.gz:
-  object_id: 49fdc03a-3cb3-4098-bae7-72d651558f54
-  sha: 8d1ad6384d358c547c50c60f1bfdb3362c6c4a7d
-  size: 256862
-python32/distribute-0.6.28.tar.gz:
+python27/Python-2.7.3.tgz:
+  object_id: dc24e8d9-62ef-4778-ba5a-23fbdd287b61
+  sha: dbe486dd15022ed32ebbac4e67225e280ba93c3b
+  size: 14135620
+python/distribute-0.6.28.tar.gz:
   object_id: 8bb827b3-4b03-41aa-be98-4b40dd64e3a1
   sha: 709bd97d46050d69865d4b588c7707768dfe6711
   size: 627530
+python/pip-1.0.tar.gz:
+  object_id: dfdb79f2-f098-4ad3-9594-0d048a9dce53
+  sha: 822009671932f0dbfc39e325ea529e7feea60bd3
+  size: 100102
