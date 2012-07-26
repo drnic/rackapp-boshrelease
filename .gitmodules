@@ -1,3 +1,6 @@
 [submodule "src/todo"]
 	path = src/todo
 	url = git://github.com/engineyard/todo.git
+[submodule "src/RedisLive"]
+	path = src/RedisLive
+	url = git://github.com/kumarnitin/RedisLive.git
