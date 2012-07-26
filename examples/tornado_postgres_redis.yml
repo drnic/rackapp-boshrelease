@@ -1,6 +1,7 @@
 ---
 jobs:
   - tornado
+  - redis
 properties:
   description: "RedisLive with postgresql to monitor Redis DBs"
   webapp:
