@@ -4,7 +4,7 @@ set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
 set +x
 
-if [[ ! -f /var/vcap/install_dependencies_complete ]]
+if [[ ! -f ~/install_dependencies_complete ]]
 then
   echo Installing dependencies for bosh-solo
 
@@ -33,7 +33,7 @@ then
   rvm 1.9.3 --default
   
   sudo mkdir -p /var/vcap
-  sudo touch /var/vcap/install_dependencies_complete
+  touch ~/install_dependencies_complete
   
 fi
 
