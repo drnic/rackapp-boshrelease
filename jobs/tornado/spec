@@ -1,0 +1,7 @@
+---
+name: tornado
+packages:
+- python32
+- RedisLive
+templates:
+  tornado_ctl: bin/tornado_ctl

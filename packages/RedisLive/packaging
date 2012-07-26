@@ -1,0 +1,12 @@
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+export HOME=/var/vcap
+
+PATH=/var/vcap/packages/python32/bin:$PATH
+
+cp -a RedisLive/* ${BOSH_INSTALL_TARGET}
+
+pip install tornado         # TODO specific version?
+pip install redis           # TODO specific version?
+pip install python-dateutil # TODO specific version?

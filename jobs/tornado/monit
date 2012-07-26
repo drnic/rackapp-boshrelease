@@ -1,0 +1,5 @@
+check process tornado
+  with pidfile /var/vcap/sys/run/tornado/tornado.pid
+  start program "/var/vcap/jobs/tornado/bin/tornado_ctl start"
+  stop program "/var/vcap/jobs/tornado/bin/tornado_ctl stop"
+  group vcap

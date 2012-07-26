@@ -1,0 +1,22 @@
+---
+jobs:
+  - tornado
+properties:
+  description: "RedisLive with postgresql to monitor Redis DBs"
+  webapp:
+    package: RedisLive
+  postgres:
+    host: 127.0.0.1
+    user: todo
+    password: p03tgR3s
+    database: todo
+  redis:
+    host: 127.0.0.1
+    port: 6379 
+    password: rEd!s
+  RedisLive:
+    redises:
+      - name: localhost
+        host: 127.0.0.1
+        port: 6379
+        password: rEd!s

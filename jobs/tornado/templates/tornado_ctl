@@ -1,0 +1,62 @@
+#!/bin/bash
+
+# Control script to start/stop ruby/rack tornado job on a BOSH controlled VM
+#
+# In local development, this script can be run manually. Examples below assume you are in the root of this release project.
+#
+# Start process example:
+# APP_DIR=/path/to/tornado RACK_ENV=development COMMAND=shotgun PORT=9393 jobs/tornado/templates/tornado_ctl start
+#
+# View STDOUT/STDERR logs:
+# jobs/tornado/templates/tornado_ctl logs
+#
+# Clear logs:
+# jobs/tornado/templates/tornado_ctl clearlogs
+
+# TODO - change "EXECUTABLE_SERVER" to the command to run
+
+RUN_DIR=/var/vcap/sys/run/tornado
+LOG_DIR=/var/vcap/sys/log/tornado
+STORE=/var/vcap/store/tornado
+PIDFILE=$RUN_DIR/tornado.pid
+
+export PATH=/var/vcap/packages/ruby/bin:$PATH
+
+COMMAND=${COMMAND:-/var/vcap/packages/tornado/bin/EXECUTABLE_SERVER}
+HOME=${HOME:-/home/vcap}
+
+case $1 in
+
+  start)
+    mkdir -p $RUN_DIR
+    mkdir -p $LOG_DIR
+    mkdir -p $STORE
+
+    echo $$ > $PIDFILE
+
+    exec $COMMAND >>$LOG_DIR/tornado.stdout.log 2>>$LOG_DIR/tornado.stderr.log
+    ;;
+
+  stop)
+    PID=$(head -1 $PIDFILE)
+    kill $PID
+    while [ -e /proc/$PID ]; do sleep 0.1; done
+    rm -f $PIDFILE
+    ;;
+
+  logs)
+    cat $LOG_DIR/*
+    ;;
+
+  tail)
+    tail -f $LOG_DIR/*
+    ;;
+
+  clearlogs)
+    rm $LOG_DIR/*
+    ;;
+
+  *)
+  echo "Usage: tornado_ctl {start|stop|logs|tail|clearlogs}" ;;
+esac
+exit 0
