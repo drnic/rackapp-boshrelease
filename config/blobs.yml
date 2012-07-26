@@ -115,10 +115,6 @@ redis/redis-2.4.13.tar.gz:
   object_id: 0f916aef-ced3-4b26-9d23-9af93e3ed0f9
   sha: 212128b1c7cc0021beb3dae38b7fe957d6743f3b
   size: 625464
-python32/Python-3.2.3.tgz:
-  object_id: b6188b20-015e-4127-bea7-cdeca1cf42e9
-  sha: 2c65024cb32c446deeefe5584ed4062304807d61
-  size: 12787688
 python27/Python-2.7.3.tgz:
   object_id: dc24e8d9-62ef-4778-ba5a-23fbdd287b61
   sha: dbe486dd15022ed32ebbac4e67225e280ba93c3b
