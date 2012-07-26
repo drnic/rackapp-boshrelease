@@ -3,9 +3,15 @@ set -u # report the usage of uninitialized variables
 
 export HOME=/var/vcap
 
+PYTHON_VERSION=3.2.3
+PIP_VERSION=1.0
 
-tar xzf python32/Python-3.2.3.tgz
-cd Python-3.2.3
+tar xzf python32/Python-${PYTHON_VERSION}.tgz
+cd Python-${PYTHON_VERSION}
 ./configure --prefix=${BOSH_INSTALL_TARGET}
 make
 make install
+
+tar xfz pip-${PIP_VERSION}.tar.gz
+cd pip-${PIP_VERSION}
+${BOSH_INSTALL_TARGET}/bin/python setup.py install
