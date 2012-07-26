@@ -123,3 +123,11 @@ python32/Python-3.2.3.tgz:
   object_id: b6188b20-015e-4127-bea7-cdeca1cf42e9
   sha: 2c65024cb32c446deeefe5584ed4062304807d61
   size: 12787688
+python32/setuptools-0.6c11.tar.gz:
+  object_id: 49fdc03a-3cb3-4098-bae7-72d651558f54
+  sha: 8d1ad6384d358c547c50c60f1bfdb3362c6c4a7d
+  size: 256862
+python32/distribute-0.6.28.tar.gz:
+  object_id: 8bb827b3-4b03-41aa-be98-4b40dd64e3a1
+  sha: 709bd97d46050d69865d4b588c7707768dfe6711
+  size: 627530
