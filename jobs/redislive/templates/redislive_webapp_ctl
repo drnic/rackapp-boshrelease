@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# Control script to start/stop ruby/rack redislive_webapp webapp
+
+RUN_DIR=/var/vcap/sys/run/redislive_webapp
+LOG_DIR=/var/vcap/sys/log/redislive_webapp
+STORE=/var/vcap/store/redislive_webapp
+PIDFILE=$RUN_DIR/redislive_webapp.pid
+
+export PATH=/var/vcap/packages/ruby/bin:$PATH
+
+COMMAND=${COMMAND:-/var/vcap/packages/RedisLive/redis-live.py}
+HOME=${HOME:-/home/vcap}
+
+source /var/vcap/packages/common/utils.sh
+redirect_output 'redislive-webapp'
+
+case $1 in
+
+  start)
+    mkdir -p $RUN_DIR
+    mkdir -p $LOG_DIR
+    mkdir -p $STORE
+
+    echo $$ > $PIDFILE
+
+    exec $COMMAND >>$LOG_DIR/redislive_webapp.stdout.log \
+                  2>>$LOG_DIR/redislive_webapp.stderr.log
+    ;;
+
+  stop)
+    PID=$(head -1 $PIDFILE)
+    kill $PID
+    while [ -e /proc/$PID ]; do sleep 0.1; done
+    rm -f $PIDFILE
+    ;;
+
+  logs)
+    cat $LOG_DIR/*
+    ;;
+
+  tail)
+    tail -f $LOG_DIR/*
+    ;;
+
+  clearlogs)
+    rm $LOG_DIR/*
+    ;;
+
+  *)
+  echo "Usage: redislive_webapp_ctl {start|stop|logs|tail|clearlogs}" ;;
+esac
+exit 0

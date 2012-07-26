@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# Control script to start/stop ruby/rack RedisLive job on a BOSH controlled VM
+
+RUN_DIR=/var/vcap/sys/run/RedisLive
+LOG_DIR=/var/vcap/sys/log/RedisLive
+STORE=/var/vcap/store/RedisLive
+PIDFILE=$RUN_DIR/RedisLive.pid
+
+export PATH=/var/vcap/packages/ruby/bin:$PATH
+
+COMMAND=${COMMAND:-/var/vcap/packages/RedisLive/redis-monitor.pl --duration=120}
+HOME=${HOME:-/home/vcap}
+
+source /var/vcap/packages/common/utils.sh
+redirect_output 'redislive-monitor'
+
+
+case $1 in
+
+  start)
+    mkdir -p $RUN_DIR
+    mkdir -p $LOG_DIR
+    mkdir -p $STORE
+
+    echo $$ > $PIDFILE
+
+    exec $COMMAND >>$LOG_DIR/RedisLive.stdout.log 2>>$LOG_DIR/RedisLive.stderr.log
+    ;;
+
+  stop)
+    PID=$(head -1 $PIDFILE)
+    kill $PID
+    while [ -e /proc/$PID ]; do sleep 0.1; done
+    rm -f $PIDFILE
+    ;;
+
+  logs)
+    cat $LOG_DIR/*
+    ;;
+
+  tail)
+    tail -f $LOG_DIR/*
+    ;;
+
+  clearlogs)
+    rm $LOG_DIR/*
+    ;;
+
+  *)
+  echo "Usage: RedisLive_ctl {start|stop|logs|tail|clearlogs}" ;;
+esac
+exit 0
