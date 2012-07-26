@@ -6,12 +6,14 @@ export HOME=/var/vcap
 PYTHON_VERSION=3.2.3
 PIP_VERSION=1.0
 
+cd ${BOSH_COMPILE_TARGET}
 tar xzf python32/Python-${PYTHON_VERSION}.tgz
 cd Python-${PYTHON_VERSION}
 ./configure --prefix=${BOSH_INSTALL_TARGET}
 make
 make install
 
-tar xfz pip-${PIP_VERSION}.tar.gz
+cd ${BOSH_COMPILE_TARGET}
+tar xfz pip/pip-${PIP_VERSION}.tar.gz
 cd pip-${PIP_VERSION}
-${BOSH_INSTALL_TARGET}/bin/python setup.py install
+${BOSH_INSTALL_TARGET}/bin/python3 setup.py install
