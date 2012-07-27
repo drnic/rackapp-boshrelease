@@ -127,3 +127,23 @@ python/pip-1.0.tar.gz:
   object_id: dfdb79f2-f098-4ad3-9594-0d048a9dce53
   sha: 822009671932f0dbfc39e325ea529e7feea60bd3
   size: 100102
+python/six-1.1.0.tar.gz:
+  object_id: 39b28b76-8a85-47e4-88bc-1e7c90126779
+  sha: 2e6ca983a232cfacc94df37a26d641be1ead2524
+  size: 12573
+python-pip-RedisLive/python-dateutil-2.1.tar.gz:
+  object_id: 31ac8ad9-19dc-4a8b-8faa-62de8e676c52
+  sha: f0de3003c346b5fb210b42233d4f71298d23826d
+  size: 152334
+python-pip-RedisLive/redis-2.6.0.tar.gz:
+  object_id: 42c9d31c-0b8e-4d14-9413-32c985f413bb
+  sha: 9a5ca13c7bbb6b8527acfbf78e54446fecdef922
+  size: 33704
+python-pip-RedisLive/six-1.1.0.tar.gz:
+  object_id: 68696c91-bc4b-4cd1-b3b5-bf098708dda7
+  sha: 2e6ca983a232cfacc94df37a26d641be1ead2524
+  size: 12573
+python-pip-RedisLive/tornado-2.3.tar.gz:
+  object_id: 1897811f-9f98-4c31-b25d-58a2e2c16ccd
+  sha: 0abec6acc2ba880caadfda690cdeb73f445bc072
+  size: 338950

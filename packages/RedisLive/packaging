@@ -5,8 +5,23 @@ export HOME=/var/vcap
 
 PATH=/var/vcap/packages/python27/bin:$PATH
 
+cd ${BOSH_COMPILE_TARGET}
 cp -a RedisLive/src/* ${BOSH_INSTALL_TARGET}
 
-pip install tornado         # TODO tornado-2.3.tar.gz
-pip install redis           # TODO redis-2.6.0.tar.gz
-pip install python-dateutil # TODO python-dateutil-2.1.tar.gz
+packages=$(ls -t python-pip-RedisLive/*)
+# e.g.
+# - python-pip-RedisLive/six-1.1.0.tar.gz
+# - python-pip-RedisLive/redis-2.6.0.tar.gz
+# - python-pip-RedisLive/python-dateutil-2.1.tar.gz
+# - python-pip-RedisLive/tornado-2.3.tar.gz
+
+# Vendoring pips in project
+# http://carljm.github.com/tamingdeps/#30
+mkdir -p vendor
+
+for package_path in ${packages}
+do
+  echo "Installing pip package: ${package_path}"
+  pip install --install-option="--home=${BOSH_INSTALL_TARGET}/vendor/" \
+    ${package_path}
+done

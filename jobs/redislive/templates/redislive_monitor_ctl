@@ -8,6 +8,7 @@ STORE=/var/vcap/store/RedisLive
 PIDFILE=$RUN_DIR/RedisLive.pid
 
 export PATH=/var/vcap/packages/python27/bin:$PATH
+export PYTHONPATH=/var/vcap/packages/RedisLive/vendor/lib/python
 
 HOME=${HOME:-/home/vcap}
 
@@ -32,9 +33,9 @@ case $1 in
     chmod 755 /var/vcap/jobs/redislive # to access file via symlink
     ln -s /var/vcap/jobs/redislive/config/redis-live.conf redis-live.conf
 
-    ./redis-monitor.py --duration 120 \
+    exec ./redis-monitor.py --duration 120 \
                    >>$LOG_DIR/redislive_monitor.stdout.log \ 
-                  2>>$LOG_DIR/redislive_monitor.stderr.log
+                  2>>$LOG_DIR/redislive_monitor.stderr.log &
     ;;
 
   stop)

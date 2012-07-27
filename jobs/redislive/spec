@@ -3,6 +3,7 @@ name: redislive
 packages:
 - python27
 - RedisLive
+- sqlite
 templates:
   redislive_monitor_ctl:  bin/redislive_monitor_ctl
   redislive_webapp_ctl:   bin/redislive_webapp_ctl
