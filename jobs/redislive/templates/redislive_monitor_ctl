@@ -30,9 +30,7 @@ case $1 in
     chmod 755 /var/vcap/jobs/redislive # to access file via symlink
     cp /var/vcap/jobs/redislive/config/redis-live.conf redis-live.conf
 
-    exec ./redis-monitor.py --duration 120 \
-                   >>$LOG_DIR/redislive_monitor.stdout.log \ 
-                  2>>$LOG_DIR/redislive_monitor.stderr.log &
+    exec ./redis-monitor.py --duration 120  >>$LOG_DIR/redislive_monitor.stdout.log  2>>$LOG_DIR/redislive_monitor.stderr.log &
     echo $! > $PIDFILE
     ;;
 

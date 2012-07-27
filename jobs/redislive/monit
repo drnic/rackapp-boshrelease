@@ -1,5 +1,5 @@
 check process redislive_monitor
-  with pidfile /var/vcap/sys/run/redislive/redislive_redislive.pid
+  with pidfile /var/vcap/sys/run/redislive/redislive_monitor.pid
   start program "/var/vcap/packages/common/bin/monit_debugger redislive_monitor
     /var/vcap/jobs/redislive/bin/redislive_monitor_ctl start"
   stop program "/var/vcap/packages/common/bin/monit_debugger redislive_monitor
