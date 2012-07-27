@@ -2,9 +2,9 @@
 
 # Control script to start/stop ruby/rack redislive_webapp webapp
 
-RUN_DIR=/var/vcap/sys/run/redislive_webapp
-LOG_DIR=/var/vcap/sys/log/redislive_webapp
-STORE=/var/vcap/store/redislive_webapp
+RUN_DIR=/var/vcap/sys/run/redislive
+LOG_DIR=/var/vcap/sys/log/redislive
+STORE=/var/vcap/store/redislive
 PIDFILE=$RUN_DIR/redislive_webapp.pid
 
 export PATH=/var/vcap/packages/python27/bin:$PATH
