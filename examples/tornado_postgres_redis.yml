@@ -1,6 +1,6 @@
 ---
 jobs:
-  - RedisLive
+  - redislive
   - redis
 properties:
   description: "RedisLive with postgresql to monitor Redis DBs"

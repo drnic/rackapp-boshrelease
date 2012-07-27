@@ -1,7 +1,8 @@
 ---
-name: tornado
+name: redislive
 packages:
 - python27
 - RedisLive
 templates:
-  tornado_ctl: bin/tornado_ctl
+  redislive_monitor_ctl: bin/redislive_monitor_ctl
+  redislive_webapp_ctl:  bin/redislive_webapp_ctl

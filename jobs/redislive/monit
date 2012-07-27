@@ -1,4 +1,4 @@
-check process redislive
+check process redislive_monitor
   with pidfile /var/vcap/sys/run/tornado/tornado.pid
   start program "/var/vcap/packages/common/bin/monit_debugger redislive_monitor
     /var/vcap/jobs/redislive/bin/redislive_monitor_ctl start"
@@ -6,7 +6,7 @@ check process redislive
     /var/vcap/jobs/redislive/bin/redislive_monitor_ctl stop"
   group vcap
 
-check process redislive
+check process redislive_webapp
   with pidfile /var/vcap/sys/run/tornado/tornado.pid
   start program "/var/vcap/packages/common/bin/monit_debugger redislive_webapp
     /var/vcap/jobs/redislive/bin/redislive_webapp_ctl start"
