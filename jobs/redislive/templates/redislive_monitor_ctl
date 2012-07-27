@@ -7,7 +7,7 @@ LOG_DIR=/var/vcap/sys/log/RedisLive
 STORE=/var/vcap/store/RedisLive
 PIDFILE=$RUN_DIR/RedisLive.pid
 
-export PATH=/var/vcap/packages/ruby/bin:$PATH
+export PATH=/var/vcap/packages/python27/bin:$PATH
 
 COMMAND=${COMMAND:-/var/vcap/packages/RedisLive/redis-monitor.py --duration=120}
 HOME=${HOME:-/home/vcap}

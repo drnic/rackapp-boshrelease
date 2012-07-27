@@ -7,7 +7,7 @@ LOG_DIR=/var/vcap/sys/log/redislive_webapp
 STORE=/var/vcap/store/redislive_webapp
 PIDFILE=$RUN_DIR/redislive_webapp.pid
 
-export PATH=/var/vcap/packages/ruby/bin:$PATH
+export PATH=/var/vcap/packages/python27/bin:$PATH
 
 COMMAND=${COMMAND:-/var/vcap/packages/RedisLive/redis-live.py}
 HOME=${HOME:-/home/vcap}
