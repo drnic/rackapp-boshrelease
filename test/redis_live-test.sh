@@ -44,17 +44,17 @@ before() {
   fi
 }
 
-it_runs_tornado() {
-  expected='tornado'
+it_runs_redis_live() {
+  expected='redis-live.py'
   test $(ps ax | grep "${expected}" | grep -v 'grep' | wc -l) = 1
 }
 
-it_runs_postgres() {
-  expected='postgres -D /var/vcap/store/postgres -h 127.0.0.1 -p 5432'
+it_runs_redis_monitor() {
+  expected='redis-monitor.py --duration 120'
   test $(ps ax | grep "${expected}" | grep -v 'grep' | wc -l) = 1
 }
 
 it_runs_redis() {
-  expected='bin/redis'
+  expected='redis-server'
   test $(ps ax | grep "${expected}" | grep -v 'grep' | wc -l) = 1
 }
