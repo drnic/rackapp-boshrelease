@@ -24,18 +24,16 @@ case $1 in
     mkdir -p $LOG_DIR
     mkdir -p $STORE
 
-    echo $$ > $PIDFILE
-
     cd /var/vcap/packages/RedisLive/
 
-    # TODO symlink the redis-live.conf into project folder
-    mv redis-live.conf redis-live.conf.orig
+    rm redis-live.conf
     chmod 755 /var/vcap/jobs/redislive # to access file via symlink
-    ln -s /var/vcap/jobs/redislive/config/redis-live.conf redis-live.conf
+    cp /var/vcap/jobs/redislive/config/redis-live.conf redis-live.conf
 
     exec ./redis-monitor.py --duration 120 \
                    >>$LOG_DIR/redislive_monitor.stdout.log \ 
                   2>>$LOG_DIR/redislive_monitor.stderr.log &
+    echo $! > $PIDFILE
     ;;
 
   stop)
