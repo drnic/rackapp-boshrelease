@@ -19,9 +19,6 @@ packages=$(ls -t python-pip-RedisLive/*)
 # http://carljm.github.com/tamingdeps/#30
 mkdir -p vendor
 
-for package_path in ${packages}
-do
-  echo "Installing pip package: ${package_path}"
-  pip install --install-option="--home=${BOSH_INSTALL_TARGET}/vendor/" \
-    ${package_path}
-done
+echo "Installing pip packages: ${packages}"
+pip install --install-option="--home=${BOSH_INSTALL_TARGET}/vendor/" \
+  ${packages}
