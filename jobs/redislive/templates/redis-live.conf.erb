@@ -1,11 +1,6 @@
-{
-	"RedisServers":
-	[
-		{
-		  "server": "127.0.0.1",
-		  "port" : 6379
-		}
-	],
-
-	"DataStoreType" : "sqlite"
-}
+<%= 
+require 'json'
+config = {"RedisServers" => [], "DataStoreType" => "sqlite"}
+config["RedisServers"] = properties.redislive.targets.map(&:marshal_dump)
+config.to_json
+%>
