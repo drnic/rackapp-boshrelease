@@ -14,6 +14,8 @@ HOME=${HOME:-/home/vcap}
 source /var/vcap/packages/common/utils.sh
 redirect_output 'redislive-webapp'
 
+# TODO - data to /var/vcap/store
+
 case $1 in
 
   start)

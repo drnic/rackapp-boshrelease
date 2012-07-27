@@ -14,6 +14,7 @@ HOME=${HOME:-/home/vcap}
 source /var/vcap/packages/common/utils.sh
 redirect_output 'redislive-monitor'
 
+# TODO - data to /var/vcap/store
 
 case $1 in
 
@@ -26,7 +27,12 @@ case $1 in
 
     cd /var/vcap/packages/RedisLive/
 
-    exec ./redis-monitor.py --duration=120 \
+    # TODO symlink the redis-live.conf into project folder
+    mv redis-live.conf redis-live.conf.orig
+    chmod 755 /var/vcap/jobs/redislive # to access file via symlink
+    ln -s /var/vcap/jobs/redislive/config/redis-live.conf redis-live.conf
+
+    ./redis-monitor.py --duration 120 \
                    >>$LOG_DIR/redislive_monitor.stdout.log \ 
                   2>>$LOG_DIR/redislive_monitor.stderr.log
     ;;

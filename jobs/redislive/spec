@@ -4,5 +4,6 @@ packages:
 - python27
 - RedisLive
 templates:
-  redislive_monitor_ctl: bin/redislive_monitor_ctl
-  redislive_webapp_ctl:  bin/redislive_webapp_ctl
+  redislive_monitor_ctl:  bin/redislive_monitor_ctl
+  redislive_webapp_ctl:   bin/redislive_webapp_ctl
+  redis-live.conf.erb:    config/redis-live.conf
