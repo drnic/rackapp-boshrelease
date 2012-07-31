@@ -1,18 +1,20 @@
 ---
 name: webapp
 templates:
-  webapp_ctl.erb:     bin/webapp_ctl
-  ctl_setup.sh:       bin/ctl_setup.sh
-  ctl_utils.sh:       bin/ctl_utils.sh
-  monit_debugger:     bin/monit_debugger
-  nginx_ctl:          bin/nginx_ctl
-  nginx.conf.erb:     config/nginx.conf
-  nginx_proxy.conf:   config/nginx_proxy.conf
-  mime.types:         config/mime.types
-  appconfig.yml.erb:  config/appconfig.yml
-  database.yml.erb:   config/database.yml
-  redis.yml.erb:      config/redis.yml
-  blacklist.txt:      config/blacklist.txt
+  webapp_ctl.erb:         bin/webapp_ctl
+  ctl_setup.sh:           bin/ctl_setup.sh
+  ctl_utils.sh:           bin/ctl_utils.sh
+  monit_debugger:         bin/monit_debugger
+  webapp_ctl_nginx.sh.erb:  bin/webapp_ctl_nginx.sh
+  webapp_pg_utils.sh.erb:   bin/webapp_pg_utils.sh
+  nginx_ctl:              bin/nginx_ctl
+  nginx.conf.erb:         config/nginx.conf
+  nginx_proxy.conf:       config/nginx_proxy.conf
+  mime.types:             config/mime.types
+  appconfig.yml.erb:      config/appconfig.yml
+  database.yml.erb:       config/database.yml
+  redis.yml.erb:          config/redis.yml
+  blacklist.txt:          config/blacklist.txt
 packages:
   - common
   - todo

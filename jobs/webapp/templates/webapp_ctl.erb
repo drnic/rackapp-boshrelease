@@ -6,6 +6,13 @@ set -u # report the usage of uninitialized variables
 # Setup env vars and folders for the webapp_ctl script
 source /var/vcap/jobs/webapp/bin/ctl_setup.sh
 
+# Setup HTTP_PROXY, HTTPS_PROXY, NO_PROXY as necessary
+source /var/vcap/jobs/webapp/bin/webapp_ctl_nginx.sh
+
+# Helpers for PostgresDB
+source /var/vcap/jobs/webapp/bin/webapp_pg_utils.sh
+
+
 APP_PACKAGE='<%= properties.webapp && properties.webapp.package || "rackapp" %>' # which bosh package contains the rackapp/webapp
 export RAILS_ENV=production
 export RACK_ENV=production
@@ -17,51 +24,12 @@ WEBAPP_DIR=/var/vcap/packages/$APP_PACKAGE
 export WEBAPP_CONFIG=$WEBAPP_JOB_DIR/config/appconfig.yml
 export BUNDLE_GEMFILE=$WEBAPP_DIR/Gemfile
 
-# https://github.com/pmirshad/cgit-on-nginx/wiki/Installing-cgit-with-nginx-on-Ubuntu-11.10
-<% if properties.env %>
-<% if properties.env.http_proxy %>
-export HTTP_PROXY='<%= properties.env.http_proxy %>'
-export http_proxy='<%= properties.env.http_proxy %>'
-<% end %>
-<% if properties.env.https_proxy %>
-export HTTPS_PROXY='<%= properties.env.https_proxy %>'
-export https_proxy='<%= properties.env.https_proxy %>'
-<% end %>
-<% if properties.env.no_proxy %>
-export NO_PROXY='<%= properties.env.no_proxy %>'
-export no_proxy='<%= properties.env.no_proxy %>'
-<% end %>
-<% end %>
 
 REDIS='<%= properties.redis ? 1 : 0 %>'
 
 export CONFIG_DIR=$WEBAPP_JOB_DIR/config
 
 export LANG=en_US.UTF-8
-
-PG_PACKAGE_DIR=/var/vcap/package/postgres
-function database_ready() {
-  <% if properties.postgres %>
-  HOST='<%= properties.postgres.host %>'
-  PORT='<%= properties.postgres.port || 5432 %>'
-  USER='<%= properties.postgres.user %>'
-  PASSWORD='<%= properties.postgres.password %>'
-  DBNAME='<%= properties.postgres.database %>'
-  echo Testing postgresl: psql -d $DBNAME -p $PORT -U vcap -c "select 1;"
-  LD_LIBRARY_PATH=$PG_PACKAGE_DIR/lib $PG_PACKAGE_DIR/bin/psql -d $DBNAME -p $PORT -U vcap -c "select 1;"
-  <% else %>
-  echo 'No database configured'
-  true
-  <% end %>
-}
-
-function wait_for_database() {
-  while [[ ! database_ready ]]
-  do
-    echo "Waiting for database availability"
-    sleep 1;
-  done
-}
 
 case $1 in
 
