@@ -2,6 +2,7 @@
 name: webapp
 templates:
   webapp_ctl.erb:    bin/webapp_ctl
+  setup_webapp_ctl:  bin/setup_webapp_ctl
   nginx_ctl:         bin/nginx_ctl
   nginx.conf.erb:    config/nginx.conf
   nginx_proxy.conf:  config/nginx_proxy.conf
