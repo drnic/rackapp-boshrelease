@@ -3,7 +3,8 @@
 set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
 
-source /var/vcap/jobs/webapp/bin/setup_webapp_ctl
+# Setup env vars and folders for the webapp_ctl script
+source /var/vcap/jobs/webapp/bin/ctl_setup.sh
 
 APP_PACKAGE='<%= properties.webapp && properties.webapp.package || "rackapp" %>' # which bosh package contains the rackapp/webapp
 export RAILS_ENV=production
@@ -36,12 +37,7 @@ REDIS='<%= properties.redis ? 1 : 0 %>'
 
 export CONFIG_DIR=$WEBAPP_JOB_DIR/config
 
-export C_INCLUDE_PATH=/var/vcap/packages/mysqlclient/include/mysql:/var/vcap/packages/sqlite/include:/var/vcap/packages/libpq/include
-export LIBRARY_PATH=/var/vcap/packages/mysqlclient/lib/mysql:/var/vcap/packages/sqlite/lib:/var/vcap/packages/libpq/lib
 export LANG=en_US.UTF-8
-
-source /var/vcap/packages/common/utils.sh
-redirect_output 'webapp'
 
 PG_PACKAGE_DIR=/var/vcap/package/postgres
 function database_ready() {

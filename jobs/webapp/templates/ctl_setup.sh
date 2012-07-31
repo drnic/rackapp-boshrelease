@@ -7,6 +7,10 @@
 set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
 
+source /var/vcap/jobs/webapp/bin/ctl_utils.sh
+redirect_output 'webapp'
+
+
 export HOME=${HOME:-/home/vcap}
 
 # Add all packages' /bin & /sbin into $PATH
@@ -25,6 +29,9 @@ do
   mkdir -p ${dir}
   chown vcap:vcap ${dir}
 done
+
+export C_INCLUDE_PATH=/var/vcap/packages/mysqlclient/include/mysql:/var/vcap/packages/sqlite/include:/var/vcap/packages/libpq/include
+export LIBRARY_PATH=/var/vcap/packages/mysqlclient/lib/mysql:/var/vcap/packages/sqlite/lib:/var/vcap/packages/libpq/lib
 
 PIDFILE=$RUN_DIR/webapp.pid
 
