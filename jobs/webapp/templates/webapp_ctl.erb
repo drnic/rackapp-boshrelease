@@ -12,10 +12,13 @@ source /var/vcap/jobs/webapp/bin/webapp_ctl_nginx.sh
 # Helpers for PostgresDB
 source /var/vcap/jobs/webapp/bin/ctl_pg_utils.sh
 
+# Helpers for Redis
+source /var/vcap/jobs/webapp/bin/ctl_redis_utils.sh
+
 
 APP_PACKAGE='<%= properties.webapp && properties.webapp.package || "rackapp" %>' # which bosh package contains the rackapp/webapp
 export RAILS_ENV=production
-export RACK_ENV=production
+export RACK_ENV=${RAILS_ENV}
 export PORT=5000
 
 export WEBAPP_JOB_DIR=/var/vcap/jobs/webapp
@@ -24,8 +27,6 @@ WEBAPP_DIR=/var/vcap/packages/$APP_PACKAGE
 export WEBAPP_CONFIG=$WEBAPP_JOB_DIR/config/appconfig.yml
 export BUNDLE_GEMFILE=$WEBAPP_DIR/Gemfile
 
-
-REDIS='<%= properties.redis ? 1 : 0 %>'
 
 export CONFIG_DIR=$WEBAPP_JOB_DIR/config
 
@@ -46,16 +47,8 @@ case $1 in
     fi
     ln -s $WEBAPP_JOB_DIR/config/database.yml $WEBAPP_DIR/config/database.yml
 
-    if [[ "$REDIS" = '1' ]]
-    then
-      echo "Linking config/redis.yml"
-      mkdir -p $WEBAPP_DIR/config
-      if [[ -f $WEBAPP_DIR/config/redis.yml ]]
-      then
-        mv $WEBAPP_DIR/config/redis.yml{,.orig}
-      fi
-      ln -s $WEBAPP_JOB_DIR/config/redis.yml $WEBAPP_DIR/config/redis.yml
-    fi
+    # if redis enabled, link it to application
+    link_redis_config yaml config/redis.yml
 
     <% if properties.webapp && properties.webapp.run_migrations %>
     wait_for_database
