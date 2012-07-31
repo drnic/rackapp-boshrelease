@@ -19,15 +19,10 @@ source $JOB_DIR/bin/ctl_redis_utils.sh
 APP_PACKAGE='<%= properties.webapp && properties.webapp.package || "rackapp" %>' # which bosh package contains the rackapp/webapp
 export RAILS_ENV=production
 export RACK_ENV=${RAILS_ENV}
+export BUNDLE_GEMFILE=$WEBAPP_DIR/Gemfile
 export PORT=5000
 
 WEBAPP_DIR=/var/vcap/packages/$APP_PACKAGE
-
-export WEBAPP_CONFIG=$JOB_DIR/config/appconfig.yml
-export BUNDLE_GEMFILE=$WEBAPP_DIR/Gemfile
-
-
-export CONFIG_DIR=$JOB_DIR/config
 
 export LANG=en_US.UTF-8
 
