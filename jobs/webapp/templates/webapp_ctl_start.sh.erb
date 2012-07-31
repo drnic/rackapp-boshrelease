@@ -13,7 +13,16 @@
 #   properties:
 #     webapp:
 #       appstack: rackup
+#
+# Requires env variables:
+# * $WEBAPP_DIR
+# * $PIDFILE
+# * $PORT
 appstack='<%= (properties.webapp && properties.webapp.appstack) || "rackup" %>'
+
+echo "Launching webapp within $WEBAPP_DIR"
+wait_for_database
+
 if [[ "${appstack}" = "puma" ]]
 then
   <% puma_threads = properties.webapp.puma && properties.webapp.puma.threads %>
@@ -34,3 +43,5 @@ else
   echo "ERROR: properties.webapp.appstack = ${appstack}. Valid values: puma, rackup"
   exit 1
 fi
+
+chown vcap:vcap $PIDFILE

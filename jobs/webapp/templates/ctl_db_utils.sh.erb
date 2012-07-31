@@ -1,0 +1,35 @@
+<% if properties.postgres %>
+PG_PACKAGE_DIR=/var/vcap/package/postgres
+function database_ready() {
+  DB_HOST='<%= properties.postgres.host %>'
+  DB_PORT='<%= properties.postgres.port || 5432 %>'
+  DB_USER='<%= properties.postgres.user %>'
+  DB_PASSWORD='<%= properties.postgres.password %>'
+  DB_NAME='<%= properties.postgres.database %>'
+  echo Testing postgresl: psql -d $DB_NAME -p $DB_PORT -U vcap -c "select 1;"
+  LD_LIBRARY_PATH=$PG_PACKAGE_DIR/lib $PG_PACKAGE_DIR/bin/psql -d $DB_NAME -p $DB_PORT -U $DB_USER -c "select 1;"
+}
+<% else %>
+# No database or SQLite database
+function database_ready() {
+  true
+}
+<% end %>
+
+function wait_for_database() {
+  while [[ ! database_ready ]]
+  do
+    echo "Waiting for database availability"
+    sleep 1;
+  done
+}
+
+function link_sql_db_config() {
+  echo "Linking config/database.yml"
+  mkdir -p $WEBAPP_DIR/config
+  if [[ -f $WEBAPP_DIR/config/database.yml ]]
+  then
+    mv $WEBAPP_DIR/config/database.yml{,.orig}
+  fi
+  ln -s $WEBAPP_JOB_DIR/config/database.yml $WEBAPP_DIR/config/database.yml
+}

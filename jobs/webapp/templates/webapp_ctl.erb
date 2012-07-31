@@ -10,7 +10,7 @@ source /var/vcap/jobs/webapp/bin/ctl_setup.sh
 source /var/vcap/jobs/webapp/bin/webapp_ctl_nginx.sh
 
 # Helpers for PostgresDB
-source /var/vcap/jobs/webapp/bin/ctl_pg_utils.sh
+source /var/vcap/jobs/webapp/bin/ctl_db_utils.sh
 
 # Helpers for Redis
 source /var/vcap/jobs/webapp/bin/ctl_redis_utils.sh
@@ -39,30 +39,20 @@ case $1 in
 
     cd $WEBAPP_DIR
 
-    echo "Linking config/database.yml"
-    mkdir -p $WEBAPP_DIR/config
-    if [[ -f $WEBAPP_DIR/config/database.yml ]]
-    then
-      mv $WEBAPP_DIR/config/database.yml{,.orig}
-    fi
-    ln -s $WEBAPP_JOB_DIR/config/database.yml $WEBAPP_DIR/config/database.yml
-
+    # link db config to application
+    link_sql_db_config yaml config/database.yml
+    
     # if redis enabled, link it to application
     link_redis_config yaml config/redis.yml
 
     # Migrations, if requested
     source /var/vcap/jobs/webapp/bin/rails_ctl_setup.sh
 
+    # TODO what is 'ulimit -c unlimited' for; when not to use it?
     ulimit -c unlimited
 
-    cd $WEBAPP_DIR
-    echo "Launching webapp within $WEBAPP_DIR"
-    wait_for_database
-    
     # Start the rack app using requested appstack
     source /var/vcap/jobs/webapp/bin/webapp_ctl_start.sh
-
-    chown vcap:vcap $PIDFILE
 
     echo "Running webapp on $PORT"
     ;;
