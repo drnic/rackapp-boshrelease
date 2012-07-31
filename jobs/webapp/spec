@@ -6,7 +6,7 @@ templates:
   ctl_utils.sh:           bin/ctl_utils.sh
   monit_debugger:         bin/monit_debugger
   webapp_ctl_nginx.sh.erb:  bin/webapp_ctl_nginx.sh
-  webapp_pg_utils.sh.erb:   bin/webapp_pg_utils.sh
+  ctl_pg_utils.sh.erb:      bin/ctl_pg_utils.sh
   webapp_ctl_start.sh.erb:  bin/webapp_ctl_start.sh
   nginx_ctl:              bin/nginx_ctl
   nginx.conf.erb:         config/nginx.conf

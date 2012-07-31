@@ -10,7 +10,7 @@ source /var/vcap/jobs/webapp/bin/ctl_setup.sh
 source /var/vcap/jobs/webapp/bin/webapp_ctl_nginx.sh
 
 # Helpers for PostgresDB
-source /var/vcap/jobs/webapp/bin/webapp_pg_utils.sh
+source /var/vcap/jobs/webapp/bin/ctl_pg_utils.sh
 
 
 APP_PACKAGE='<%= properties.webapp && properties.webapp.package || "rackapp" %>' # which bosh package contains the rackapp/webapp
