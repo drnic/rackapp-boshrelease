@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# Default properties:
+#
+#   properties:
+#     webapp:
+#       migrate: false
+#       migration_command: rake db:migrate
+
+migrate='<%= (properties.webapp && properties.webapp.migrate) || "false" %>'
+migration_command='<%= (properties.webapp && properties.webapp.migration_command) || "rake db:migrate" %>'
+
+if [[ "${migrate}" = "true" || "${migrate}" = "1" || "${migrate}" = "yes" ]]
+then
+  wait_for_database
+  
+  echo "Running migrations"
+  bundle exec ${migration_command} \
+    >>$LOG_DIR/db_migrate.stdout.log \
+    2>>$LOG_DIR/db_migrate.stderr.log
+  if [ $? != 0 ]; then
+    echo "Migrations failed"
+    exit 1
+  fi
+else
+  echo "Skipping migrations"
+fi
+
+
+

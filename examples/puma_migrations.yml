@@ -5,7 +5,7 @@ properties:
   description: "Todo app: puma, sqlite with migrations"
   webapp:
     package: todo
-    run_migrations: 1
+    migrate: 1
     appstack: puma
     puma:
       threads:

@@ -50,28 +50,8 @@ case $1 in
     # if redis enabled, link it to application
     link_redis_config yaml config/redis.yml
 
-    <% if properties.webapp && properties.webapp.run_migrations %>
-    wait_for_database
-    
-    echo "Running migrations"
-    export WEBAPP_NOSTART=1
-    bundle exec rake db:migrate >>$LOG_DIR/db_migrate.stdout.log 2>>$LOG_DIR/db_migrate.stderr.log
-    if [ $? != 0 ]; then
-      echo "Migrations failed"
-      exit 1
-    fi
-    unset WEBAPP_NOSTART
-    <% else %>
-    echo "Skipping migrations"
-    <% end %>
-    
-    <% if properties.webapp && properties.webapp.run_asset_compilation %>
-    echo "Running asset compilation"
-    bundle exec rake assets:precompile >>$LOG_DIR/assets_precompile.stdout.log 2>>$LOG_DIR/assets_precompile.stderr.log
-    <% else %>
-    echo "Skipping asset compilation"
-    <% end %>
-    
+    # Migrations, if requested
+    source /var/vcap/jobs/webapp/bin/rails_ctl_setup.sh
 
     ulimit -c unlimited
 

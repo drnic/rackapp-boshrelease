@@ -7,7 +7,7 @@ properties:
   webapp:
     package: todo
     use_nginx: 1
-    run_migrations: 1
+    migrate: 1
     appstack: puma
   postgres:
     host: 127.0.0.1
