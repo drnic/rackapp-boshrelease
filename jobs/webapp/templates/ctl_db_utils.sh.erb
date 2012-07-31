@@ -31,5 +31,5 @@ function link_sql_db_config() {
   then
     mv $WEBAPP_DIR/config/database.yml{,.orig}
   fi
-  ln -s $WEBAPP_JOB_DIR/config/database.yml $WEBAPP_DIR/config/database.yml
+  ln -s $JOB_DIR/config/database.yml $WEBAPP_DIR/config/database.yml
 }

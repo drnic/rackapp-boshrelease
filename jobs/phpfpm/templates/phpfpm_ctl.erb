@@ -8,7 +8,7 @@ export PORT=9000
 
 export PATH=/var/vcap/packages/php5/bin:$PATH
 
-export WEBAPP_JOB_DIR=/var/vcap/jobs/phpfpm
+export JOB_DIR=/var/vcap/jobs/phpfpm
 WEBAPP_DIR=/var/vcap/packages/$APP_PACKAGE
 
 RUN_DIR=/var/vcap/sys/run/phpfpm
@@ -41,8 +41,8 @@ case $1 in
     # echo ls -al $WEBAPP_DIR/
     # ls -al $WEBAPP_DIR/
     # 
-    # echo $WEBAPP_JOB_DIR/config
-    # ls -al $WEBAPP_JOB_DIR/config
+    # echo $JOB_DIR/config
+    # ls -al $JOB_DIR/config
     # 
     if [[ -h $WEBAPP_DIR/wp-config.php ]]
     then
@@ -54,7 +54,7 @@ case $1 in
     if [[ ! -f $WEBAPP_DIR/wp-config.php ]]
     then
       echo "Copying wp-config.php"
-      cp $WEBAPP_JOB_DIR/config/wp-config.php $WEBAPP_DIR/wp-config.php
+      cp $JOB_DIR/config/wp-config.php $WEBAPP_DIR/wp-config.php
     fi
 
     # TODO postgres config db.php
@@ -62,8 +62,8 @@ case $1 in
     echo "Starting php-fpm"
 
     /var/vcap/packages/php5/sbin/php-fpm \
-      -c $WEBAPP_JOB_DIR/etc/php.ini \
-      --fpm-config $WEBAPP_JOB_DIR/etc/php-fpm.conf \
+      -c $JOB_DIR/etc/php.ini \
+      --fpm-config $JOB_DIR/etc/php-fpm.conf \
       --pid $PIDFILE
     
     echo "Done"

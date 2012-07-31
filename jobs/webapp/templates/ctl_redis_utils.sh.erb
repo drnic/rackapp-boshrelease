@@ -19,6 +19,6 @@ function link_redis_config() {
     then
       mv $WEBAPP_DIR/${target_file}{,.orig}
     fi
-    ln -s $WEBAPP_JOB_DIR/${target_file} $WEBAPP_DIR/${target_file}
+    ln -s $JOB_DIR/${target_file} $WEBAPP_DIR/${target_file}
   fi
 }

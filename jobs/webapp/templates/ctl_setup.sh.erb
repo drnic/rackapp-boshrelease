@@ -12,6 +12,7 @@ redirect_output '<%= name %>'
 
 
 export HOME=${HOME:-/home/vcap}
+export JOB_DIR=/var/vcap/jobs/<%= name %>
 
 # Add all packages' /bin & /sbin into $PATH
 for package_bin_dir in $(ls -d /var/vcap/packages/*/{,s}bin)
