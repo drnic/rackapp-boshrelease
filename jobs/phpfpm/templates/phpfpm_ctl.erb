@@ -3,13 +3,13 @@
 set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
 
-APP_PACKAGE='<%= properties.webapp && properties.webapp.package || "wordpress" %>' # which bosh package contains the rackapp/webapp
+WEBAPP_PACKAGE='<%= properties.webapp && properties.webapp.package || "wordpress" %>' # which bosh package contains the rackapp/webapp
 export PORT=9000
 
 export PATH=/var/vcap/packages/php5/bin:$PATH
 
 export JOB_DIR=/var/vcap/jobs/phpfpm
-WEBAPP_DIR=/var/vcap/packages/$APP_PACKAGE
+WEBAPP_DIR=/var/vcap/packages/$WEBAPP_PACKAGE
 
 RUN_DIR=/var/vcap/sys/run/phpfpm
 LOG_DIR=/var/vcap/sys/log/phpfpm
