@@ -4,16 +4,16 @@ set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
 
 # Setup env vars and folders for the webapp_ctl script
-source /var/vcap/jobs/webapp/bin/ctl_setup.sh
+source /var/vcap/jobs/<%= name %>/bin/ctl_setup.sh
 
 # Setup HTTP_PROXY, HTTPS_PROXY, NO_PROXY as necessary
-source /var/vcap/jobs/webapp/bin/webapp_ctl_nginx.sh
+source $JOB_DIR/bin/webapp_ctl_nginx.sh
 
 # Helpers for PostgresDB
-source /var/vcap/jobs/webapp/bin/ctl_db_utils.sh
+source $JOB_DIR/bin/ctl_db_utils.sh
 
 # Helpers for Redis
-source /var/vcap/jobs/webapp/bin/ctl_redis_utils.sh
+source $JOB_DIR/bin/ctl_redis_utils.sh
 
 
 APP_PACKAGE='<%= properties.webapp && properties.webapp.package || "rackapp" %>' # which bosh package contains the rackapp/webapp
@@ -45,13 +45,13 @@ case $1 in
     link_redis_config yaml config/redis.yml
 
     # Migrations, if requested
-    source /var/vcap/jobs/webapp/bin/rails_ctl_setup.sh
+    source $JOB_DIR/bin/rails_ctl_setup.sh
 
     # TODO what is 'ulimit -c unlimited' for; when not to use it?
     ulimit -c unlimited
 
     # Start the rack app using requested appstack
-    source /var/vcap/jobs/webapp/bin/webapp_ctl_start.sh
+    source $JOB_DIR/bin/webapp_ctl_start.sh
 
     echo "Running webapp on $PORT"
     ;;
