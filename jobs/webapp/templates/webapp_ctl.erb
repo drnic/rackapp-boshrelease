@@ -78,13 +78,11 @@ case $1 in
   start)
     pid_guard $PIDFILE "webapp"
 
-    mkdir -p $RUN_DIR
-    mkdir -p $LOG_DIR
-    mkdir -p $TMPDIR
-
-    chown vcap:vcap $RUN_DIR
-    chown vcap:vcap $LOG_DIR
-    chown vcap:vcap $TMPDIR
+    for dir in $RUN_DIR $LOG_DIR $TMPDIR
+    do
+      mkdir -p ${dir}
+      chown vcap:vcap ${dir}
+    done
 
     cd $WEBAPP_DIR
 
