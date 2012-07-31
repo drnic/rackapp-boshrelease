@@ -14,7 +14,6 @@ templates:
   nginx.conf.erb:         config/nginx.conf
   nginx_proxy.conf:       config/nginx_proxy.conf
   mime.types:             config/mime.types
-  appconfig.yml.erb:      config/appconfig.yml
   database.yml.erb:       config/database.yml
   redis.yml.erb:          config/redis.yml
   blacklist.txt:          config/blacklist.txt
