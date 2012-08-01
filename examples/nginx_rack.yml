@@ -4,4 +4,5 @@ jobs:
 properties:
   description: "My Rack App: Using nginx in front of rackup"
   webapp:
+    appstack: rackup
     use_nginx: 1

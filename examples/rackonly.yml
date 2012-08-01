@@ -3,3 +3,5 @@ jobs:
   - webapp
 properties:
   description: "My Rack App: Using rackup-only"
+  webapp:
+    appstack: rackup

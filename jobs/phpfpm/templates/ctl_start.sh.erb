@@ -9,6 +9,11 @@
 #           min: 0
 #           max: 16
 #
+# Or PHP-FPM:
+#   properties:
+#     webapp:
+#       appstack: php-fpm
+#
 # Or (default)
 #   properties:
 #     webapp:
@@ -18,9 +23,9 @@
 # * $WEBAPP_DIR
 # * $PIDFILE
 # * $PORT
-appstack='<%= (properties.webapp && properties.webapp.appstack) || "rackup" %>'
+appstack='<%= properties.webapp && properties.webapp.appstack %>'
 
-echo "Launching webapp within $WEBAPP_DIR"
+echo "Launching $JOB_NAME within $WEBAPP_DIR with ${appstack}"
 wait_for_database
 
 if [[ "${appstack}" = "puma" ]]
@@ -37,6 +42,13 @@ then
   exec bundle exec rackup -D -P $PIDFILE -p $PORT \
        >>$LOG_DIR/webapp.stdout.log \
        2>>$LOG_DIR/webapp.stderr.log || exit 1
+
+elif [[ "${appstack}" = "phpfpm" || "${appstack}" = "php-fpm" ]]
+then
+  /var/vcap/packages/php5/sbin/php-fpm \
+    -c $JOB_DIR/etc/php.ini \
+    --fpm-config $JOB_DIR/etc/php-fpm.conf \
+    --pid $PIDFILE
 
 # else invalid appstack requested
 else

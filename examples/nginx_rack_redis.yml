@@ -5,6 +5,7 @@ jobs:
 properties:
   description: "Rack updating redis counter"
   webapp:
+    appstack: rackup
     use_nginx: 1
   redis:
     host: 127.0.0.1
