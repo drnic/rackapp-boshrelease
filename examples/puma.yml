@@ -4,6 +4,7 @@ jobs:
 properties:
   description: "My Rack App: Using puma"
   webapp:
+    package: rackapp
     appstack: puma
     puma:
       threads:

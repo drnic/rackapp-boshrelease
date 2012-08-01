@@ -2,7 +2,7 @@
 <% require 'ostruct' %>
 <% properties.webapp ||= OpenStruct.new %>
 <% properties.webapp.nginx ||= OpenStruct.new %>
-<% package_name = properties.webapp.package || 'wordpress' %>
+<% package_name = properties.webapp.package %>
 <% app_index = properties.webapp.nginx.app_index || 'index.php' %>
 <% app_root = "/var/vcap/packages/#{package_name}" %>
 <% document_root = File.join("/var/vcap/packages", package_name, File.dirname(app_index)) %>

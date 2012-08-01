@@ -12,7 +12,7 @@ export JOB_DIR=/var/vcap/jobs/$JOB_NAME
 chmod 755 $JOB_DIR # to access file via symlink
 
 # the package that contains the application code
-WEBAPP_PACKAGE='<%= properties.webapp && properties.webapp.package || "rackapp" %>' 
+WEBAPP_PACKAGE='<%= properties.webapp && properties.webapp.package %>' 
 
 source $JOB_DIR/bin/ctl_utils.sh
 redirect_output $JOB_NAME

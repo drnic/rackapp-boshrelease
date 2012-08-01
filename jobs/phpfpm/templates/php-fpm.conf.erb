@@ -7,7 +7,7 @@
 <% require 'ostruct' %>
 <% properties.webapp ||= OpenStruct.new %>
 <% properties.webapp.nginx ||= OpenStruct.new %>
-<% package_name = properties.webapp.package || 'wordpress' %>
+<% package_name = properties.webapp.package %>
 
 ; All relative paths in this configuration file are relative to PHP's install
 ; prefix (/opt/php5). This prefix can be dynamicaly changed by using the
