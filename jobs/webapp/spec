@@ -2,14 +2,14 @@
 name: webapp
 templates:
   webapp_ctl.erb:         bin/webapp_ctl
-  ctl_setup.sh.erb:       bin/ctl_setup.sh
-  ctl_utils.sh:           bin/ctl_utils.sh
-  monit_debugger:         bin/monit_debugger
-  webapp_ctl_nginx.sh.erb:  bin/webapp_ctl_nginx.sh
+  ctl_setup.sh.erb:         bin/ctl_setup.sh
+  ctl_utils.sh:             bin/ctl_utils.sh
+  monit_debugger:           bin/monit_debugger
   ctl_db_utils.sh.erb:      bin/ctl_db_utils.sh
   ctl_redis_utils.sh.erb:   bin/ctl_redis_utils.sh
   rails_ctl_setup.sh.erb:   bin/rails_ctl_setup.sh
-  webapp_ctl_start.sh.erb:  bin/webapp_ctl_start.sh
+  ctl_start.sh.erb:         bin/ctl_start.sh
+  ctl_nginx.sh.erb:         bin/ctl_nginx.sh
   nginx_ctl:              bin/nginx_ctl
   nginx.conf.erb:         config/nginx.conf
   nginx_proxy.conf:       config/nginx_proxy.conf

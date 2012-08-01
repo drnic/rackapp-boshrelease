@@ -1,8 +1,15 @@
 ---
 name: phpfpm
 templates:
-  nginx_ctl:          bin/nginx_ctl
   phpfpm_ctl.erb:     bin/phpfpm_ctl
+  ctl_setup.sh.erb:         bin/ctl_setup.sh
+  ctl_utils.sh:             bin/ctl_utils.sh
+  monit_debugger:           bin/monit_debugger
+  ctl_db_utils.sh.erb:      bin/ctl_db_utils.sh
+  ctl_redis_utils.sh.erb:   bin/ctl_redis_utils.sh
+  ctl_start.sh.erb:         bin/ctl_start.sh
+  ctl_nginx.sh.erb:         bin/ctl_nginx.sh
+  nginx_ctl:          bin/nginx_ctl
   nginx.conf.erb:     config/nginx.conf
   nginx_proxy.conf:   config/nginx_proxy.conf
   mime.types:         config/mime.types

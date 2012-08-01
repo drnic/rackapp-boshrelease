@@ -3,61 +3,24 @@
 set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
 
-WEBAPP_PACKAGE='<%= properties.webapp && properties.webapp.package || "wordpress" %>' # which bosh package contains the rackapp/webapp
-export PORT=9000
+# Setup env vars and folders for the webapp_ctl script
+source /var/vcap/jobs/<%= name %>/bin/ctl_setup.sh
 
-export PATH=/var/vcap/packages/php5/bin:$PATH
+# Helpers for PostgresDB
+source $JOB_DIR/bin/ctl_db_utils.sh
 
-export JOB_DIR=/var/vcap/jobs/phpfpm
-WEBAPP_DIR=/var/vcap/packages/$WEBAPP_PACKAGE
-
-RUN_DIR=/var/vcap/sys/run/phpfpm
-LOG_DIR=/var/vcap/sys/log/phpfpm
-export TMPDIR=/var/vcap/data/phpfpm/tmp
-
-# PID configured in php-fpm.conf
-PIDFILE=$RUN_DIR/phpfpm.pid 
-
-source /var/vcap/packages/common/utils.sh
-redirect_output 'phpfpm'
+# Helpers for Redis
+source $JOB_DIR/bin/ctl_redis_utils.sh
 
 case $1 in
 
   start)
     pid_guard $PIDFILE "webapp"
 
-    mkdir -p $RUN_DIR
-    mkdir -p $LOG_DIR
-    mkdir -p $TMPDIR
-
-    chown vcap:vcap $RUN_DIR
-    chown vcap:vcap $LOG_DIR
-    chown vcap:vcap $TMPDIR
-
     cd $WEBAPP_DIR
 
-    echo "Testing for existing wp-config.php"
-    
-    # echo ls -al $WEBAPP_DIR/
-    # ls -al $WEBAPP_DIR/
-    # 
-    # echo $JOB_DIR/config
-    # ls -al $JOB_DIR/config
-    # 
-    if [[ -h $WEBAPP_DIR/wp-config.php ]]
-    then
-      echo "Removing existing symlink for wp-config.php"
-      rm $WEBAPP_DIR/wp-config.php
-    fi
-
-    # Link wordpress config file into wordpress package
-    if [[ ! -f $WEBAPP_DIR/wp-config.php ]]
-    then
-      echo "Copying wp-config.php"
-      cp $JOB_DIR/config/wp-config.php $WEBAPP_DIR/wp-config.php
-    fi
-
-    # TODO postgres config db.php
+    # link wp-config.php config to application
+    link_sql_db_config
 
     echo "Starting php-fpm"
 
